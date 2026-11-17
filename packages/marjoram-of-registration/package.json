@@ -1,0 +1,57 @@
+{
+  "name": "marjoram-of-registration",
+  "version": "0.1.0",
+  "description": "Checks patient registration and insurance records before the visit: member id shape per payer and Medicare MBI format, missing or impossible birth dates, subscriber and guarantor gaps, ended coverage, the same plan entered twice, and likely duplicate charts. Patient identifiers are masked before results reach the model.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "marjoram-of-registration": "bin/marjoram-of-registration.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/marjoram-of-registration.js demo",
+    "eval": "node bin/marjoram-of-registration.js eval"
+  },
+  "dependencies": {
+    "remedy-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/remedy-agents.git",
+    "directory": "packages/marjoram-of-registration"
+  },
+  "homepage": "https://github.com/fpavia111-creator/remedy-agents/tree/main/packages/marjoram-of-registration#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/remedy-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "registration",
+    "demographics",
+    "mbi",
+    "duplicates"
+  ]
+}

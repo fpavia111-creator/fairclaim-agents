@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "lavender-of-credentialing": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "lavender-of-credentialing@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

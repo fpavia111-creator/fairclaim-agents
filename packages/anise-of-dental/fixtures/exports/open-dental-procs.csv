@@ -1,0 +1,3 @@
+ClaimNum,Patient,Birthdate,ProcDate,ProcCode,ToothNum,Surf,ProcFee
+7001,"Pemberton, Harlow",1958-03-14,2026-02-12,D2391,A,O,160.00
+7001,"Pemberton, Harlow",1958-03-14,2026-02-12,D0140,,,70.00

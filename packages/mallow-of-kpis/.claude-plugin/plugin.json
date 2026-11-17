@@ -1,0 +1,24 @@
+{
+  "name": "mallow-of-kpis",
+  "version": "0.1.0",
+  "description": "Revenue cycle KPIs from your own claims and remittances: denial rate, first-pass rate, net collection, days to pay, days in A/R and unanswered claims, by payer, month and provider, against the targets you set.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/remedy-agents/tree/main/packages/mallow-of-kpis#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "kpi",
+    "dashboard",
+    "denial-rate",
+    "days-in-ar",
+    "net-collection",
+    "revenue-cycle"
+  ]
+}

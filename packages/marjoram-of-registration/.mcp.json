@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "marjoram-of-registration": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "marjoram-of-registration@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

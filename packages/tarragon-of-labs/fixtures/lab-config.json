@@ -1,0 +1,36 @@
+{
+  "clia": "02D0999999",
+  "waived_codes": [
+    "87880",
+    "81002",
+    "85018",
+    "82962"
+  ],
+  "qw_exempt": [
+    "81002"
+  ],
+  "dx_rules": [
+    {
+      "code": "83036",
+      "dx_prefixes": [
+        "E08",
+        "E09",
+        "E10",
+        "E11",
+        "E13",
+        "O24",
+        "R73"
+      ],
+      "note": "example rule for testing, not a payer policy"
+    }
+  ],
+  "frequency": [
+    {
+      "code": "83036",
+      "months": 3,
+      "max": 1,
+      "note": "example limit for testing"
+    }
+  ],
+  "certificate": "compliance"
+}

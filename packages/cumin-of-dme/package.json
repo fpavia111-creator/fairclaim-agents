@@ -1,0 +1,57 @@
+{
+  "name": "cumin-of-dme",
+  "version": "0.1.0",
+  "description": "DME claims and rentals kept straight: checks rental and purchase modifiers, the capped-rental month (KH, KI, KJ) and the 13-month cap, oxygen months, right and left on paired items, prior authorization, the order before delivery and units, and tracks every rental to its next modifier.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "cumin-of-dme": "bin/cumin-of-dme.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/cumin-of-dme.js demo",
+    "eval": "node bin/cumin-of-dme.js eval"
+  },
+  "dependencies": {
+    "remedy-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/remedy-agents.git",
+    "directory": "packages/cumin-of-dme"
+  },
+  "homepage": "https://github.com/fpavia111-creator/remedy-agents/tree/main/packages/cumin-of-dme#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/remedy-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "dme",
+    "dmepos",
+    "rentals",
+    "hcpcs"
+  ]
+}

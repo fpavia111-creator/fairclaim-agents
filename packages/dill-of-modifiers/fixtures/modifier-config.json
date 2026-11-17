@@ -1,0 +1,17 @@
+{
+  "laterality_codes": [
+    "20610",
+    "73030",
+    "69210"
+  ],
+  "rules": [
+    {
+      "payer": "Demo Medicaid Plan",
+      "action": "not_accepted",
+      "modifiers": [
+        "59"
+      ],
+      "note": "use XE, XS, XP or XU instead"
+    }
+  ]
+}

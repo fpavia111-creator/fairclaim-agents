@@ -1,0 +1,6 @@
+Auth Number,Patient Name,Member ID,Payer,CPT Codes,Approved Units,Start Date,End Date,Status
+AUTH-301,Rowan Castellano,DMP000781234,Demo Medicaid Plan,"97110, 97140",12,2026-01-01,2026-03-31,Approved
+AUTH-302,Caspian Ndiaye,EHP100207733,Example Health Plan,97110,4,2026-01-15,2026-02-15,Approved
+AUTH-305,Ezra Lindqvist,EHP100200455,Example Health Plan,72148,1,2026-01-02,2026-01-31,Approved
+AUTH-308,Wren Halvorsen,DMP000799001,Demo Medicaid Plan,97110,8,2026-01-10,2026-04-10,Approved
+AUTH-309,Delphine Achterberg,SMI553209981,Sample Mutual Insurance,70553,1,2026-02-01,2026-03-01,Requested

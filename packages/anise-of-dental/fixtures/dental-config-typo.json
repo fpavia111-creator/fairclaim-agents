@@ -1,0 +1,11 @@
+{
+  "frequency": [
+    {
+      "codes": [
+        "1110"
+      ],
+      "max": 2,
+      "per": "patient"
+    }
+  ]
+}

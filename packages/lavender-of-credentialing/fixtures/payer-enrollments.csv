@@ -1,0 +1,8 @@
+Provider,NPI,Payer,Status,Date Submitted,Effective Date,Revalidation Due
+Alma Reyes MD (fictional),1990000014,Test Medicare Contractor,Enrolled,03/01/2021,04/01/2021,04/30/2026
+Alma Reyes MD (fictional),1990000014,Example Health Plan,Enrolled,01/10/2023,03/01/2023,03/01/2027
+Felix Brandt DO (fictional),1990000022,Sample Mutual Insurance,Pending,12/15/2025,,
+Felix Brandt DO (fictional),1990000022,Demo Medicaid Plan,Denied,11/01/2025,,
+Ines Moreau NP (fictional),1990000030,Example Health Plan,Approved,01/05/2026,03/01/2026,
+Ines Moreau NP (fictional),1990000030,Test Medicare Contractor,Not started,,,
+Ruth Vance MD (fictional),1990000055,Demo Medicaid Plan,Enrolled,01/01/2022,02/01/2022,07/01/2026

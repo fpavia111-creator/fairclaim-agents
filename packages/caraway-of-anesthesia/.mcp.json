@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "caraway-of-anesthesia": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "caraway-of-anesthesia@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

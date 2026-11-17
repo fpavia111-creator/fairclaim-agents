@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "cumin-of-dme": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "cumin-of-dme@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

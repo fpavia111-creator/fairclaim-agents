@@ -1,0 +1,23 @@
+{
+  "payers": [
+    {
+      "name": "Example Health Plan",
+      "timely_days": 180
+    },
+    {
+      "name": "Sample Mutual Insurance",
+      "timely_days": 90
+    },
+    {
+      "name": "Demo Medicaid Plan",
+      "timely_days": 90
+    },
+    {
+      "name": "Test Medicare Contractor",
+      "timely_days": 365
+    }
+  ],
+  "follow_up_days": 30,
+  "quiet_days": 14,
+  "warn_days": 30
+}

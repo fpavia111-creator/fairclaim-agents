@@ -1,0 +1,11 @@
+{
+  "floor_percent": 100,
+  "warn_days": 120,
+  "practice_name": "Example Family Medicine (fictional)",
+  "payers": [
+    {
+      "name": "Sample Mutual Insurance",
+      "contact": "Provider Contracting, Sample Mutual Insurance (fictional)"
+    }
+  ]
+}

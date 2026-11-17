@@ -1,0 +1,7 @@
+Claim ID,Patient,DOB,Member ID,Payer,Provider,DOS,CPT,Charge
+V5001,"Pemberton, Harlow",03/14/1958,EHP100200301,Example Health Plan,Alma Reyes MD (fictional),01/21/2026,99213,150.00
+V5002,"Okafor, Juniper",07/22/1990,SMI553200417,Sample Mutual Insurance,Felix Brandt DO (fictional),01/21/2026,99214,150.00
+V5003,"Thibodeaux, Marisol",01/30/1949,TMC8XY4ZZ12,Test Medicare Contractor,Alma Reyes MD (fictional),01/21/2026,99215,150.00
+V5004,"Achterberg, Delphine",09/17/1983,SMI553209981,Sample Mutual Insurance,Tobi Okoro CRNA (fictional),01/21/2026,99213,150.00
+V5005,"Ndiaye, Caspian",12/01/1966,EHP100207733,Sample Vision Plan,Alma Reyes MD (fictional),01/21/2026,92014,150.00
+V5006,"Castellano, Rowan",11/02/1975,DMP000781234,Demo Medicaid Plan,Ines Moreau NP (fictional),01/21/2026,36415,150.00

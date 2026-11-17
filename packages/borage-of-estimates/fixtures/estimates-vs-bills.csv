@@ -1,0 +1,4 @@
+GFE ID,Patient,Provider,Estimate,Billed Charges
+E-501,Wren Halvorsen,Example Family Medicine (fictional),800.00,1250.00
+E-501,Wren Halvorsen,Example Imaging Center (fictional),300.00,650.00
+E-502,Harlow Pemberton,Example Family Medicine (fictional),500.00,480.00

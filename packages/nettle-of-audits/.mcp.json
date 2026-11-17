@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "nettle-of-audits": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "nettle-of-audits@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

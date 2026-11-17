@@ -1,0 +1,10 @@
+Appointment ID,Patient Name,MRN,Appointment Date,Provider,Appointment Type,Primary Insurance,Member ID,Status
+A1001,Harlow Pemberton,M-1001,02/03/2026,Reyes,Follow-up,Example Health Plan,EHP100200301,Scheduled
+A1002,Juniper Okafor,M-1002,02/03/2026,Brandt,Sick visit,Sample Mutual Insurance,SMI553200417,Scheduled
+A1003,Rowan Castellano,M-1003,02/03/2026,Moreau,Physical therapy,Demo Medicaid Plan,DMP000781234,Scheduled
+A1004,Marisol Thibodeaux,M-1004,02/03/2026,Reyes,Annual wellness,Test Medicare Contractor,TMC8XY4ZZ12,Scheduled
+A1005,Ezra Lindqvist,M-1005,02/03/2026,Brandt,Follow-up,Example Health Plan,EHP100200455,Scheduled
+A1006,Delphine Achterberg,M-1006,02/03/2026,Moreau,New patient,Sample Mutual Insurance,SMI553209981,Scheduled
+A1007,Caspian Ndiaye,M-1007,02/03/2026,Vance,Specialist consult,Example Health Plan,EHP100207733,Scheduled
+A1008,Wren Halvorsen,M-1008,02/03/2026,Reyes,Sick visit,Demo Medicaid Plan,DMP000799001,Scheduled
+A1009,Harlow Pemberton,M-1001,02/03/2026,Reyes,Lab only,Example Health Plan,EHP100200301,Cancelled

@@ -1,0 +1,26 @@
+{
+  "max_age_days": 365,
+  "required_codes": [
+    {
+      "code": "70450",
+      "note": "CMS shoppable: CT head"
+    },
+    {
+      "code": "99213"
+    },
+    {
+      "code": "74177",
+      "note": "CMS shoppable: CT abdomen and pelvis with contrast"
+    }
+  ],
+  "plans": [
+    {
+      "payer": "Example Health Plan",
+      "plan_name": "PPO"
+    },
+    {
+      "payer": "Sample Mutual Insurance",
+      "plan_name": "HMO"
+    }
+  ]
+}

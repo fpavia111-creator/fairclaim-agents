@@ -1,0 +1,20 @@
+{
+  "grace_days": 10,
+  "default_after_missed": 2,
+  "min_payment": 25,
+  "tiers": [
+    {
+      "up_to": 500,
+      "max_months": 6
+    },
+    {
+      "up_to": 2000,
+      "max_months": 12
+    },
+    {
+      "up_to": 5000,
+      "max_months": 24
+    }
+  ],
+  "practice_name": "Example Family Medicine (fictional)"
+}

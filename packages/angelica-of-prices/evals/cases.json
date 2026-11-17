@@ -1,0 +1,19 @@
+{
+  "suite": "angelica-of-prices",
+  "root": "..",
+  "data_note": "Fictional hospital, payers and remittances in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    {"id": "v3-file-check", "tool": "angelica_check_file", "args": {"file": "fixtures/standard-charges-v3.csv", "config": "fixtures/price-config.json", "as_of": "2026-03-01"}, "expect": {"status": "executed", "equals": {"result.template": "v3", "result.data_rows": 13, "result.errors": 11, "result.warnings": 2, "result.by_rule.rule_1": 1, "result.by_rule.count_format": 1, "result.items.0.rule": "required_code"}}},
+    {"id": "conditional-rules", "tool": "angelica_check_file", "args": {"file": "fixtures/standard-charges-v3.csv", "as_of": "2026-03-01", "severity": "error"}, "expect": {"contains": ["Methodology \\\"other\\\" needs an explanation", "An NDC needs the drug unit and drug type of measurement.", "must be a plain number (no $, % or thousands separator)", "Code type \\\"CPT4\\\" is not a CMS valid value."]}},
+    {"id": "chargemaster", "tool": "angelica_check_file", "args": {"file": "fixtures/standard-charges-v3.csv", "chargemaster": "fixtures/chargemaster.csv", "as_of": "2026-03-01", "rule": "duplicate"}, "expect": {"equals": {"result.chargemaster.0.code": "80053", "result.chargemaster.0.status": "gross_differs", "result.chargemaster.1.status": "missing_from_file", "result.items.0.row": 12}}},
+    {"id": "v2-file-stale", "tool": "angelica_check_file", "args": {"file": "fixtures/standard-charges-v2.csv", "as_of": "2026-11-17"}, "expect": {"equals": {"result.template": "v2", "result.errors": 2, "result.by_rule.stale": 1, "result.by_rule.placeholder": 1}, "contains": ["Move to v3.0"]}},
+    {"id": "allowed-amounts", "tool": "angelica_allowed_amounts", "args": {"remits": "fixtures/era-2025-2026.835", "posting_date": "2026-04-01", "config": "fixtures/price-config.json", "code": "99213"}, "expect": {"status": "executed", "equals": {"result.lines_used": 21, "result.skipped.reversal": 1, "result.skipped.zero": 1, "result.skipped.outside": 1, "result.items.0.count": "14", "result.items.0.median_amount": 100, "result.items.0.10th_percentile": 92, "result.items.0.90th_percentile": 110, "result.items.1.count": "1 through 10", "result.items.1.plan_name": "HMO"}}},
+    {"id": "short-period-noted", "tool": "angelica_allowed_amounts", "args": {"remits": "fixtures/era-2025-2026.835", "posting_date": "2026-04-01", "from": "2025-09-01", "to": "2026-03-31"}, "expect": {"contains": ["not between 12 and 15 months", "No plan name for: Example Health Plan."]}},
+    {"id": "bad-config-refused", "tool": "angelica_check_file", "args": {"file": "fixtures/standard-charges-v3.csv", "config": "fixtures/price-config-typo.json"}, "expect": {"status": "error", "contains": ["max_age_days"]}},
+    {"id": "no-patient-in-allowed", "tool": "angelica_allowed_amounts", "args": {"remits": "fixtures/era-2025-2026.835", "posting_date": "2026-04-01"}, "expect": {"not_contains": ["Pemberton", "PT-", "H3001"]}},
+    {"id": "report-in-spanish", "tool": "angelica_write_report", "args": {"file": "fixtures/standard-charges-v3.csv", "chargemaster": "fixtures/chargemaster.csv", "as_of": "2026-03-01", "language": "es", "out_dir": "remedy-out/eval-angelica"}, "expect": {"status": "executed", "equals": {"result.lang": "es"}}},
+    {"id": "allowed-table", "tool": "angelica_write_allowed", "args": {"remits": "fixtures/era-2025-2026.835", "posting_date": "2026-04-01", "config": "fixtures/price-config.json", "out_dir": "remedy-out/eval-angelica"}, "expect": {"status": "executed", "contains": ["angelica-allowed-amounts.csv"]}},
+    {"id": "publish-refused", "tool": "mrf_publish", "args": {}, "expect": {"status": "blocked", "decision": "block"}},
+    {"id":"recall-empty-memory","tool":"angelica_recall","args":{},"expect":{"status":"executed","contains":["memory is empty","required_code"]}}
+  ]
+}

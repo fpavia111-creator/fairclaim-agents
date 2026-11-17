@@ -1,0 +1,26 @@
+{
+  "warn_days": 14,
+  "payers": [
+    {
+      "name": "Example Health Plan",
+      "codes": [
+        "20610",
+        "72148",
+        "97*"
+      ]
+    },
+    {
+      "name": "Sample Mutual Insurance",
+      "codes": [
+        "29881",
+        "7055*"
+      ]
+    },
+    {
+      "name": "Demo Medicaid Plan",
+      "codes": [
+        "97*"
+      ]
+    }
+  ]
+}

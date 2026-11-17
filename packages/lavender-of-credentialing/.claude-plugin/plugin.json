@@ -1,0 +1,23 @@
+{
+  "name": "lavender-of-credentialing",
+  "version": "0.1.0",
+  "description": "Keeps provider credentialing and payer enrollment on track: license, DEA, board and malpractice expirations, CAQH re-attestation every 120 days, NPI check digits, enrollments pending too long, denied or not yet effective, and revalidation dates, with a work list and a calendar (.ics) of every due date.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/remedy-agents/tree/main/packages/lavender-of-credentialing#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "credentialing",
+    "enrollment",
+    "caqh",
+    "revalidation",
+    "ics"
+  ]
+}

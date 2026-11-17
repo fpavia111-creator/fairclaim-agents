@@ -1,0 +1,21 @@
+{
+  "suite": "savory-of-plans",
+  "root": "..",
+  "data_note": "Fictional practice and guarantors in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    {"id": "review", "tool": "savory_review", "args": {"plans": "fixtures/payment-plans.csv", "payments": "fixtures/plan-payments.csv", "config": "fixtures/plan-config.json", "as_of": "2026-02-20"}, "expect": {"status": "executed", "equals": {"result.plans": 6, "result.behind_total": 550, "result.remaining_total": 4110, "result.outside_policy": 1, "result.items.0.plan_id": "PL3", "result.items.0.status": "default_review", "result.items.0.missed": 4, "result.items.1.plan_id": "PL2", "result.items.1.missed": 1}}},
+    {"id": "policy-issues", "tool": "savory_review", "args": {"plans": "fixtures/payment-plans.csv", "payments": "fixtures/plan-payments.csv", "config": "fixtures/plan-config.json", "as_of": "2026-02-20", "status": "current"}, "expect": {"contains": ["below your minimum 25", "Term of 120 months is over your 24-month limit"]}},
+    {"id": "grace-matters", "tool": "savory_review", "args": {"plans": "fixtures/payment-plans.csv", "payments": "fixtures/plan-payments.csv", "as_of": "2026-02-16", "status": "missed_payment"}, "expect": {"equals": {"result.items.0.plan_id": "PL2", "result.items.0.installments_due": 4}}},
+    {"id": "options", "tool": "savory_options", "args": {"balance": 1250, "config": "fixtures/plan-config.json"}, "expect": {"equals": {"result.max_months": 12, "result.options.2.months": 12, "result.options.2.monthly": 104.17, "result.options.2.last_payment": 104.13}}},
+    {"id": "draft-needs-a-yes", "tool": "savory_draft_plan_agreement", "args": {"balance": 1250, "months": 12, "config": "fixtures/plan-config.json"}, "expect": {"status": "needs_approval", "decision": "ask"}},
+    {"id": "over-policy-refused", "tool": "savory_draft_plan_agreement", "mode": "auto", "auto_actions": ["savory_draft_plan_agreement"], "args": {"balance": 1250, "months": 24, "config": "fixtures/plan-config.json"}, "expect": {"status": "error", "contains": ["over your policy limit of 12"]}},
+    {"id": "bad-config-refused", "tool": "savory_review", "args": {"plans": "fixtures/payment-plans.csv", "payments": "fixtures/plan-payments.csv", "config": "fixtures/plan-config-typo.json"}, "expect": {"status": "error", "contains": ["max_months"]}},
+    {"id": "names-masked", "tool": "savory_review", "args": {"plans": "fixtures/payment-plans.csv", "payments": "fixtures/plan-payments.csv", "as_of": "2026-02-20"}, "expect": {"matches": ["\"patient_name\":\"PT-[0-9a-f]{8}\"", "\"account\":\"ACCT-[0-9a-f]{8}\""], "not_contains": ["Castellano", "A-1003"]}},
+    {"id": "list-in-german", "tool": "savory_write_report", "args": {"plans": "fixtures/payment-plans.csv", "payments": "fixtures/plan-payments.csv", "config": "fixtures/plan-config.json", "as_of": "2026-02-20", "language": "de", "out_dir": "remedy-out/eval-savory"}, "expect": {"status": "executed", "equals": {"result.lang": "de"}}},
+    {"id": "charge-refused", "tool": "card_charge", "args": {}, "expect": {"status": "blocked", "decision": "block"}},
+    {"id":"recall-empty-memory","tool":"savory_recall","args":{},"expect":{"status":"executed","contains":["memory is empty","plan_grace"]}},
+    {"id":"request-waits-for-a-named-click","tool":"savory_request_send","args":{"draft":"fixtures/drafts/plan_agreement-example000001.md","draft_sha256":"493be322bd05cb1df5089f9f6c281ec806a4948ed9ea92648d114ef080e84cdb","out_dir":"remedy-out/eval-savory-request"},"expect":{"status":"needs_approval"}},
+    {"id":"request-approved-records-nothing-sent","tool":"savory_request_send","approve":"Pat Example","args":{"draft":"fixtures/drafts/plan_agreement-example000001.md","draft_sha256":"493be322bd05cb1df5089f9f6c281ec806a4948ed9ea92648d114ef080e84cdb","out_dir":"remedy-out/eval-savory-request"},"expect":{"status":"executed","contains":["approved and recorded","Nothing was sent"]}},
+    {"id":"request-wrong-sha-refused","tool":"savory_request_send","approve":"Pat Example","args":{"draft":"fixtures/drafts/plan_agreement-example000001.md","draft_sha256":"0000000000000000000000000000000000000000000000000000000000000000","out_dir":"remedy-out/eval-savory-request"},"expect":{"status":"error","contains":["does not match"]}}
+  ]
+}

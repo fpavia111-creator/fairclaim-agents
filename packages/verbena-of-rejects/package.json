@@ -1,0 +1,57 @@
+{
+  "name": "verbena-of-rejects",
+  "version": "0.1.0",
+  "description": "Verbena of Rejects: reads 999 and 277CA acknowledgements, ties each syntax error to the claim and segment in the 837 you sent, lists front-end rejections with what to fix, and flags claims that were never acknowledged.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "verbena-of-rejects": "bin/verbena-of-rejects.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/verbena-of-rejects.js demo",
+    "eval": "node bin/verbena-of-rejects.js eval"
+  },
+  "dependencies": {
+    "remedy-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/remedy-agents.git",
+    "directory": "packages/verbena-of-rejects"
+  },
+  "homepage": "https://github.com/fpavia111-creator/remedy-agents/tree/main/packages/verbena-of-rejects#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/remedy-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "999",
+    "277ca",
+    "rejections",
+    "acknowledgements"
+  ]
+}

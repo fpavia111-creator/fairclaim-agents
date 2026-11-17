@@ -1,0 +1,13 @@
+Payer,Payer ID,Provider,EDI,ERA,EFT,Credentialing,Date Submitted,Effective Date
+Example Health Plan,99901,,Approved,Approved,Approved,Approved,,02/01/2026
+Sample Mutual Insurance,99902,,Approved,Pending,,,02/10/2026,
+Sample Mutual Insurance,,Alma Reyes MD (fictional),,,,Approved,,01/15/2026
+Sample Mutual Insurance,,Felix Brandt DO (fictional),,,,Pending,01/20/2026,
+Demo Medicaid Plan,,,Pending,Pending,Pending,,02/20/2026,
+Demo Medicaid Plan,,Alma Reyes MD (fictional),,,,Approved,,12/01/2025
+Demo Medicaid Plan,,Felix Brandt DO (fictional),,,,Approved,,12/01/2025
+Demo Medicaid Plan,,Ines Moreau NP (fictional),,,,Approved,,03/15/2026
+Test Medicare Contractor,99904,,Approved,Approved,Approved,,,
+Test Medicare Contractor,,Alma Reyes MD (fictional),,,,Approved,,10/01/2025
+Test Medicare Contractor,,Felix Brandt DO (fictional),,,,Approved,,10/01/2025
+Test Medicare Contractor,,Ines Moreau NP (fictional),,,,Approved,,10/01/2025

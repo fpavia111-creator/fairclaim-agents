@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "lovage-of-telehealth": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "lovage-of-telehealth@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "appeal_days": 90,
+  "response_days": 60,
+  "max_levels": 2,
+  "practice_name": "Example Family Medicine (fictional)",
+  "payers": [
+    {
+      "name": "Sample Mutual Insurance",
+      "appeal_days": 60,
+      "response_days": 30
+    }
+  ]
+}

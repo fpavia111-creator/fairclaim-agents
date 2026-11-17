@@ -1,0 +1,23 @@
+{
+  "name": "yarrow-of-denials",
+  "version": "0.1.0",
+  "description": "Sorts 835 denials by reason code and root cause into a worklist with the team and next step for each, learns payer-specific code meanings a person accepts, and never resubmits or appeals on its own.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/remedy-agents/tree/main/packages/yarrow-of-denials#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "denials",
+    "835",
+    "era",
+    "carc",
+    "rarc"
+  ]
+}

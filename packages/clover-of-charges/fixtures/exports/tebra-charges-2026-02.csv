@@ -1,0 +1,17 @@
+Encounter ID,Patient Name,Primary Insurance,Service Date,Procedure Code,Units,Charge,Rendering Provider,Date Billed
+V210,Harlow Pemberton,Example Health Plan,2026-01-20,99214,1,200.00,Alma Reyes MD (fictional),2026-01-21
+V220,Juniper Okafor,Sample Mutual Insurance,2026-01-21,99215,1,280.00,Alma Reyes MD (fictional),2026-01-22
+V230,Ezra Lindqvist,Example Health Plan,2026-01-22,99214,1,200.00,Alma Reyes MD (fictional),2026-01-23
+V240,Delphine Achterberg,Sample Mutual Insurance,2026-01-23,99215,1,280.00,Alma Reyes MD (fictional),2026-01-24
+V250,Caspian Ndiaye,Example Health Plan,2026-01-24,99213,1,150.00,Alma Reyes MD (fictional),2026-01-25
+V310,Rowan Castellano,Demo Medicaid Plan,2026-01-20,99213,1,150.00,Felix Brandt DO (fictional),2026-01-21
+V320,Marisol Thibodeaux,Test Medicare Contractor,2026-01-21,99213,1,150.00,Felix Brandt DO (fictional),2026-01-22
+V330,Wren Halvorsen,Demo Medicaid Plan,2026-01-22,99212,1,90.00,Felix Brandt DO (fictional),2026-01-23
+V340,Rowan Castellano,Demo Medicaid Plan,2026-01-23,99213,1,150.00,Felix Brandt DO (fictional),2026-01-24
+V350,Marisol Thibodeaux,Test Medicare Contractor,2026-01-24,99214,1,200.00,Felix Brandt DO (fictional),2026-01-25
+V101,Harlow Pemberton,Example Health Plan,2026-02-09,99213,1,150.00,Alma Reyes MD (fictional),2026-02-10
+V102,Juniper Okafor,Sample Mutual Insurance,2026-02-09,99214,1,200.00,Alma Reyes MD (fictional),2026-02-10
+V105,Ezra Lindqvist,Example Health Plan,2026-02-06,99213,1,150.00,Ines Moreau NP (fictional),2026-02-07
+V106,Delphine Achterberg,Sample Mutual Insurance,2026-02-02,99214,1,200.00,Alma Reyes MD (fictional),2026-02-10
+E-88,Harlow Pemberton,Example Health Plan,2026-02-10,99213,1,150.00,Alma Reyes MD (fictional),2026-02-11
+W900,Wren Halvorsen,Demo Medicaid Plan,2026-02-04,99213,1,150.00,Felix Brandt DO (fictional),2026-02-05

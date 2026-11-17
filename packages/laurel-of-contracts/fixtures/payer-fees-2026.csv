@@ -1,0 +1,19 @@
+Payer,CPT,Contract Rate
+Example Health Plan,20610,79.20
+Example Health Plan,93000,19.80
+Example Health Plan,97110,36.60
+Example Health Plan,99213,110.40
+Example Health Plan,99214,156.00
+Example Health Plan,99215,218.40
+Sample Mutual Insurance,20610,59.40
+Sample Mutual Insurance,93000,18.15
+Sample Mutual Insurance,97110,33.55
+Sample Mutual Insurance,99213,101.20
+Sample Mutual Insurance,99214,136.50
+Sample Mutual Insurance,99215,200.20
+Demo Medicaid Plan,20610,46.20
+Demo Medicaid Plan,97110,21.35
+Demo Medicaid Plan,99213,64.40
+Demo Medicaid Plan,99214,91.00
+Demo Medicaid Plan,99215,127.40
+Demo Medicaid Plan,T1015,145.00

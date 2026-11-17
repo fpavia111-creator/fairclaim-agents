@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "mallow-of-kpis": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mallow-of-kpis@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

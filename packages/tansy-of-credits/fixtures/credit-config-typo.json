@@ -1,0 +1,8 @@
+{
+  "payers": [
+    {
+      "name": "Example Health Plan",
+      "refund_days": 0
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "payers": [
+    {
+      "name": "Example Health Plan",
+      "codes": "20610"
+    }
+  ]
+}

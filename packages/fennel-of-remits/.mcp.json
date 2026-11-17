@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fennel-of-remits": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fennel-of-remits@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "payers": [
+    {
+      "name": "Demo Medicaid Plan",
+      "timely_days": "90 days"
+    }
+  ]
+}

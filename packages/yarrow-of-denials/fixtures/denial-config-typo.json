@@ -1,0 +1,10 @@
+{
+  "appeal_days": 90,
+  "payer_codes": [
+    {
+      "payer": "Demo Medicaid Plan",
+      "code": "16",
+      "category": "enrolment"
+    }
+  ]
+}

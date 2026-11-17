@@ -1,0 +1,19 @@
+{
+  "suite": "aloe-of-statements",
+  "root": "..",
+  "data_note": "Fictional practice and guarantors in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    {"id": "cycle", "tool": "aloe_cycle", "args": {"accounts": "fixtures/patient-balances-2026-02-20.csv", "config": "fixtures/statement-config.json", "as_of": "2026-02-20"}, "expect": {"status": "executed", "equals": {"result.accounts": 13, "result.to_send": 4, "result.to_send_balance": 535, "result.held": 8, "result.collections_review": 1, "result.items.0.action": "final_notice", "result.items.1.action": "collections_review"}}},
+    {"id": "holds-in-order", "tool": "aloe_cycle", "args": {"accounts": "fixtures/patient-balances-2026-02-20.csv", "as_of": "2026-02-20", "action": "hold"}, "expect": {"contains": ["legal_hold", "dispute_hold", "insurance_pending", "on_payment_plan", "bad_address", "small_balance", "recent_payment", "not_due"]}},
+    {"id": "estate-never-billed", "tool": "aloe_draft_statement", "mode": "auto", "auto_actions": ["aloe_draft_statement"], "args": {"accounts": "fixtures/patient-balances-2026-02-20.csv", "as_of": "2026-02-20", "account": "A-2001"}, "expect": {"status": "error", "contains": ["held: legal_hold"]}},
+    {"id": "draft-needs-a-yes", "tool": "aloe_draft_statement", "args": {"accounts": "fixtures/patient-balances-2026-02-20.csv", "as_of": "2026-02-20", "account": "A-1001"}, "expect": {"status": "needs_approval", "decision": "ask"}},
+    {"id": "bad-config-refused", "tool": "aloe_cycle", "args": {"accounts": "fixtures/patient-balances-2026-02-20.csv", "config": "fixtures/statement-config-typo.json"}, "expect": {"status": "error", "contains": ["/cycle_days"]}},
+    {"id": "names-masked", "tool": "aloe_cycle", "args": {"accounts": "fixtures/patient-balances-2026-02-20.csv", "as_of": "2026-02-20"}, "expect": {"matches": ["\"patient_name\":\"PT-[0-9a-f]{8}\"", "\"account\":\"ACCT-[0-9a-f]{8}\""], "not_contains": ["Marchetti", "Pemberton", "A-2001"]}},
+    {"id": "run-in-korean", "tool": "aloe_write_report", "args": {"accounts": "fixtures/patient-balances-2026-02-20.csv", "config": "fixtures/statement-config.json", "as_of": "2026-02-20", "language": "ko", "out_dir": "remedy-out/eval-aloe"}, "expect": {"status": "executed", "equals": {"result.lang": "ko"}}},
+    {"id": "collections-refused", "tool": "collections_assign", "args": {}, "expect": {"status": "blocked", "decision": "block"}},
+    {"id":"recall-empty-memory","tool":"aloe_recall","args":{},"expect":{"status":"executed","contains":["memory is empty","hold_word"]}},
+    {"id":"request-waits-for-a-named-click","tool":"aloe_request_send","args":{"draft":"fixtures/drafts/statement-example000001.md","draft_sha256":"8e2dccc8e9653061d34190eda1be25f22d01b987e6a2b01ef9b069a80180c0eb","out_dir":"remedy-out/eval-aloe-request"},"expect":{"status":"needs_approval"}},
+    {"id":"request-approved-records-nothing-sent","tool":"aloe_request_send","approve":"Pat Example","args":{"draft":"fixtures/drafts/statement-example000001.md","draft_sha256":"8e2dccc8e9653061d34190eda1be25f22d01b987e6a2b01ef9b069a80180c0eb","out_dir":"remedy-out/eval-aloe-request"},"expect":{"status":"executed","contains":["approved and recorded","Nothing was sent"]}},
+    {"id":"request-wrong-sha-refused","tool":"aloe_request_send","approve":"Pat Example","args":{"draft":"fixtures/drafts/statement-example000001.md","draft_sha256":"0000000000000000000000000000000000000000000000000000000000000000","out_dir":"remedy-out/eval-aloe-request"},"expect":{"status":"error","contains":["does not match"]}}
+  ]
+}

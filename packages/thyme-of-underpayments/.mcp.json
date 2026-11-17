@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "thyme-of-underpayments": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "thyme-of-underpayments@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

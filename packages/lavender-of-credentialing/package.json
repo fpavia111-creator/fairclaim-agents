@@ -1,0 +1,58 @@
+{
+  "name": "lavender-of-credentialing",
+  "version": "0.1.0",
+  "description": "Keeps provider credentialing and payer enrollment on track: license, DEA, board and malpractice expirations, CAQH re-attestation every 120 days, NPI check digits, enrollments pending too long, denied or not yet effective, and revalidation dates, with a work list and a calendar (.ics) of every due date.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "lavender-of-credentialing": "bin/lavender-of-credentialing.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/lavender-of-credentialing.js demo",
+    "eval": "node bin/lavender-of-credentialing.js eval"
+  },
+  "dependencies": {
+    "remedy-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/remedy-agents.git",
+    "directory": "packages/lavender-of-credentialing"
+  },
+  "homepage": "https://github.com/fpavia111-creator/remedy-agents/tree/main/packages/lavender-of-credentialing#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/remedy-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "credentialing",
+    "enrollment",
+    "caqh",
+    "revalidation",
+    "ics"
+  ]
+}

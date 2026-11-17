@@ -1,0 +1,13 @@
+{
+  "targets": {
+    "days_to_pay": 30,
+    "denial_rate": 15,
+    "paid_percent": 55
+  },
+  "payers": [
+    {
+      "name": "Demo Medicaid Plan",
+      "days_to_pay": 45
+    }
+  ]
+}

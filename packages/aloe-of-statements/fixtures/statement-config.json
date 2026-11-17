@@ -1,0 +1,9 @@
+{
+  "min_balance": 5,
+  "cycle_days": 28,
+  "recent_payment_days": 14,
+  "collections_days": 30,
+  "practice_name": "Example Family Medicine (fictional)",
+  "pay_by": "Pay online at the patient portal (fictional), call 907-555-0100, or mail a check to 1 Example Plaza, Exampleton AK 99501.",
+  "assistance_text": "If paying is hard, ask us about financial assistance and payment plans. (Fictional practice text.)"
+}

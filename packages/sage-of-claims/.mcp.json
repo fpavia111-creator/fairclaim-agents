@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "sage-of-claims": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "sage-of-claims@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

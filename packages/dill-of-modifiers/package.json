@@ -1,0 +1,57 @@
+{
+  "name": "dill-of-modifiers",
+  "version": "0.1.0",
+  "description": "Checks the modifiers on each claim line before it goes out: missing 25 on an E/M with a procedure, 25 or 57 on the wrong code, conflicting pairs, 59 with X modifiers, missing laterality, bilateral units, repeat modifiers with no first service, pricing order, and payer rules. Patient identifiers are masked before results reach the model.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "dill-of-modifiers": "bin/dill-of-modifiers.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/dill-of-modifiers.js demo",
+    "eval": "node bin/dill-of-modifiers.js eval"
+  },
+  "dependencies": {
+    "remedy-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/remedy-agents.git",
+    "directory": "packages/dill-of-modifiers"
+  },
+  "homepage": "https://github.com/fpavia111-creator/remedy-agents/tree/main/packages/dill-of-modifiers#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/remedy-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "modifiers",
+    "modifier-25",
+    "modifier-59",
+    "laterality"
+  ]
+}

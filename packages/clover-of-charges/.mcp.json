@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "clover-of-charges": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "clover-of-charges@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

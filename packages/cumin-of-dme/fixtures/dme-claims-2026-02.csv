@@ -1,0 +1,12 @@
+Claim ID,Patient,Member ID,DOB,Payer,DOS,HCPCS,Modifiers,Units,Charge,Prior Auth,Order Date,Delivery Date
+M6001,"Thibodeaux, Marisol",TMC8XY4ZZ12,01/30/1949,Test Medicare Contractor,02/01/2026,E0601,RR KJ,1,95.00,,,
+M6002,"Ndiaye, Caspian",EHP100207733,12/01/1966,Example Health Plan,02/01/2026,E0260,RR KJ,1,160.00,,,
+M6003,"Pemberton, Harlow",EHP100200301,03/14/1958,Example Health Plan,02/01/2026,E0570,RR KH,1,22.00,,,
+M6004,"Castellano, Rowan",DMP000781234,11/02/1975,Demo Medicaid Plan,02/01/2026,E1390,RR,1,190.00,,,
+M6005,"Okafor, Juniper",SMI553200417,07/22/1990,Sample Mutual Insurance,02/05/2026,L1833,NU,1,650.00,,02/01/2026,02/05/2026
+M6006,"Achterberg, Delphine",SMI553209981,09/17/1983,Sample Mutual Insurance,02/03/2026,K0823,RR KH,1,520.00,,02/10/2026,02/03/2026
+M6007,"Halvorsen, Wren",DMP000799001,04/25/1995,Demo Medicaid Plan,02/02/2026,A4253,,10,300.00,,,
+M6008,"Halvorsen, Wren",DMP000799001,04/25/1995,Demo Medicaid Plan,02/02/2026,A4253,,2,60.00,,,
+M6009,"Lindqvist, Ezra",EHP100200455,05/09/2012,Example Health Plan,02/04/2026,E0114,NU,1,45.00,,02/01/2026,02/04/2026
+M6010,"Okafor, Juniper",SMI553200417,07/22/1990,Sample Mutual Insurance,02/01/2026,K0001,RR KH,1,70.00,,,
+M6011,"Achterberg, Delphine",SMI553209981,09/17/1983,Sample Mutual Insurance,02/03/2026,E0143,NU,1,120.00,,02/01/2026,02/03/2026

@@ -1,0 +1,9 @@
+{
+  "accuracy_target": 90,
+  "min_lines": 10,
+  "probe_size": 10,
+  "per_provider": 5,
+  "focus_codes": [
+    "99215"
+  ]
+}

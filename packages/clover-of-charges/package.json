@@ -1,0 +1,56 @@
+{
+  "name": "clover-of-charges",
+  "version": "0.1.0",
+  "description": "Matches completed visits to charges: finds visits with no charge, charges with no visit or on a cancelled one, late charge entry, missing expected codes, and E/M level mix by provider against peers. Patient identifiers are masked before results reach the model.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "clover-of-charges": "bin/clover-of-charges.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/clover-of-charges.js demo",
+    "eval": "node bin/clover-of-charges.js eval"
+  },
+  "dependencies": {
+    "remedy-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/remedy-agents.git",
+    "directory": "packages/clover-of-charges"
+  },
+  "homepage": "https://github.com/fpavia111-creator/remedy-agents/tree/main/packages/clover-of-charges#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/remedy-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "charge-capture",
+    "charge-lag",
+    "em-levels"
+  ]
+}

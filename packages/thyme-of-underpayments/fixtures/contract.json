@@ -1,0 +1,35 @@
+{
+  "practice_name": "Example Family Medicine (fictional)",
+  "tolerance": 0.5,
+  "payers": [
+    {
+      "name": "Example Health Plan",
+      "method": "fee_schedule"
+    },
+    {
+      "name": "Sample Mutual Insurance",
+      "method": "percent_of_medicare",
+      "percent": 115
+    },
+    {
+      "name": "Demo Medicaid Plan",
+      "method": "percent_of_charge",
+      "percent": 60
+    }
+  ],
+  "modifier_percent": {
+    "26": 40,
+    "TC": 60
+  },
+  "mppr": {
+    "codes": [
+      "1*",
+      "2*",
+      "3*",
+      "4*",
+      "5*",
+      "6*"
+    ],
+    "percent_after_first": 50
+  }
+}

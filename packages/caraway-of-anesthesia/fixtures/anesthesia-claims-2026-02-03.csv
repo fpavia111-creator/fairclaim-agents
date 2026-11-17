@@ -1,0 +1,18 @@
+Claim ID,Case ID,Patient,DOB,Member ID,Payer,Provider,DOS,CPT Code,Modifiers,Start Time,End Time,Minutes,Units,Charge
+A7001,K1,"Thibodeaux, Marisol",01/30/1949,TMC8XY4ZZ12,Test Medicare Contractor,Ruth Vance MD (fictional),02/03/2026,00790,QK P3,02/03/2026 07:30,02/03/2026 09:15,105,14,900.00
+A7001,K1,"Thibodeaux, Marisol",01/30/1949,TMC8XY4ZZ12,Test Medicare Contractor,Ruth Vance MD (fictional),02/03/2026,99100,,,,,,0.00
+A7002,K1,"Thibodeaux, Marisol",01/30/1949,TMC8XY4ZZ12,Test Medicare Contractor,Tobi Okoro CRNA (fictional),02/03/2026,00790,QX P3,02/03/2026 07:30,02/03/2026 09:15,105,14,900.00
+A7002,K1,"Thibodeaux, Marisol",01/30/1949,TMC8XY4ZZ12,Test Medicare Contractor,Tobi Okoro CRNA (fictional),02/03/2026,99100,,,,,,0.00
+A7003,K2,"Ndiaye, Caspian",12/01/1966,EHP100207733,Example Health Plan,Ruth Vance MD (fictional),02/03/2026,00740,QK P2,02/03/2026 08:00,02/03/2026 09:00,60,9,900.00
+A7004,K2,"Ndiaye, Caspian",12/01/1966,EHP100207733,Example Health Plan,Sam Ilves CRNA (fictional),02/03/2026,00740,QX P2,02/03/2026 08:00,02/03/2026 09:00,60,9,900.00
+A7005,K3,"Okafor, Juniper",07/22/1990,SMI553200417,Sample Mutual Insurance,Ruth Vance MD (fictional),02/03/2026,01402,QY P2,02/03/2026 10:00,02/03/2026 12:10,130,16,900.00
+A7006,K3,"Okafor, Juniper",07/22/1990,SMI553200417,Sample Mutual Insurance,Tobi Okoro CRNA (fictional),02/03/2026,01402,QX P2,02/03/2026 10:00,02/03/2026 12:10,130,16,900.00
+A7007,K4,"Ndiaye, Caspian",12/01/1966,EHP100207733,Example Health Plan,Ruth Vance MD (fictional),02/03/2026,00740,QY P2,02/03/2026 10:30,02/03/2026 11:00,30,7,900.00
+A7008,K4,"Ndiaye, Caspian",12/01/1966,EHP100207733,Example Health Plan,Sam Ilves CRNA (fictional),02/03/2026,00740,QX P2,02/03/2026 10:30,02/03/2026 11:00,30,7,900.00
+A7009,K5,"Lindqvist, Ezra",05/09/2012,EHP100200455,Example Health Plan,Tobi Okoro CRNA (fictional),02/03/2026,00142,QZ P1,02/03/2026 13:00,02/03/2026 13:45,40,7,900.00
+A7009,K5,"Lindqvist, Ezra",05/09/2012,EHP100200455,Example Health Plan,Tobi Okoro CRNA (fictional),02/03/2026,99100,,,,,,0.00
+A7010,K6,"Achterberg, Delphine",09/17/1983,SMI553209981,Sample Mutual Insurance,Ruth Vance MD (fictional),02/03/2026,01967,AA P2,02/03/2026 14:00,02/03/2026 15:30,90,11,900.00
+A7011,K6,"Achterberg, Delphine",09/17/1983,SMI553209981,Sample Mutual Insurance,Tobi Okoro CRNA (fictional),02/03/2026,01967,QZ P2,02/03/2026 14:00,02/03/2026 15:30,90,11,900.00
+A7012,K7,"Halvorsen, Wren",04/25/1995,DMP000799001,Demo Medicaid Plan,Tobi Okoro CRNA (fictional),02/03/2026,00840,QZ P2,02/03/2026 15:00,02/03/2026 16:00,60,10,900.00
+A7013,K8,"Pemberton, Harlow",03/14/1958,EHP100200301,Example Health Plan,Ruth Vance MD (fictional),02/03/2026,00812,AA,02/03/2026 16:30,02/03/2026 17:10,40,8,900.00
+A7014,K9,"Castellano, Rowan",11/02/1975,DMP000781234,Demo Medicaid Plan,Ruth Vance MD (fictional),02/03/2026,00840,AA P2,02/03/2026 23:30,02/04/2026 00:45,75,11,900.00

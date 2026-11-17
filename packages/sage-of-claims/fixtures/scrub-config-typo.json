@@ -1,0 +1,10 @@
+{
+  "payers": [
+    {
+      "name": "Demo Medicaid Plan",
+      "required_fields": [
+        "referring_doctor"
+      ]
+    }
+  ]
+}

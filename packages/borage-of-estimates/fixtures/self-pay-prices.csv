@@ -1,0 +1,6 @@
+CPT,Description,Self-Pay Price
+99204,"New patient visit, moderate",210.00
+99213,"Established visit, low",110.00
+99214,"Established visit, moderate",160.00
+20610,"Joint injection, major",95.00
+93000,ECG with report,45.00

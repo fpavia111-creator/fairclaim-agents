@@ -1,0 +1,56 @@
+{
+  "name": "rosemary-of-appeals",
+  "version": "0.1.0",
+  "description": "Rosemary of Appeals: drafts a first-level appeal for a denied claim with quotes from the payer policies you supply (file and line), tracks every appeal against its filing deadline and the payer's response time, and never sends anything itself.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "rosemary-of-appeals": "bin/rosemary-of-appeals.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/rosemary-of-appeals.js demo",
+    "eval": "node bin/rosemary-of-appeals.js eval"
+  },
+  "dependencies": {
+    "remedy-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/remedy-agents.git",
+    "directory": "packages/rosemary-of-appeals"
+  },
+  "homepage": "https://github.com/fpavia111-creator/remedy-agents/tree/main/packages/rosemary-of-appeals#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/remedy-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "appeals",
+    "denials",
+    "payer-policy"
+  ]
+}

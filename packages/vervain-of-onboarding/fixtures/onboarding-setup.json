@@ -1,0 +1,25 @@
+{
+  "practice": {
+    "name": "Example Family Medicine (fictional)",
+    "billing_npi": "2990000012",
+    "tax_id": "99-0000001",
+    "taxonomy": "207Q00000X",
+    "address": {
+      "street": "PO Box 4410",
+      "city": "Exampleton",
+      "state": "AK",
+      "zip": "99501"
+    },
+    "pay_to_address": {
+      "street": "PO Box 4410",
+      "city": "Exampleton",
+      "state": "AK",
+      "zip": "99501-4410"
+    }
+  },
+  "go_live": "2026-03-02",
+  "lead_days": 30,
+  "group_contracts": [
+    "Example Health Plan"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "payers": [
+    {
+      "name": "Sample Mutual Insurance",
+      "method": "percent_of_medicare"
+    }
+  ]
+}

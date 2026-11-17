@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "sorrel-of-payers": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "sorrel-of-payers@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "appeal_days": 90,
+  "payers": [
+    {
+      "name": "Sample Mutual Insurance",
+      "appeal_days": 60
+    }
+  ],
+  "payer_codes": [
+    {
+      "payer": "Demo Medicaid Plan",
+      "code": "16",
+      "group": "CO",
+      "category": "provider_enrollment",
+      "text": "This plan sends CO-16 with N290 when the rendering provider is not enrolled"
+    }
+  ]
+}

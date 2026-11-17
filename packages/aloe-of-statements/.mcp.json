@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "aloe-of-statements": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "aloe-of-statements@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

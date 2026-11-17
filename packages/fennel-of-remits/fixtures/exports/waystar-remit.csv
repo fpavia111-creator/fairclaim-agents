@@ -1,0 +1,3 @@
+Claim Number,Patient,Payer,Check/EFT #,Check/EFT Date,Service Date,Procedure Code,Billed,Allowed,Paid,Adjustment Codes
+C6101,Delphine Achterberg,Sample Mutual Insurance,EFT20260212Q,2026-02-12,2026-01-28,99213,150.00,96.00,96.00,CO-45 54.00
+C6102,Juniper Okafor,Sample Mutual Insurance,EFT20260212Q,2026-02-12,2026-01-28,99214,200.00,130.50,130.50,CO-45 69.50

@@ -1,0 +1,8 @@
+Appt ID,Patient,Insurance,Date Scheduled,Appointment Date,Estimate Requested,GFE Issued,Visit Type,Planned Codes
+G1,Harlow Pemberton,Self Pay,02/02/2026,02/20/2026,,02/04/2026,Joint injection,99213 20610
+G2,Juniper Okafor,Self Pay,02/10/2026,02/27/2026,,,New patient,99204
+G3,Rowan Castellano,Uninsured,02/13/2026,02/19/2026,,,Follow-up,99213
+G4,Marisol Thibodeaux,Self Pay,02/16/2026,02/18/2026,,,Follow-up,99213
+G5,Ezra Lindqvist,Example Health Plan,02/02/2026,02/26/2026,,,Follow-up,99213
+G6,Delphine Achterberg,Self Pay,01/20/2026,02/03/2026,,01/27/2026,ECG,93000
+G7,Caspian Ndiaye,,,,02/11/2026,,Price request,99214 93000

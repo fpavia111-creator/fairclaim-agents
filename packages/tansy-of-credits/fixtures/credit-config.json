@@ -1,0 +1,20 @@
+{
+  "payers": [
+    {
+      "name": "Test Medicare Contractor",
+      "medicare": true
+    },
+    {
+      "name": "Example Health Plan",
+      "refund_days": 30
+    },
+    {
+      "name": "Sample Mutual Insurance",
+      "refund_days": 60
+    }
+  ],
+  "warn_days": 14,
+  "small_credit": 5,
+  "escheat_days": 1095,
+  "practice_name": "Example Family Medicine (fictional)"
+}

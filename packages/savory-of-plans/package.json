@@ -1,0 +1,56 @@
+{
+  "name": "savory-of-plans",
+  "version": "0.1.0",
+  "description": "Tracks patient payment plans against your policy: installments due after a grace period, missed payments and plans to review for default, plans paid off or ahead, monthly amounts and terms outside your policy, plan options for a new balance, and a draft plan agreement for a person to send. Patient identifiers are masked before results reach the model.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "savory-of-plans": "bin/savory-of-plans.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/savory-of-plans.js demo",
+    "eval": "node bin/savory-of-plans.js eval"
+  },
+  "dependencies": {
+    "remedy-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/remedy-agents.git",
+    "directory": "packages/savory-of-plans"
+  },
+  "homepage": "https://github.com/fpavia111-creator/remedy-agents/tree/main/packages/savory-of-plans#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/remedy-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "payment-plans",
+    "installments",
+    "patient-financing"
+  ]
+}

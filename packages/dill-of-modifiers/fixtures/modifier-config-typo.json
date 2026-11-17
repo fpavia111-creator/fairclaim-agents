@@ -1,0 +1,11 @@
+{
+  "rules": [
+    {
+      "payer": "Demo Medicaid Plan",
+      "action": "reject",
+      "modifiers": [
+        "59"
+      ]
+    }
+  ]
+}

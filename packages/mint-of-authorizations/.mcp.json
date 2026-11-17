@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "mint-of-authorizations": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mint-of-authorizations@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

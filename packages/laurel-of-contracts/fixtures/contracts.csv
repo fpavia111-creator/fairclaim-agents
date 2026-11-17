@@ -1,0 +1,5 @@
+Payer,Effective Date,End Date,Auto Renew,Notice Days,Escalator,Timely Filing,Appeal Days
+Example Health Plan,04/01/2024,03/31/2026,Yes,90,2,180,90
+Sample Mutual Insurance,07/01/2023,06/30/2026,Yes,90,0,90,60
+Demo Medicaid Plan,01/01/2023,12/31/2025,No,60,,90,60
+Test Medicare Contractor,01/01/2020,,,,,365,120

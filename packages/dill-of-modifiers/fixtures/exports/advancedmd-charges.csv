@@ -1,0 +1,4 @@
+Visit ID,Patient,Primary Carrier,Date of Service,Proc Code,Modifier 1,Modifier 2,Units,Charge
+D2001,Juniper Okafor,Sample Mutual Insurance,02/09/2026,99214,,,1,200.00
+D2001,Juniper Okafor,Sample Mutual Insurance,02/09/2026,20610,RT,,1,120.00
+D2002,Delphine Achterberg,Sample Mutual Insurance,02/09/2026,93000,TC,26,1,60.00

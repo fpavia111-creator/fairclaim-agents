@@ -1,0 +1,58 @@
+{
+  "payers": [
+    {
+      "name": "Sample Mutual Insurance",
+      "pos": [
+        "02",
+        "10"
+      ],
+      "modifier": "95",
+      "audio_modifier": "93",
+      "audio_allowed": true,
+      "telemedicine_codes": false,
+      "note": "example rule for testing, not this or any payer's policy"
+    },
+    {
+      "name": "Example Health Plan",
+      "pos": [
+        "02",
+        "10"
+      ],
+      "audio_modifier": "93",
+      "audio_allowed": true,
+      "telemedicine_codes": true,
+      "note": "example rule for testing"
+    },
+    {
+      "name": "Demo Medicaid Plan",
+      "pos": [
+        "02"
+      ],
+      "audio_allowed": false,
+      "telemedicine_codes": false,
+      "note": "example rule for testing"
+    }
+  ],
+  "providers": [
+    {
+      "name": "Alma Reyes MD (fictional)",
+      "states": [
+        "AK",
+        "WA"
+      ]
+    },
+    {
+      "name": "Felix Brandt DO (fictional)",
+      "states": [
+        "AK"
+      ]
+    },
+    {
+      "name": "Ines Moreau NP (fictional)",
+      "states": [
+        "AK",
+        "OR"
+      ]
+    }
+  ]
+}

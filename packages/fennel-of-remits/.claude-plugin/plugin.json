@@ -1,0 +1,23 @@
+{
+  "name": "fennel-of-remits",
+  "version": "0.1.0",
+  "description": "Matches 835 remittances to bank deposits by trace number, then amount and date, explains provider-level adjustments (recoveries, interest, levies), and drafts the payer inquiry for money without a remittance or a remittance without money.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/remedy-agents/tree/main/packages/fennel-of-remits#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "835",
+    "era",
+    "eft",
+    "reconciliation",
+    "plb"
+  ]
+}

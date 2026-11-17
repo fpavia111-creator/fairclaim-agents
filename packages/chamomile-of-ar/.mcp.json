@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "chamomile-of-ar": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "chamomile-of-ar@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "payers": [
+    {
+      "name": "Example Health Plan",
+      "member_id_pattern": "(a+)+$"
+    }
+  ]
+}

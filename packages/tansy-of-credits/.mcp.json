@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "tansy-of-credits": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "tansy-of-credits@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

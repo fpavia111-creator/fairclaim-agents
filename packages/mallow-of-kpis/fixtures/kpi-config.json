@@ -1,0 +1,12 @@
+{
+  "as_of": "2026-02-15",
+  "period_days": 90,
+  "no_response_days": 30,
+  "targets": {
+    "denial_rate": 10,
+    "first_pass_rate": 85,
+    "net_collection_rate": 95,
+    "median_days_to_pay": 30,
+    "days_in_ar": 40
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "payers": [
+    {
+      "name": "Example Health Plan",
+      "member_id_pattern": "EHP\\d{9}"
+    },
+    {
+      "name": "Sample Mutual Insurance",
+      "member_id_pattern": "SMI\\d{9}"
+    },
+    {
+      "name": "Demo Medicaid Plan",
+      "member_id_pattern": "DMP\\d{9}"
+    },
+    {
+      "name": "Test Medicare Contractor",
+      "id_format": "mbi"
+    }
+  ],
+  "verify_days": 365,
+  "minor_age": 18
+}

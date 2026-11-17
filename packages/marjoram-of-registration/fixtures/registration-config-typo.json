@@ -1,0 +1,8 @@
+{
+  "payers": [
+    {
+      "name": "Test Medicare Contractor",
+      "id_format": "MBI number"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "dill-of-modifiers": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "dill-of-modifiers@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

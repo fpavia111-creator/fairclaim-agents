@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "hyssop-of-fees": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "hyssop-of-fees@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

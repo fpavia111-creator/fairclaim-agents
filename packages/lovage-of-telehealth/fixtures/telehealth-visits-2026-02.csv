@@ -1,0 +1,14 @@
+Claim ID,Patient,DOB,Member ID,Payer,Provider,DOS,CPT,Modifiers,POS,Patient State,Patient Location,Modality,Consent,Charge
+T9001,"Pemberton, Harlow",03/14/1958,EHP100200301,Example Health Plan,Alma Reyes MD (fictional),02/12/2026,99213,95,10,AK,Home,Video,Y,120.00
+T9002,"Okafor, Juniper",07/22/1990,SMI553200417,Sample Mutual Insurance,Alma Reyes MD (fictional),02/12/2026,99214,95,02,AK,Home,Video,Y,120.00
+T9003,"Castellano, Rowan",11/02/1975,DMP000781234,Demo Medicaid Plan,Felix Brandt DO (fictional),02/12/2026,99442,,02,AK,Home,Telephone,Y,120.00
+T9004,"Thibodeaux, Marisol",01/30/1949,TMC8XY4ZZ12,Test Medicare Contractor,Ines Moreau NP (fictional),02/12/2026,99213,,10,AK,Home,Audio only,Y,120.00
+T9005,"Achterberg, Delphine",09/17/1983,SMI553209981,Sample Mutual Insurance,Felix Brandt DO (fictional),02/12/2026,98005,95,10,AK,Home,Video,Y,120.00
+T9006,"Ndiaye, Caspian",12/01/1966,EHP100207733,Example Health Plan,Alma Reyes MD (fictional),02/12/2026,99214,95,10,OR,Home,Video,Y,120.00
+T9007,"Halvorsen, Wren",04/25/1995,DMP000799001,Demo Medicaid Plan,Ines Moreau NP (fictional),02/12/2026,98016,,02,AK,Community clinic,Audio only,,120.00
+T9008,"Lindqvist, Ezra",05/09/2012,EHP100200455,Example Health Plan,Ines Moreau NP (fictional),02/12/2026,99213,95,10,AK,Home,Video,Y,120.00
+T9009,"Lindqvist, Ezra",05/09/2012,EHP100200455,Example Health Plan,Ines Moreau NP (fictional),02/12/2026,99213,,11,AK,Office,,,120.00
+T9010,"Pemberton, Harlow",03/14/1958,EHP100200301,Example Health Plan,Alma Reyes MD (fictional),02/12/2026,Q3014,,11,AK,Home,Video,Y,31.00
+T9011,"Okafor, Juniper",07/22/1990,SMI553200417,Sample Mutual Insurance,Alma Reyes MD (fictional),02/12/2026,99213,GT,02,AK,Rural clinic (originating site),Video,Y,120.00
+T9012,"Castellano, Rowan",11/02/1975,DMP000781234,Demo Medicaid Plan,Felix Brandt DO (fictional),02/12/2026,99213,,02,AK,Community clinic,Video,Y,120.00
+T9013,"Thibodeaux, Marisol",01/30/1949,TMC8XY4ZZ12,Test Medicare Contractor,Alma Reyes MD (fictional),02/12/2026,99214,95,10,WA,Home,Video,Y,120.00

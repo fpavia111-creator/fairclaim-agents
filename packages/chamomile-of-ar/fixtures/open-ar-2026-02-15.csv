@@ -1,0 +1,11 @@
+Claim #,Patient,Member ID,Primary Payer,Provider,DOS,Submitted,Last Activity,Charge,Balance,Status,Responsible Party
+A1001,Harlow Pemberton,EHP100200301,Example Health Plan,Alma Reyes MD (fictional),01/20/2026,01/22/2026,02/01/2026,150.00,150.00,Submitted,Insurance
+A1002,Juniper Okafor,SMI553200417,Sample Mutual Insurance,Alma Reyes MD (fictional),11/25/2025,,,320.00,320.00,Ready to bill,Insurance
+A1003,Rowan Castellano,DMP000781234,Demo Medicaid Plan,Alma Reyes MD (fictional),10/20/2025,,01/05/2026,90.00,90.00,On hold - missing referral,Insurance
+A1004,Delphine Achterberg,SMI553209981,Sample Mutual Insurance,Alma Reyes MD (fictional),09/01/2025,12/15/2025,01/10/2026,200.00,200.00,Submitted,Insurance
+A1005,Ezra Lindqvist,EHP100200455,Example Health Plan,Alma Reyes MD (fictional),11/03/2025,11/05/2025,12/01/2025,260.00,260.00,Submitted,Insurance
+A1006,Marisol Thibodeaux,TMC8XY4ZZ12,Test Medicare Contractor,Alma Reyes MD (fictional),08/10/2025,08/12/2025,02/10/2026,60.00,60.00,In process,Insurance
+A1007,Caspian Ndiaye,EHP100207733,Example Health Plan,Alma Reyes MD (fictional),12/02/2025,12/03/2025,01/15/2026,150.00,40.00,Patient responsibility,Patient
+A1008,Wren Halvorsen,DMP000799001,Sample Auto Insurance (fictional),Alma Reyes MD (fictional),12/10/2025,12/12/2025,,500.00,500.00,Submitted,Insurance
+A1009,Harlow Pemberton,EHP100200301,Example Health Plan,Alma Reyes MD (fictional),12/15/2025,12/16/2025,01/20/2026,150.00,0.00,Paid,Insurance
+A1010,Rowan Castellano,DMP000781234,Demo Medicaid Plan,Alma Reyes MD (fictional),01/30/2026,,,110.00,110.00,Draft,Insurance

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "laurel-of-contracts": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "laurel-of-contracts@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

@@ -1,0 +1,11 @@
+CPT,Description,Fee,Units Last Year
+99211,"Office visit, minimal",,40
+99213,"Office visit, low",150.00,1800
+99214,"Office visit, moderate",150.00,600
+99215,"Office visit, high",400.00,90
+20610,"Joint injection, major",120.00,210
+93000,ECG with report,90.00,300
+97110,Therapeutic exercise,80.00,900
+36415,Venipuncture,25.00,1200
+99385,Preventive visit 18-39,260.00,150
+J3490,Unclassified drug,30.00,20

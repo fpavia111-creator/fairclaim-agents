@@ -1,0 +1,17 @@
+{
+  "suite": "sorrel-of-payers",
+  "root": "..",
+  "data_note": "Fictional payers, claims and patients in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    {"id": "scorecard", "tool": "sorrel_scorecard", "args": {"remits": ["fixtures/era-2026-01.835", "fixtures/era-2026-02.835"], "claims": "fixtures/claims-submitted.csv", "config": "fixtures/payer-config.json"}, "expect": {"status": "executed", "equals": {"result.claims": 26, "result.denied_claims": 6, "result.days_to_pay_median": 32.5, "result.payers.0.payer": "Sample Mutual Insurance", "result.payers.0.reversals": 1, "result.payers.0.days_to_pay_median": 34, "result.payers.1.payer": "Demo Medicaid Plan", "result.payers.1.denial_rate": 37.5, "result.payers.2.payer": "Example Health Plan", "result.payers.2.flags": []}}},
+    {"id": "per-payer-target-replaces-general", "tool": "sorrel_scorecard", "args": {"remits": ["fixtures/era-2026-01.835", "fixtures/era-2026-02.835"], "claims": "fixtures/claims-submitted.csv", "config": "fixtures/payer-config.json"}, "expect": {"contains": ["Median 59.5 days to pay; target 45."]}},
+    {"id": "trend", "tool": "sorrel_payer", "args": {"remits": ["fixtures/era-2026-01.835", "fixtures/era-2026-02.835"], "claims": "fixtures/claims-submitted.csv", "payer": "sample mutual insurance"}, "expect": {"equals": {"result.scorecard.trend.0.denial_rate": 0, "result.scorecard.trend.1.denial_rate": 50, "result.items.0.days_to_pay": 41}}},
+    {"id": "no-claims-file-untimed", "tool": "sorrel_scorecard", "args": {"remits": ["fixtures/era-2026-01.835"]}, "expect": {"equals": {"result.untimed_claims": 13, "result.days_to_pay_median": null}}},
+    {"id": "unknown-payer", "tool": "sorrel_payer", "args": {"remits": ["fixtures/era-2026-01.835"], "payer": "Nobody Health"}, "expect": {"status": "error", "contains": ["not on these remittances"]}},
+    {"id": "bad-config-refused", "tool": "sorrel_scorecard", "args": {"remits": ["fixtures/era-2026-01.835"], "config": "fixtures/payer-config-typo.json"}, "expect": {"status": "error", "contains": ["days_to_pay"]}},
+    {"id": "names-masked", "tool": "sorrel_payer", "args": {"remits": ["fixtures/era-2026-01.835", "fixtures/era-2026-02.835"], "payer": "Demo Medicaid Plan"}, "expect": {"matches": ["\"patient_name\":\"PT-[0-9a-f]{8}\""], "not_contains": ["Castellano", "HALVORSEN", "Halvorsen"]}},
+    {"id": "scorecard-in-french", "tool": "sorrel_write_report", "args": {"remits": ["fixtures/era-2026-01.835", "fixtures/era-2026-02.835"], "claims": "fixtures/claims-submitted.csv", "config": "fixtures/payer-config.json", "language": "fr", "out_dir": "remedy-out/eval-sorrel"}, "expect": {"status": "executed", "equals": {"result.lang": "fr"}}},
+    {"id": "complaint-refused", "tool": "payer_complaint_file", "args": {}, "expect": {"status": "blocked", "decision": "block"}},
+    {"id":"recall-empty-memory","tool":"sorrel_recall","args":{},"expect":{"status":"executed","contains":["memory is empty","payer_target"]}}
+  ]
+}

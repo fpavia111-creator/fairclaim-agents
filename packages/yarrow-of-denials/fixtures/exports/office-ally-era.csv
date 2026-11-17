@@ -1,0 +1,4 @@
+Claim #,Patient,Payer,Check No,Payment Date,DOS,CPT,Billed,Paid,Adj Code,Adj Amount,Remark Code
+C3001,Harlow Pemberton,Example Health Plan,CHK7781,01/22/2026,01/14/2026,99213,150.00,0.00,CO-197,150.00,
+C3002,Caspian Ndiaye,Example Health Plan,CHK7781,01/22/2026,01/15/2026,99214,200.00,130.00,CO-45,70.00,
+C3003,Ezra Lindqvist,Example Health Plan,CHK7781,01/22/2026,01/15/2026,87880,40.00,0.00,CO-11,40.00,M76

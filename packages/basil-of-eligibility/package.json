@@ -1,0 +1,57 @@
+{
+  "name": "basil-of-eligibility",
+  "version": "0.1.0",
+  "description": "Basil of Eligibility: reads 271 eligibility responses against the appointment list and flags visits with inactive coverage, member not found, plan ending before the visit, another payer primary or no response, with copay and deductible to collect.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "basil-of-eligibility": "bin/basil-of-eligibility.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/basil-of-eligibility.js demo",
+    "eval": "node bin/basil-of-eligibility.js eval"
+  },
+  "dependencies": {
+    "remedy-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/remedy-agents.git",
+    "directory": "packages/basil-of-eligibility"
+  },
+  "homepage": "https://github.com/fpavia111-creator/remedy-agents/tree/main/packages/basil-of-eligibility#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/remedy-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "271",
+    "eligibility",
+    "verification",
+    "front-desk"
+  ]
+}

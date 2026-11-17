@@ -1,0 +1,25 @@
+Claim ID,Patient,DOB,Member ID,Payer,Provider,DOS,Date Submitted,CPT,Charge
+K1001,"Pemberton, Harlow",03/14/1958,EHP100200301,Example Health Plan,Alma Reyes MD (fictional),11/04/2025,11/06/2025,99213,150.00
+K1002,"Lindqvist, Ezra",05/09/2012,EHP100200455,Example Health Plan,Ines Moreau NP (fictional),11/12/2025,11/14/2025,99214,220.00
+K1003,"Ndiaye, Caspian",12/01/1966,EHP100207733,Example Health Plan,Alma Reyes MD (fictional),12/02/2025,12/04/2025,99215,300.00
+K1004,"Pemberton, Harlow",03/14/1958,EHP100200301,Example Health Plan,Alma Reyes MD (fictional),12/15/2025,12/17/2025,99213,150.00
+K1005,"Lindqvist, Ezra",05/09/2012,EHP100200455,Example Health Plan,Ines Moreau NP (fictional),01/06/2026,01/08/2026,99213,150.00
+K1006,"Ndiaye, Caspian",12/01/1966,EHP100207733,Example Health Plan,Alma Reyes MD (fictional),01/13/2026,01/15/2026,99214,220.00
+K1007,"Pemberton, Harlow",03/14/1958,EHP100200301,Example Health Plan,Ines Moreau NP (fictional),01/20/2026,01/22/2026,99213,150.00
+K1008,"Ndiaye, Caspian",12/01/1966,EHP100207733,Example Health Plan,Alma Reyes MD (fictional),02/05/2026,02/07/2026,99214,220.00
+K2001,"Okafor, Juniper",07/22/1990,SMI553200417,Sample Mutual Insurance,Felix Brandt DO (fictional),11/05/2025,11/07/2025,99214,220.00
+K2002,"Achterberg, Delphine",09/17/1983,SMI553209981,Sample Mutual Insurance,Felix Brandt DO (fictional),11/19/2025,11/21/2025,99203,210.00
+K2003,"Okafor, Juniper",07/22/1990,SMI553200417,Sample Mutual Insurance,Felix Brandt DO (fictional),12/03/2025,12/05/2025,99213,150.00
+K2004,"Achterberg, Delphine",09/17/1983,SMI553209981,Sample Mutual Insurance,Felix Brandt DO (fictional),12/17/2025,12/19/2025,99214,220.00
+K2005,"Okafor, Juniper",07/22/1990,SMI553200417,Sample Mutual Insurance,Felix Brandt DO (fictional),01/07/2026,01/09/2026,99213,150.00
+K2006,"Achterberg, Delphine",09/17/1983,SMI553209981,Sample Mutual Insurance,Felix Brandt DO (fictional),01/21/2026,01/23/2026,99215,300.00
+K3001,"Castellano, Rowan",11/02/1975,DMP000781234,Demo Medicaid Plan,Ines Moreau NP (fictional),11/06/2025,11/08/2025,99213,150.00
+K3002,"Halvorsen, Wren",04/25/1995,DMP000799001,Demo Medicaid Plan,Ines Moreau NP (fictional),11/20/2025,11/22/2025,99214,220.00
+K3003,"Castellano, Rowan",11/02/1975,DMP000781234,Demo Medicaid Plan,Ines Moreau NP (fictional),11/28/2025,11/30/2025,99203,210.00
+K3004,"Halvorsen, Wren",04/25/1995,DMP000799001,Demo Medicaid Plan,Ines Moreau NP (fictional),12/04/2025,12/06/2025,99213,150.00
+K3005,"Castellano, Rowan",11/02/1975,DMP000781234,Demo Medicaid Plan,Ines Moreau NP (fictional),12/18/2025,12/20/2025,99213,150.00
+K3006,"Halvorsen, Wren",04/25/1995,DMP000799001,Demo Medicaid Plan,Ines Moreau NP (fictional),01/08/2026,01/10/2026,99214,220.00
+K4001,"Thibodeaux, Marisol",01/30/1949,TMC8XY4ZZ12,Test Medicare Contractor,Alma Reyes MD (fictional),11/10/2025,11/12/2025,99214,220.00
+K4002,"Thibodeaux, Marisol",01/30/1949,TMC8XY4ZZ12,Test Medicare Contractor,Alma Reyes MD (fictional),12/08/2025,12/10/2025,99215,300.00
+K4003,"Thibodeaux, Marisol",01/30/1949,TMC8XY4ZZ12,Test Medicare Contractor,Alma Reyes MD (fictional),12/29/2025,12/31/2025,99213,150.00
+K4004,"Thibodeaux, Marisol",01/30/1949,TMC8XY4ZZ12,Test Medicare Contractor,Alma Reyes MD (fictional),01/02/2026,01/04/2026,99214,220.00

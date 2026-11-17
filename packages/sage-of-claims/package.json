@@ -1,0 +1,57 @@
+{
+  "name": "sage-of-claims",
+  "version": "0.1.0",
+  "description": "Sage of Claims: scrubs 837 claims (or claim exports) before they go out, catching the errors payers reject on: NPIs, payer and member ids, dates, totals, codes, modifiers, diagnosis pointers, place of service, corrected-claim references and prior authorizations.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "sage-of-claims": "bin/sage-of-claims.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/sage-of-claims.js demo",
+    "eval": "node bin/sage-of-claims.js eval"
+  },
+  "dependencies": {
+    "remedy-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/remedy-agents.git",
+    "directory": "packages/sage-of-claims"
+  },
+  "homepage": "https://github.com/fpavia111-creator/remedy-agents/tree/main/packages/sage-of-claims#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/remedy-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "837",
+    "claim-scrubber",
+    "clean-claims",
+    "npi"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "warn_days_before_limit": 14,
+  "payers": [
+    {
+      "name": "Example Health Plan",
+      "payer_id": "99901",
+      "member_id_pattern": "EHP\\d{9}",
+      "prior_auth_codes": [
+        "20610",
+        "7*"
+      ],
+      "timely_days": 180
+    },
+    {
+      "name": "Demo Medicaid Plan",
+      "payer_id": "99903",
+      "member_id_pattern": "DMP\\d{9}",
+      "timely_days": 90
+    }
+  ],
+  "max_units": {
+    "97110": 4
+  }
+}

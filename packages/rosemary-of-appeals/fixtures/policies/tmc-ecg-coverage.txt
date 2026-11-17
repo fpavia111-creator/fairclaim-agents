@@ -1,0 +1,4 @@
+Test Medicare Contractor local coverage article (fictional): electrocardiograms
+Indications: 93000 is covered when the patient has symptoms such as palpitations, chest pain or syncope, or to monitor a drug with cardiac effects.
+Routine screening ECGs (93000) without symptoms are not covered.
+The diagnosis must be reported to the highest specificity; R00.2 (palpitations) supports medical necessity.

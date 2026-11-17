@@ -1,0 +1,4 @@
+Encounter ID,Patient Name,DOB,Member ID,Primary Insurance,Payer ID,Billing NPI,Rendering NPI,POS,DOS,CPT,Modifier 1,Units,Charge,Dx 1,Dx 2,Dx Pointer
+E5001,Juniper Okafor,07/22/1990,SMI553200417,Sample Mutual Insurance,99902,2990000012,1990000022,11,01/16/2026,99213,,1,150.00,J02.9,,1
+E5002,Delphine Achterberg,09/17/1983,SMI553209981,Sample Mutual Insurance,99902,2990000012,1990000022,11,01/16/2026,99214,,1,200.00,M25.561,,
+E5002,Delphine Achterberg,09/17/1983,SMI553209981,Sample Mutual Insurance,99902,2990000012,1990000022,11,01/16/2026,20610,,1,120.00,M25.561,,1

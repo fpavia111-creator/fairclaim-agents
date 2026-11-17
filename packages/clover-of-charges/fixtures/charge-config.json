@@ -1,0 +1,14 @@
+{
+  "lag_days": 3,
+  "em_gap_points": 25,
+  "expected": [
+    {
+      "visit_type": "Injection",
+      "codes": [
+        "20610",
+        "J*"
+      ],
+      "note": "Injection visits bill the procedure and usually the drug."
+    }
+  ]
+}

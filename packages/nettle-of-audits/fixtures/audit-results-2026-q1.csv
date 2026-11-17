@@ -1,0 +1,26 @@
+Claim ID,Patient,Provider,Date of Service,Billed CPT,Billed Modifiers,Billed Dx,Billed Amount,Auditor CPT,Audited Modifiers,Audited Dx,Supported Amount,Paid,Comments
+N2001,"Pemberton, Harlow",Alma Reyes MD (fictional),01/05/2026,99213,,I10,110.00,99213,,,110.00,Y,
+N2002,"Okafor, Juniper",Alma Reyes MD (fictional),02/08/2026,99214,,E11.9,165.00,99214,,,165.00,Y,
+N2003,"Castellano, Rowan",Alma Reyes MD (fictional),01/11/2026,99213,,J06.9,110.00,99213,,,110.00,Y,
+N2004,"Thibodeaux, Marisol",Alma Reyes MD (fictional),02/14/2026,99215,,M54.50,230.00,99214,,,165.00,Y,"MDM moderate, not high (fictional)"
+N2005,"Lindqvist, Ezra",Alma Reyes MD (fictional),01/17/2026,99214,,Z00.00,165.00,99214,,,165.00,Y,
+N2006,"Achterberg, Delphine",Alma Reyes MD (fictional),02/20/2026,99212,,I10,75.00,99212,,,75.00,Y,
+N2007,"Ndiaye, Caspian",Alma Reyes MD (fictional),01/23/2026,99213,,E11.9,110.00,99213,,,110.00,Y,
+N2008,"Halvorsen, Wren",Alma Reyes MD (fictional),02/26/2026,99214,,J06.9,165.00,99214,,,165.00,Y,
+N2009,"Pemberton, Harlow",Alma Reyes MD (fictional),01/06/2026,99204,,M54.50,210.00,99204,,,210.00,Y,
+N2010,"Okafor, Juniper",Alma Reyes MD (fictional),02/09/2026,99213,,Z00.00,110.00,99213,,,110.00,Y,
+N2011,"Castellano, Rowan",Alma Reyes MD (fictional),01/12/2026,99214,,I10,165.00,99214,,I10 E11.65,165.00,Y,Hyperglycemia documented (fictional)
+N2015,"Ndiaye, Caspian",Felix Brandt DO (fictional),01/05/2026,99214,,I10,165.00,99213,,,110.00,Y,Two stable chronic illnesses would be moderate; one documented (fictional)
+N2016,"Halvorsen, Wren",Felix Brandt DO (fictional),02/08/2026,99215,,E11.9,230.00,99214,,,165.00,Y,
+N2017,"Pemberton, Harlow",Felix Brandt DO (fictional),01/11/2026,99214,,J06.9,165.00,99214,,,165.00,Y,
+N2018,"Okafor, Juniper",Felix Brandt DO (fictional),02/14/2026,99214,25,M54.50,165.00,99214,none,,165.00,Y,No separate procedure that day (fictional)
+N2019,"Castellano, Rowan",Felix Brandt DO (fictional),01/17/2026,99213,,Z00.00,110.00,99213,,,110.00,Y,
+N2020,"Thibodeaux, Marisol",Felix Brandt DO (fictional),02/20/2026,99215,,I10,230.00,99213,,,110.00,N,
+N2021,"Lindqvist, Ezra",Felix Brandt DO (fictional),01/23/2026,20610,,E11.9,120.00,none,,,0.00,Y,No procedure note in the record (fictional)
+N2022,"Achterberg, Delphine",Felix Brandt DO (fictional),02/26/2026,99214,,J06.9,165.00,99214,,,165.00,Y,
+N2023,"Ndiaye, Caspian",Felix Brandt DO (fictional),01/06/2026,99203,,M54.50,140.00,99213,,,110.00,Y,Established patient: seen 2025 (fictional)
+N2024,"Halvorsen, Wren",Felix Brandt DO (fictional),02/09/2026,99214,,Z00.00,165.00,99214,,,165.00,Y,
+N2027,"Castellano, Rowan",Ines Moreau NP (fictional),01/05/2026,99213,,I10,110.00,99214,,,165.00,Y,Documentation supports moderate MDM (fictional)
+N2028,"Thibodeaux, Marisol",Ines Moreau NP (fictional),02/08/2026,99212,,E11.9,75.00,99212,,,75.00,Y,
+N2029,"Lindqvist, Ezra",Ines Moreau NP (fictional),01/11/2026,99213,,J06.9,110.00,99213,,,110.00,Y,
+N2031,"Ndiaye, Caspian",Ines Moreau NP (fictional),01/17/2026,99214,,Z00.00,165.00,99214,,,165.00,Y,

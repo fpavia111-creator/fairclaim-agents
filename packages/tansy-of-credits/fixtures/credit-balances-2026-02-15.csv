@@ -1,0 +1,9 @@
+Account #,Patient,Claim #,Payer,Payment Source,Credit Amount,Credit Date,Date Identified,Open Debit,Reason
+A-1004,Marisol Thibodeaux,T1001,Test Medicare Contractor,Test Medicare Contractor,-85.00,12/01/2025,12/10/2025,0.00,Paid twice on two remittances
+A-1001,Harlow Pemberton,T1002,Example Health Plan,Example Health Plan,-120.00,01/20/2026,01/25/2026,0.00,Paid after secondary already paid
+A-1002,Juniper Okafor,T1003,Sample Mutual Insurance,Sample Mutual Insurance,-60.00,02/01/2026,02/05/2026,0.00,Contract rate lower than paid
+A-1005,Ezra Lindqvist,T1004,Example Health Plan,Patient,-40.00,01/10/2026,,25.00,Copay collected twice
+A-1007,Caspian Ndiaye,T1005,Example Health Plan,Patient credit card,-75.00,05/01/2023,,0.00,"Prepayment, visit cancelled"
+A-1008,Wren Halvorsen,T1006,Demo Medicaid Plan,Patient,-3.50,02/02/2026,,0.00,Rounding
+A-1006,Delphine Achterberg,T1007,Sample Mutual Insurance,Patient,-50.00,01/28/2026,,0.00,Deductible met after payment
+A-1003,Rowan Castellano,T1008,Demo Medicaid Plan,Demo Medicaid Plan,-90.00,02/10/2026,02/10/2026,0.00,Wrong member

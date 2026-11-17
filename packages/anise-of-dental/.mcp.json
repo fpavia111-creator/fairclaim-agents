@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "anise-of-dental": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "anise-of-dental@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

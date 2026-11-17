@@ -1,0 +1,57 @@
+{
+  "name": "angelica-of-prices",
+  "version": "0.1.0",
+  "description": "Hospital price transparency without the fines: checks a machine-readable file against the CMS v3.0 tall CSV template (headers, attestation, code pairs, the twelve conditional rules), compares it with the chargemaster, and computes the median, 10th and 90th percentile allowed amounts and counts from 835s the CMS way.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "angelica-of-prices": "bin/angelica-of-prices.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/angelica-of-prices.js demo",
+    "eval": "node bin/angelica-of-prices.js eval"
+  },
+  "dependencies": {
+    "remedy-core": "^0.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/remedy-agents.git",
+    "directory": "packages/angelica-of-prices"
+  },
+  "homepage": "https://github.com/fpavia111-creator/remedy-agents/tree/main/packages/angelica-of-prices#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/remedy-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "price-transparency",
+    "hospital",
+    "cms",
+    "mrf"
+  ]
+}

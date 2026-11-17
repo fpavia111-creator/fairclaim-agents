@@ -1,0 +1,14 @@
+Acct #,Guarantor,Patient Balance,Insurance Pending,Statements Sent,Last Statement,Last Payment,Payment Plan,Address Status,Flags,Oldest DOS
+A-1001,Harlow Pemberton,120.00,0.00,0,,,No,OK,,01/05/2026
+A-1002,Juniper Okafor,85.00,0.00,1,01/15/2026,,No,OK,,12/01/2025
+A-1003,Rowan Castellano,240.00,0.00,2,01/10/2026,,No,OK,,12/01/2025
+A-1004,Marisol Thibodeaux,310.00,0.00,3,01/02/2026,,No,OK,,12/01/2025
+A-1005,Ezra Lindqvist,60.00,150.00,0,,,No,OK,,12/01/2025
+A-1006,Delphine Achterberg,400.00,0.00,0,,,Yes,OK,,12/01/2025
+A-1007,Caspian Ndiaye,95.00,0.00,0,,,No,Returned mail,,12/01/2025
+A-1008,Wren Halvorsen,3.00,0.00,0,,,No,OK,,12/01/2025
+A-2001,Ilse Marchetti,180.00,0.00,0,,,No,OK,Patient deceased - estate contact pending,12/01/2025
+A-2002,Bram Okonkwo,75.00,0.00,0,,,No,OK,Disputes charge for 01/12 visit,12/01/2025
+A-2003,Noor Vasquez,220.00,0.00,1,01/18/2026,02/12/2026,No,OK,,12/01/2025
+A-2004,Tomas Reinholt,130.00,0.00,1,02/10/2026,,No,OK,,12/01/2025
+A-2005,Lena Ashworth,90.00,0.00,0,,,No,OK,Workers comp claim,12/01/2025

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "borage-of-estimates": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "borage-of-estimates@0.1.0",
+        "mcp"
+      ]
+    }
+  }
+}

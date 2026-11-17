@@ -1,0 +1,12 @@
+Encounter ID,Patient Name,Member ID,Primary Insurance,DOS,CPT,Units,Charge,Prior Auth,Dx 1
+M1,Rowan Castellano,DMP000781234,Demo Medicaid Plan,02/02/2026,97110,2,80.00,AUTH-301,M54.50
+M2,Rowan Castellano,DMP000781234,Demo Medicaid Plan,02/05/2026,97140,1,70.00,AUTH-301,M54.50
+M3,Caspian Ndiaye,EHP100207733,Example Health Plan,02/03/2026,97110,2,80.00,AUTH-302,M54.50
+M4,Caspian Ndiaye,EHP100207733,Example Health Plan,02/06/2026,97110,3,120.00,AUTH-302,M54.50
+M5,Harlow Pemberton,EHP100200301,Example Health Plan,02/04/2026,20610,1,120.00,,M54.50
+M6,Ezra Lindqvist,EHP100200455,Example Health Plan,02/04/2026,72148,1,900.00,AUTH-305,M54.50
+M7,Juniper Okafor,SMI553200417,Sample Mutual Insurance,02/06/2026,29881,1,2400.00,,M54.50
+M8,Wren Halvorsen,DMP000799001,Demo Medicaid Plan,02/07/2026,97530,1,80.00,AUTH-308,M54.50
+M9,Delphine Achterberg,SMI553209981,Sample Mutual Insurance,02/09/2026,70553,1,1800.00,AUTH-309,M54.50
+M10,Marisol Thibodeaux,TMC8XY4ZZ12,Test Medicare Contractor,02/09/2026,99213,1,150.00,AUTH-999,M54.50
+M11,Rowan Castellano,DMP000781234,Demo Medicaid Plan,02/09/2026,97110,1,40.00,AUTH-3O1,M54.50
