@@ -23,12 +23,12 @@ Tansy of Credits demo (fictional practice, payers and patients) in <demo folder>
 ▶ Review credit balances and refund deadlines
   status: executed  decision: allow
   8 credit(s) totalling 523.5: patient 168.5, payer 355. refund_overdue 1, refund_now 1, escheat_risk 1, apply_to_balance 1, refund 3, small_credit 1. 85 is past a refund deadline.
-    refund_overdue        85 to Test Medicare Contractor   Refund deadline 2026-02-08 passed 7 day(s) ago (60 days from identification for Medicare). Refund now and record why it was late.
+    refund_overdue        85 to Test Medicare Contractor   Refund deadline 2026-02-08 passed 7 day(s) ago (60 days from identification for Medicare and Medicaid). Refund now and record why it was late.
     refund_now           120 to Example Health Plan        9 day(s) left to refund (deadline 2026-02-24).
     escheat_risk          75 to patient                    Credit is 1021 days old; unclaimed-property rules may apply at 1095 days. Contact the patient or report it as your state requires.
     apply_to_balance      40 to patient                    The account owes 25 elsewhere: apply the credit there first if your policy and the patient allow, then refund what is left.
     refund                60 to Sample Mutual Insurance    Refund to Sample Mutual Insurance; 50 day(s) left.
-    refund                90 to Demo Medicaid Plan         No refund deadline set for this payer: refund promptly or set refund_days in the config.
+    refund                90 to Demo Medicaid Plan         Refund to Demo Medicaid Plan; 55 day(s) left.
     refund                50 to patient                    Refund to the patient (or the card used).
     small_credit         3.5 to patient                    Under your small-credit level (5): follow your policy (hold for the next visit or refund on request).
 

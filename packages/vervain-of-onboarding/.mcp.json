@@ -4,7 +4,7 @@
       "command": "npx",
       "args": [
         "-y",
-        "vervain-of-onboarding@0.1.0",
+        "vervain-of-onboarding@0.2.0",
         "mcp"
       ]
     }

@@ -1,6 +1,6 @@
 {
   "name": "cumin-of-dme",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "DME claims and rentals kept straight: checks rental and purchase modifiers, the capped-rental month (KH, KI, KJ) and the 13-month cap, oxygen months, right and left on paired items, prior authorization, the order before delivery and units, and tracks every rental to its next modifier.",
   "author": {
     "name": "Kurt Francisco"

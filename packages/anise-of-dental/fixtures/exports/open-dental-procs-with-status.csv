@@ -1,0 +1,5 @@
+ClaimNum,Patient,Birthdate,ProcDate,ProcCode,ToothNum,Surf,ProcFee,ProcStatus
+7101,"Pemberton, Harlow",1958-03-14,2026-02-12,D2391,30,O,160.00,2
+7101,"Pemberton, Harlow",1958-03-14,2026-02-12,D2740,19,,1200.00,1
+7101,"Pemberton, Harlow",1958-03-14,2026-02-12,D0140,,,70.00,2
+7102,"Pemberton, Harlow",1958-03-14,2026-02-12,D7140,3,,190.00,6

@@ -13,6 +13,9 @@
     {"id": "report-in-spanish", "tool": "basil_write_report", "args": {"appointments": "fixtures/appointments-2026-02-03.csv", "eligibility": ["fixtures/eligibility-2026-02-01.271"], "language": "es", "out_dir": "remedy-out/eval-basil"}, "expect": {"status": "executed", "equals": {"result.lang": "es"}}},
     {"id": "wrong-file-refused", "tool": "basil_check", "args": {"appointments": "fixtures/appointments-2026-02-03.csv", "eligibility": ["fixtures/appointments-2026-02-03.csv"]}, "expect": {"status": "error", "contains": ["not an X12 file"]}},
     {"id": "inquiry-send-refused", "tool": "eligibility_inquiry_send", "args": {}, "expect": {"status": "blocked", "decision": "block"}},
-    {"id":"recall-empty-memory","tool":"basil_recall","args":{},"expect":{"status":"executed","contains":["memory is empty","visit_type_review"]}}
+    {"id": "recall-empty-memory", "tool": "basil_recall", "args": {}, "expect": {"status": "executed", "contains": ["memory is empty", "visit_type_review"]}},
+    {"id": "subscriber-not-found-aaa", "tool": "basil_check", "args": {"appointments": "fixtures/appointments-2026-02-03.csv", "eligibility": ["fixtures/eligibility-2026-02-01.271"], "status": "not_found"}, "expect": {"status": "executed", "equals": {"result.items.0.appointment_id": "A1003", "result.items.0.matched_by": "trace"}, "contains": ["AAA 75: Subscriber not found", "check the member id, name and birth date"]}},
+    {"id": "inactive-plan-ended-last-year", "tool": "basil_check", "args": {"appointments": "fixtures/appointments-2026-02-03.csv", "eligibility": ["fixtures/eligibility-2026-02-01.271"], "status": "inactive"}, "expect": {"equals": {"result.items.0.appointment_id": "A1002", "result.items.0.plan_end": "2025-12-31"}, "contains": ["set up self-pay"]}},
+    {"id": "no-271-means-resend", "tool": "basil_check", "args": {"appointments": "fixtures/appointments-2026-02-03.csv", "eligibility": ["fixtures/eligibility-2026-02-01.271"], "status": "no_response"}, "expect": {"equals": {"result.items.0.appointment_id": "A1006", "result.items.0.matched_by": null}, "contains": ["send (or resend) the eligibility inquiry"]}}
   ]
 }

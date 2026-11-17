@@ -18,7 +18,8 @@ export function compareRates(payerFees, { medicare = [], volumes = [], config = 
   const payers = new Map(); const codes = new Map(); const lines = [];
   for (const r of payerFees) {
     const payer = str(r.payer); const code = str(r.code).toUpperCase(); const allowed = num(r.allowed); if (!payer || !code || allowed === null) continue;
-    const k = key(code, r.modifier); const m = mc.get(k) ?? mc.get(key(code, '')) ?? null; const v = vol.get(k) ?? vol.get(key(code, '')) ?? 0;
+    const k = key(code, r.modifier); const pc = ['26', 'TC'].includes(str(r.modifier).toUpperCase()); // a component rate is never compared with the global amount
+    const m = mc.get(k) ?? (pc ? null : mc.get(key(code, ''))) ?? null; const v = vol.get(k) ?? vol.get(key(code, '')) ?? 0;
     const floor = floorFor(payer);
     const p = m ? pct(allowed, m) : null;
     const below = floor && p !== null && p < floor.p;
@@ -41,7 +42,7 @@ export function contractCalendar(contracts, { asOf, warnDays = 120 } = {}) {
     let status = 'active'; let next = 'Nothing due.';
     if (!end) { status = 'no_end_date'; next = 'No end date recorded: check the contract term and notice clause.'; }
     else if (toEnd < 0 && !auto) { status = 'expired'; next = `Ended ${end} and does not renew by itself: check whether you are still in network and at what rates.`; }
-    else if (left < 0 && auto) { status = 'renews_automatically'; next = `The notice deadline (${deadline}) has passed; it renews ${addDays(end, 1)} on the same terms. Mark the next deadline now.`; }
+    else if (left < 0 && auto) { status = 'renews_automatically'; next = toEnd < 0 ? `The term ended ${end} and renewed by itself on the same terms: record the new end date so the next notice deadline is tracked.` : `The notice deadline (${deadline}) has passed; it renews ${addDays(end, 1)} on the same terms. Mark the next deadline now.`; }
     else if (left < 0) { status = 'notice_passed'; next = `The notice deadline (${deadline}) has passed and it ends ${end}: talk to the payer now.`; }
     else if (left <= warnDays) { status = 'notice_window'; next = `${left} day(s) left to give notice or ask for new rates (deadline ${deadline}).`; }
     return { payer: str(c.payer), effective_date: isoDate(c.effective_date), end_date: end, auto_renew: auto, notice_days: notice, notice_deadline: deadline, days_to_deadline: left, escalator_percent: num(c.escalator_percent), timely_days: num(c.timely_days), appeal_days: num(c.appeal_days), status, next_step: next };

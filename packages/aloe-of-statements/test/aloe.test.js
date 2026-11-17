@@ -20,19 +20,19 @@ test('credits and zero balances are not statement accounts', () => {
   assert.equal(statementCycle([{ account: '1', balance: -10 }, { account: '2', balance: 0 }], { asOf: '2026-02-20' }).accounts, 0);
 });
 
-test('a learned hold word holds the workers comp account; the fact id is on the row', async () => {
+test('a learned hold word holds the auto accident (PIP) account; the fact id is on the row', async () => {
   const root = sandbox();
   const rt = new AgentRuntime(manifest, { root });
   let r = await rt.call('aloe_cycle', { ...F, action: 'first_statement' });
   assert.equal(r.result.items.length, 2);
-  const l = await rt.call('aloe_learn', { kind: 'hold_word', value: { word: 'workers comp', hold: 'insurance_pending', note: 'bill the carrier (fictional)' } });
+  const l = await rt.call('aloe_learn', { kind: 'hold_word', value: { word: 'PIP claim', hold: 'insurance_pending', note: 'bill the auto carrier first (fictional)' } });
   const ask = await rt.call('aloe_accept_learning', { id: l.result.fact.id, decision: 'accept' });
   rt.approvals.approve(ask.approval_id, 'Lee Billing Lead (fictional)');
   assert.equal((await rt.call('aloe_accept_learning', { id: l.result.fact.id, decision: 'accept' })).status, 'executed');
   r = await rt.call('aloe_cycle', { ...F, action: 'first_statement' });
   assert.equal(r.result.items.length, 1);
   const held = (await rt.call('aloe_cycle', { ...F, action: 'hold' })).result.items.find((i) => i.fact_id === l.result.fact.id);
-  assert.ok(held); assert.match(held.message, /bill the carrier/);
+  assert.ok(held); assert.match(held.message, /bill the auto carrier first/);
 });
 
 test('the final notice draft is kind, names the balance and leaves the due date open', async () => {

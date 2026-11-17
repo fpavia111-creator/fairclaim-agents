@@ -35,7 +35,7 @@ const STATEMENT_CONFIG_SCHEMA = {
 
 export const MEMORY_KINDS = Object.freeze({
   hold_word: {
-    description: 'A word in account flags or notes that should stop statements, e.g. {"word": "workers comp", "hold": "insurance_pending", "note": "Bill the employer\'s carrier, not the patient"}.',
+    description: 'A word in account flags or notes that should stop statements, e.g. {"word": "PIP claim", "hold": "insurance_pending", "note": "Bill the auto carrier first"}.',
     effect: 'holds statements for accounts whose flags or notes contain the word. It only adds holds; it never sends a statement the built-in holds would stop.',
     schema: { type: 'object', additionalProperties: false, required: ['word', 'hold'], properties: { word: { type: 'string', minLength: 3, maxLength: 60 }, hold: { type: 'string', enum: Object.keys(HOLDS) }, note: { type: 'string', maxLength: 300 } } },
   },

@@ -13,6 +13,10 @@
     {"id": "names-masked", "tool": "tarragon_check", "args": {"claims": "fixtures/lab-claims-2026-02.837"}, "expect": {"matches": ["\"patient_name\":\"PT-[0-9a-f]{8}\""], "not_contains": ["Halvorsen", "DMP000799001", "1995-04-25"]}},
     {"id": "report-in-portuguese", "tool": "tarragon_write_report", "args": {"claims": "fixtures/lab-claims-2026-02.837", "config": "fixtures/lab-config.json", "language": "pt", "out_dir": "remedy-out/eval-tarragon"}, "expect": {"status": "executed", "equals": {"result.lang": "pt"}}},
     {"id": "result-release-refused", "tool": "result_release", "args": {}, "expect": {"status": "blocked", "decision": "block"}},
-    {"id":"recall-empty-memory","tool":"tarragon_recall","args":{},"expect":{"status":"executed","contains":["memory is empty","lab_dx_rule"]}}
+    {"id": "recall-empty-memory", "tool": "tarragon_recall", "args": {}, "expect": {"status": "executed", "contains": ["memory is empty", "lab_dx_rule"]}},
+    {"id": "lipid-component-with-panel", "tool": "tarragon_check", "args": {"claims": "fixtures/lab-claims-2026-02.837", "config": "fixtures/lab-config.json", "check": "panel_component"}, "expect": {"status": "executed", "length": {"result.items": 1}, "equals": {"result.items.0.claim_id": "L8005"}, "contains": ["82465 is part of 80061 (Lipid panel), billed the same day."]}},
+    {"id": "same-day-repeat-needs-91", "tool": "tarragon_explain", "args": {"claims": "fixtures/lab-claims-2026-02.837", "config": "fixtures/lab-config.json", "ref": "L8006"}, "expect": {"contains": ["85025 is billed more than once on 2026-02-10", "add 91 when a test is repeated"]}},
+    {"id": "clia-missing-and-malformed", "tool": "tarragon_check", "args": {"claims": "fixtures/lab-claims-2026-02.837", "check": "clia"}, "expect": {"length": {"result.items": 2}, "contains": ["loop 2300 REF*X4", "CLIA \\\"2D12345\\\" is not two digits, D, and seven digits."]}},
+    {"id": "clean-claims-pass", "tool": "tarragon_check", "args": {"claims": "fixtures/lab-claims-2026-02.837", "history": "fixtures/lab-history.csv", "config": "fixtures/lab-config.json", "status": "ok"}, "expect": {"length": {"result.items": 2}, "equals": {"result.items.0.claim_id": "L8001", "result.items.1.claim_id": "L8008"}}}
   ]
 }

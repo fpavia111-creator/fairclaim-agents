@@ -1,6 +1,6 @@
 {
   "name": "verbena-of-rejects",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Verbena of Rejects: reads 999 and 277CA acknowledgements, ties each syntax error to the claim and segment in the 837 you sent, lists front-end rejections with what to fix, and flags claims that were never acknowledged.",
   "type": "module",
   "license": "MIT",
@@ -31,7 +31,7 @@
     "eval": "node bin/verbena-of-rejects.js eval"
   },
   "dependencies": {
-    "remedy-core": "^0.1.0"
+    "remedy-core": "^0.2.0"
   },
   "repository": {
     "type": "git",

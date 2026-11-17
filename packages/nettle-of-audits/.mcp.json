@@ -4,7 +4,7 @@
       "command": "npx",
       "args": [
         "-y",
-        "nettle-of-audits@0.1.0",
+        "nettle-of-audits@0.2.0",
         "mcp"
       ]
     }

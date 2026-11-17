@@ -4,7 +4,7 @@
       "command": "npx",
       "args": [
         "-y",
-        "ginger-of-edits@0.1.0",
+        "ginger-of-edits@0.2.0",
         "mcp"
       ]
     }

@@ -13,6 +13,9 @@
     {"id": "names-masked", "tool": "anise_check", "args": {"claims": "fixtures/dental-claims-2026-02.837", "history": "fixtures/dental-history.csv"}, "expect": {"matches": ["\"patient_name\":\"PT-[0-9a-f]{8}\""], "not_contains": ["Okafor", "SMI553200417", "1990-07-22"]}},
     {"id": "report-in-korean", "tool": "anise_write_report", "args": {"claims": "fixtures/dental-claims-2026-02.837", "history": "fixtures/dental-history.csv", "language": "ko", "out_dir": "remedy-out/eval-anise"}, "expect": {"status": "executed", "equals": {"result.lang": "ko"}}},
     {"id": "submit-refused", "tool": "claim_submit", "args": {}, "expect": {"status": "blocked", "decision": "block"}},
-    {"id":"recall-empty-memory","tool":"anise_recall","args":{},"expect":{"status":"executed","contains":["memory is empty","payer_frequency"]}}
+    {"id": "recall-empty-memory", "tool": "anise_recall", "args": {}, "expect": {"status": "executed", "contains": ["memory is empty", "payer_frequency"]}},
+    {"id": "open-dental-completed-only", "tool": "anise_check", "args": {"claims": "fixtures/exports/open-dental-procs-with-status.csv"}, "expect": {"status": "executed", "equals": {"result.claims": 1, "result.lines": 2, "result.items.0.code": "D2391", "result.items.1.code": "D0140"}}},
+    {"id": "extracted-tooth", "tool": "anise_check", "args": {"claims": "fixtures/dental-claims-2026-02.837", "history": "fixtures/dental-history.csv", "check": "extracted"}, "expect": {"equals": {"result.items.0.claim_id": "D5005", "result.items.0.code": "D2392"}, "contains": ["Tooth 16 was extracted on 2025-11-03"]}},
+    {"id": "crown-replacement-frequency", "tool": "anise_check", "args": {"claims": "fixtures/dental-claims-2026-02.837", "history": "fixtures/dental-history.csv", "check": "frequency"}, "expect": {"equals": {"result.items.0.claim_id": "D5001", "result.items.1.claim_id": "D5002"}, "contains": ["1 per 60 months per tooth; already D2750 2023-06-20", "1 per calendar year"]}}
   ]
 }

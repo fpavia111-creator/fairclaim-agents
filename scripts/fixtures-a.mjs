@@ -223,10 +223,12 @@ export default function (section, { W, buildX12, writer, readme }) {
       ...pt(7, 'P7', ['A6', '164', 'IL'], { claim: 'V1007', charge: '200', action: 'U' }),
     ].map((sg) => sg.map((x) => x)) };
     w('ack-277ca.x12', buildX12([ca], { date: '20260121', sender: 'CLEARINGHOUSE', receiver: 'PRACTICE' }));
+    w('ack-277ca-resent.x12', "ISA*00*          *00*          *ZZ*CLEARINGHOUSE  *ZZ*PRACTICE       *260123*1200*^*00501*000000002*0*T*:~GS*HN*CLEARINGHOUSE*PRACTICE*20260123*1200*2*X*005010X214~ST*277*0002*005010X214~BHT*0085*08*CA0123*20260123*0900*TH~HL*1**20*1~NM1*PR*2*EXAMPLE HEALTH PLAN*****PI*99901~TRN*1*CA0123~DTP*050*D8*20260123~DTP*009*D8*20260123~HL*2*1*21*1~NM1*41*2*EXAMPLE FAMILY MEDICINE*****46*SUB001~TRN*2*B0002~STC*A1:19:PR*20260123*WQ*80~HL*3*2*19*1~NM1*85*2*EXAMPLE FAMILY MEDICINE*****XX*2990000012~HL*4*3*PT~NM1*QC*1*CASTELLANO*ROWAN****MI*DMP000781234~TRN*2*V1003~STC*A2:20:PR*20260123*WQ*80~REF*1K*EHP2601230003~DTP*472*D8*20260119~SE*20*0002~GE*1*2~IEA*1*000000002~");
     readme('verbena-of-rejects', 'Verbena of Rejects', [
       '`batch-2026-01-20.837`: two 837P transactions. 0001 has five claims (one with a birth date in the future, one with a bad rendering NPI, one with no member id); 0002 has two claims and no billing NPI.',
       '`ack-999.x12`: transaction 0001 accepted with an element error on the second claim\'s DMG segment; 0002 rejected for the missing billing NPI (both its claims must be resent).',
       '`ack-277ca.x12`: the payer accepts V1001 and V1002, rejects V1003 (rendering NPI) and V1007 (member number); V1004 has no line.',
+      '`ack-277ca-resent.x12`: a later 277CA (2026-01-23) accepting V1003 after it was resent with the right rendering NPI, so it drops off the worklist.',
     ], ['P1', 'P2', 'P3', 'P5', 'P6', 'P7', 'P8']);
   });
   section('basil-of-eligibility', () => {
@@ -300,9 +302,11 @@ export default function (section, { W, buildX12, writer, readme }) {
       ...sub(5, 'P6'), ['HL', '6', '5', 'EV', '0'], ['TRN', '2', 'REQ-M9', '9EXAMPLE01'], ['UM', 'HS', 'I', '2'], ['HCR', 'A3', 'AUTH-309'], ['DTP', 'AAH', 'RD8', '20260201-20260301'], ['SV1', ['HC', '70553'], '', 'UN', '1'],
     ] };
     w('responses-278.x12', buildX12([r278], { date: '20260207', sender: 'SAMPLEMUTUAL', receiver: 'PRACTICE' }));
+    w('auth-log-status-words.csv', "Auth Number,Patient Name,Member ID,Payer,CPT Codes,Approved Units,Start Date,End Date,Status\nAUTH-301,Rowan Castellano,DMP000781234,Demo Medicaid Plan,\"97110, 97140\",12,2026-01-01,2026-03-31,Partial approval\nAUTH-302,Caspian Ndiaye,EHP100207733,Example Health Plan,97110,4,2026-01-15,2026-02-15,Under review\nAUTH-305,Ezra Lindqvist,EHP100200455,Example Health Plan,72148,1,2026-01-02,2026-01-31,Not approved\nAUTH-308,Wren Halvorsen,DMP000799001,Demo Medicaid Plan,97110,8,2026-01-10,2026-04-10,see notes\nAUTH-309,Delphine Achterberg,SMI553209981,Sample Mutual Insurance,70553,1,2026-02-01,2026-03-01,Requested\n");
     readme('mint-of-authorizations', 'Mint of Authorizations', [
       '`services-2026-02.csv`: eleven service lines (charge-export layout with a prior-auth column). Planted, as of 2026-02-10: covered therapy (M1, M2); an authorization running out and then over its units (M3, M4); an injection with no authorization (M5); an MRI after the authorization ended (M6); surgery pended by the payer (M7); a code not on the authorization (M8); a denied review (M9); a number on a claim that needs none and is not in the log (M10); a typo in the number (M11).',
       '`auth-log.csv`: the authorization log. `responses-278.x12`: the payer\'s 278 answers (one pended, one not certified).',
+      '`auth-log-status-words.csv`: the same log with everyday status words (Partial approval, Under review, Not approved, see notes, Requested).',
       '`auth-rules.json`: codes each payer requires authorization for. `auth-rules-typo.json` gives codes as a string.',
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8']);
   });

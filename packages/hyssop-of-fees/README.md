@@ -104,7 +104,7 @@ Named exports recognised by their column names:
 | CMS Physician Fee Schedule | PPRRVU relative value file | HCPCS, MOD, WORK RVU, MP RVU | no |
 | CMS Physician Fee Schedule | pfs.data.cms.gov indicators file (CSV) | hcpc, modifier, rvu_work, full_nfac_pe, rvu_mp, conv_fact | against pfs.data.cms.gov indicators2026-09-01.csv column list on 2026-11-16 |
 
-Where a layout says "checked", its column names were compared with the publisher's template or documentation on that date (the CMS price-transparency templates and the pfs.data.cms.gov column lists). The NCCI, MUE and RVU file headers and every practice-management and clearinghouse layout were written from knowledge of the export and were not checked. None was tested against a live account.
+Where a layout says "checked", its column names were compared with the publisher's template or documentation on that date (the CMS price-transparency templates, the pfs.data.cms.gov column lists and Open Dental's published procedure log fields). The NCCI, MUE and RVU file headers and the other practice-management and clearinghouse layouts were written from knowledge of the export and were not checked; where the vendor's public help says something about the export, the layout's note says what. None was tested against a live account.
 
 ### Medicare GPCI file (`gpci`)
 
@@ -122,7 +122,7 @@ Named exports recognised by their column names:
 | CMS Physician Fee Schedule | Geographic practice cost index file | Locality Name, PE GPCI, MP GPCI | no |
 | CMS Physician Fee Schedule | pfs.data.cms.gov localities file (CSV) | gpci_work, gpci_pe, gpci_mp, locality | against pfs.data.cms.gov localities2026-01-01-2026.csv column list on 2026-11-16 |
 
-Where a layout says "checked", its column names were compared with the publisher's template or documentation on that date (the CMS price-transparency templates and the pfs.data.cms.gov column lists). The NCCI, MUE and RVU file headers and every practice-management and clearinghouse layout were written from knowledge of the export and were not checked. None was tested against a live account.
+Where a layout says "checked", its column names were compared with the publisher's template or documentation on that date (the CMS price-transparency templates, the pfs.data.cms.gov column lists and Open Dental's published procedure log fields). The NCCI, MUE and RVU file headers and the other practice-management and clearinghouse layouts were written from knowledge of the export and were not checked; where the vendor's public help says something about the export, the layout's note says what. None was tested against a live account.
 
 ### Files from other countries
 

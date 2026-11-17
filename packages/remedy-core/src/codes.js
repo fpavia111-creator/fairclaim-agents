@@ -161,7 +161,7 @@ export const FREQUENCY = Object.freeze({ 1: 'Original claim', 7: 'Replacement (c
 
 /** Modifier facts the coding agents use (format and pairing only; no payment rules). */
 export const MODIFIERS = Object.freeze({
-  pairs_that_conflict: [['26', 'TC'], ['LT', 'RT'], ['50', 'LT'], ['50', 'RT'], ['QK', 'AA'], ['QX', 'QZ'], ['GA', 'GZ']],
+  pairs_that_conflict: [['26', 'TC'], ['LT', 'RT'], ['50', 'LT'], ['50', 'RT'], ['QK', 'AA'], ['QY', 'AA'], ['QK', 'QY'], ['QX', 'QZ'], ['AA', 'QZ'], ['GA', 'GZ'], ['25', '57'], ['NU', 'RR'], ['NU', 'UE'], ['RR', 'UE']],
   distinct: ['59', 'XE', 'XS', 'XP', 'XU'],
   anesthesia: { AA: 'Personally performed by an anesthesiologist', QK: 'Medical direction of 2 to 4 concurrent procedures', QX: 'CRNA service with medical direction', QY: 'Medical direction of one CRNA', QZ: 'CRNA service without medical direction', AD: 'Medical supervision of more than 4 concurrent procedures', G8: 'Monitored anesthesia care for deep complex procedure', G9: 'Monitored anesthesia care for patient with history of severe cardio-pulmonary condition', QS: 'Monitored anesthesia care service', '23': 'Unusual anesthesia' },
   telehealth: { '95': 'Synchronous telemedicine via real-time audio and video', '93': 'Synchronous telemedicine via audio only', GT: 'Via interactive audio and video (older code)', GQ: 'Via asynchronous telecommunications', FQ: 'Service furnished using audio-only communication', FR: 'Supervising practitioner present through real-time audio and video' },
@@ -172,7 +172,12 @@ export const MODIFIERS = Object.freeze({
 /** Category and text for one reason code, or the unknown category. Overrides win. */
 export function reasonInfo(code, { overrides = {}, remark = false } = {}) {
   const k = String(code ?? '').trim().toUpperCase().replace(/^0+(?=\d)/, '');
-  if (overrides[k]) return { code: k, known: true, source: 'config', ...overrides[k] };
+  if (overrides[k]) {
+    // A config may give just the category ("197": "documentation") or an object with category and text.
+    const o = typeof overrides[k] === 'string' ? { category: overrides[k] } : overrides[k];
+    const t = remark ? RARC[k] : CARC[k];
+    return { code: k, known: true, source: 'config', category: o.category || (t ? t.category : 'unknown'), text: o.text || (t ? t.text : `Reason code ${k} (category from your config)`) };
+  }
   const t = remark ? RARC[k] : CARC[k];
   return t ? { code: k, known: true, source: 'built_in', category: t.category, text: t.text } : { code: k, known: false, source: null, category: 'unknown', text: `Unknown ${remark ? 'remark' : 'reason'} code ${k}: look it up in the current ${remark ? 'RARC' : 'CARC'} list` };
 }

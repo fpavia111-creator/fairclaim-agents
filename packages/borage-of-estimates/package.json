@@ -1,6 +1,6 @@
 {
   "name": "borage-of-estimates",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Keeps good faith estimates for self-pay and uninsured patients on time: counts business days from scheduling or request to each estimate's due date, finds missing and late estimates, compares final bills with estimates per provider against the 400-dollar dispute threshold, and drafts an estimate for a person to send. Patient identifiers are masked before results reach the model.",
   "type": "module",
   "license": "MIT",
@@ -31,7 +31,7 @@
     "eval": "node bin/borage-of-estimates.js eval"
   },
   "dependencies": {
-    "remedy-core": "^0.1.0"
+    "remedy-core": "^0.2.0"
   },
   "repository": {
     "type": "git",

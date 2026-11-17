@@ -1,5 +1,5 @@
 // Tarragon logic: lab claim checks (CLIA, waived tests, panels, venipuncture, repeats, diagnoses, frequency). No I/O.
-import { str, addMonths, payerKey, icd10Norm } from 'remedy-core';
+import { str, addMonths, payerKey, icd10Norm, isoDate } from 'remedy-core';
 
 /** Organ and disease panels (CPT): when every component is done, the panel is billed. */
 export const PANELS = Object.freeze({
@@ -20,9 +20,9 @@ export function checkLabs(claims, history = [], { config = {}, facts = [] } = {}
   const waived = new Set((config.waived_codes || []).map((c) => c.toUpperCase()));
   const qwExempt = new Set((config.qw_exempt || []).map((c) => c.toUpperCase()));
   const cert = config.certificate || null;
-  const dxRules = [...(config.dx_rules || []).map((r) => ({ ...r, source: 'config' })), ...facts.map((f) => ({ ...f.value, source: 'memory', fact_id: f.id }))];
+  const dxRules = [...(config.dx_rules || []).map((r) => ({ ...r, source: 'config' })), ...facts.map((f) => ({ ...f.value, source: 'memory', fact_id: f.id }))].filter((r) => Array.isArray(r.dx_prefixes) && r.dx_prefixes.length);
   const who = (x) => str(x.member_id).toUpperCase() || str(x.patient_name).toLowerCase();
-  const past = history.map((h) => ({ who: who(h), code: str(h.code).toUpperCase(), date: h.date_of_service }));
+  const past = history.map((h) => ({ who: who(h), code: str(h.code).toUpperCase(), date: isoDate(h.date_of_service) })).filter((h) => h.date);
   const all = []; // every lab line in these claims, for same-day and frequency checks across claims
   for (const c of claims) for (const l of c.lines) all.push({ c, l, who: who(c), code: str(l.code).toUpperCase(), date: l.date_from || c.service_from });
   const out = [];

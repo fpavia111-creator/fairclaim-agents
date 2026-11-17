@@ -15,6 +15,8 @@ export function appealDays(config = {}, payer) {
   return p && Number.isFinite(p.appeal_days) ? p.appeal_days : Number.isFinite(config.appeal_days) ? config.appeal_days : null;
 }
 
+const PRIORITY_ORDER = { high: 0, review: 1, medium: 2, low: 3, deadline_passed: 4 };
+
 /**
  * Sort denials into a worklist.
  * Each item: one denying adjustment with its category, team, next step, appeal deadline and priority.
@@ -26,9 +28,11 @@ export function sortDenials(claims, { config = {}, facts = [], asOf } = {}) {
     const days = appealDays(config, d.payer);
     const appeal_by = days !== null && d.payment_date ? addDays(d.payment_date, days) : null;
     const days_left = appeal_by && today ? daysBetween(today, appeal_by) : null;
-    const priority = d.category === 'unknown' ? 'review' : (days_left !== null && days_left <= 14) || d.amount >= 500 ? 'high' : d.amount >= 100 ? 'medium' : 'low';
-    return { ...d, appeal_by, days_left, priority };
-  }).sort((a, b) => ({ high: 0, review: 1, medium: 2, low: 3 }[a.priority] - { high: 0, review: 1, medium: 2, low: 3 }[b.priority]) || b.amount - a.amount);
+    // A deadline that has passed is not urgent work: it goes last, with a note, so staff work the claims that can still be appealed.
+    const passed = days_left !== null && days_left < 0;
+    const priority = passed ? 'deadline_passed' : d.category === 'unknown' ? 'review' : (days_left !== null && days_left <= 14) || d.amount >= 500 ? 'high' : d.amount >= 100 ? 'medium' : 'low';
+    return { ...d, appeal_by, days_left, priority, ...(passed ? { next_step: `The appeal deadline (${appeal_by}) has passed: check the payer's rules for a late appeal with good cause, otherwise follow your write-off policy. ${d.next_step || ''}`.trim() } : {}) };
+  }).sort((a, b) => (PRIORITY_ORDER[a.priority] - PRIORITY_ORDER[b.priority]) || b.amount - a.amount);
   const by = (k) => { const m = {}; for (const i of items) { const key = i[k] || 'unknown'; m[key] = m[key] || { count: 0, amount: 0, claims: new Set() }; m[key].count++; m[key].amount = round2(m[key].amount + i.amount); m[key].claims.add(i.claim_id); } return Object.fromEntries(Object.entries(m).sort((a, b) => b[1].amount - a[1].amount).map(([key, v]) => [key, { count: v.count, amount: v.amount, claims: v.claims.size }])); };
   const codes = {}; for (const i of items) { const k = `${i.group}-${i.reason}`; codes[k] = codes[k] || { count: 0, amount: 0, category: i.category, text: i.text }; codes[k].count++; codes[k].amount = round2(codes[k].amount + i.amount); }
   const totalAdj = claims.reduce((s, c) => s + c.charge, 0);

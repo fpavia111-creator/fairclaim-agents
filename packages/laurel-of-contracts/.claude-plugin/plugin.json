@@ -1,6 +1,6 @@
 {
   "name": "laurel-of-contracts",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Compares what each payer pays per code against Medicare and each other, weighted by your volume, flags rates below your floor, keeps a calendar of contract end dates and notice deadlines (auto-renewal traps), and drafts a rate request for a person to send.",
   "author": {
     "name": "Kurt Francisco"

@@ -258,12 +258,12 @@ export default function (section, { W, buildX12, writer, readme }) {
       extra('A-2002', 'Bram Okonkwo', '75.00', { flags: 'Disputes charge for 01/12 visit' }),
       extra('A-2003', 'Noor Vasquez', '220.00', { sent: 1, last: '2026-01-18', paid: '2026-02-12' }),
       extra('A-2004', 'Tomas Reinholt', '130.00', { sent: 1, last: '2026-02-10' }),
-      extra('A-2005', 'Lena Ashworth', '90.00', { flags: 'Workers comp claim' }),
+      extra('A-2005', 'Lena Ashworth', '90.00', { flags: 'Auto accident - PIP claim open' }),
     ]));
     w('statement-config.json', { min_balance: 5, cycle_days: 28, recent_payment_days: 14, collections_days: 30, practice_name: W.PRACTICE.name, pay_by: 'Pay online at the patient portal (fictional), call 907-555-0100, or mail a check to 1 Example Plaza, Exampleton AK 99501.', assistance_text: 'If paying is hard, ask us about financial assistance and payment plans. (Fictional practice text.)' });
     w('statement-config-typo.json', { cycle_days: 2 });
     readme('aloe-of-statements', 'Aloe of Statements', [
-      '`patient-balances-2026-02-20.csv`: thirteen accounts (US dates; guarantor names are fictional). Planted, for a run on 2026-02-20: a first statement (P1), a second (P2), a final notice (P3), collections review after a final notice 49 days ago (P4); holds for insurance still pending (P5), a payment plan (P6), returned mail (P7), a 3-dollar balance (P8), an estate (A-2001), a dispute (A-2002), a payment 8 days ago (A-2003), a statement 10 days ago (A-2004); and a workers compensation flag that only a learned hold word catches (A-2005).',
+      '`patient-balances-2026-02-20.csv`: thirteen accounts (US dates; guarantor names are fictional). Planted, for a run on 2026-02-20: a first statement (P1), a second (P2), a final notice (P3), collections review after a final notice 49 days ago (P4); holds for insurance still pending (P5), a payment plan (P6), returned mail (P7), a 3-dollar balance (P8), an estate (A-2001), a dispute (A-2002), a payment 8 days ago (A-2003), a statement 10 days ago (A-2004); and an auto accident (PIP) flag that only a learned hold word catches (A-2005). Workers compensation is a built-in hold.',
       '`statement-config.json`: run rules, how to pay and the assistance sentence. `statement-config-typo.json` sets a 2-day cycle (refused).',
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8']);
   });

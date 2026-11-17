@@ -4,7 +4,7 @@
       "command": "npx",
       "args": [
         "-y",
-        "lavender-of-credentialing@0.1.0",
+        "lavender-of-credentialing@0.2.0",
         "mcp"
       ]
     }

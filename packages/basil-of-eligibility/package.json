@@ -1,6 +1,6 @@
 {
   "name": "basil-of-eligibility",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Basil of Eligibility: reads 271 eligibility responses against the appointment list and flags visits with inactive coverage, member not found, plan ending before the visit, another payer primary or no response, with copay and deductible to collect.",
   "type": "module",
   "license": "MIT",
@@ -31,7 +31,7 @@
     "eval": "node bin/basil-of-eligibility.js eval"
   },
   "dependencies": {
-    "remedy-core": "^0.1.0"
+    "remedy-core": "^0.2.0"
   },
   "repository": {
     "type": "git",

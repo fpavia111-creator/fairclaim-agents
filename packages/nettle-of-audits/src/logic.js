@@ -7,7 +7,8 @@ const codeKey = (c) => str(c).toUpperCase().replace(/\s+/g, '');
 const dxList = (v) => (Array.isArray(v) ? v : str(v).split(/[\s,;|]+/)).map((d) => str(d).toUpperCase().replace(/\./g, '')).filter(Boolean);
 const sameSet = (a, b) => a.length === b.length && [...a].sort().join(' ') === [...b].sort().join(' ');
 /** E/M family (first four digits) and level (last digit), or null when the code is not an office-style E/M. */
-export const emLevel = (code) => (isEm(code) ? { family: code.slice(0, 4), level: Number(code.slice(4)) } : null);
+// Critical care (99291 first hour, 99292 each extra half hour) is time-based, not a level: a change between them is a wrong code.
+export const emLevel = (code) => (isEm(code) && !/^9929[12]$/.test(code) ? { family: code.slice(0, 4), level: Number(code.slice(4)) } : null);
 
 /**
  * A reproducible sample: every line gets a score from sha256(seed, claim, line, code) and the lowest

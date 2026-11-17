@@ -28,15 +28,20 @@ export const EXPORTS = Object.freeze(Object.fromEntries([
   e('cms_hpt_csv_tall', 'CMS hospital price transparency', 'Machine-readable file, CSV tall template v2.x', ['description', 'setting', 'standard_charge|gross', 'standard_charge|discounted_cash', 'payer_name'], { basis: 'documented', source: 'github.com/CMSgov/hospital-price-transparency V2.0.0_Tall_CSV_Format_Template.csv', checked: '2026-11-16' }),
   e('cms_hpt_csv_tall_v3', 'CMS hospital price transparency', 'Machine-readable file, CSV tall template v3.0', ['description', 'setting', 'standard_charge|gross', 'median_amount', '10th_percentile'], { basis: 'documented', source: 'github.com/CMSgov/hospital-price-transparency V3.0.0_Tall_CSV_Format_Template.csv and UPDATE_GUIDE.md', checked: '2026-11-16' }),
   // Practice-management and clearinghouse exports (column names as recalled)
-  e('tebra_charges', 'Tebra (Kareo)', 'Charges detail report (CSV)', ['Encounter ID', 'Procedure Code', 'Service Date', 'Primary Insurance']),
+  e('tebra_charges', 'Tebra (Kareo)', 'Charges detail report (CSV)', ['Encounter ID', 'Procedure Code', 'Service Date', 'Primary Insurance'], { note: 'Tebra help (Encounters Detail Report, read 2026-11-17) confirms Encounter ID as the first column and lists service date, procedure, modifiers and diagnoses, but publishes no exact header text' }),
   e('advancedmd_charges', 'AdvancedMD', 'Charge detail report (CSV)', ['Visit ID', 'Proc Code', 'Date of Service', 'Primary Carrier']),
   e('athena_claims', 'athenaOne', 'Claim worklist export (CSV)', ['Claim ID', 'Primary Payer', 'Claim Status', 'Outstanding']),
   e('ecw_claims', 'eClinicalWorks', 'Claim status report (Excel)', ['Claim No', 'Insurance Name', 'Claim Status', 'Balance']),
-  e('availity_remit', 'Availity', 'Remittance viewer export (CSV)', ['Patient Control Number', 'Payer Claim Control Number', 'Check/EFT Number', 'Paid Amount']),
+  e('availity_remit', 'Availity', 'Remittance viewer export (CSV)', ['Patient Control Number', 'Payer Claim Control Number', 'Check/EFT Number', 'Paid Amount'], { note: 'a payer tip sheet for the Availity Remittance Viewer (Nov 2020, read 2026-11-17) describes PDF download only; if your account has no CSV, use the 835 file instead' }),
   e('waystar_remit', 'Waystar', 'Remit detail export (CSV)', ['Patient Account', 'Payer ICN', 'Check #', 'Paid Amt']),
   e('office_ally_remit', 'Office Ally', 'ERA detail export (CSV)', ['Claim #', 'Check No', 'Paid', 'Adj Code']),
-  e('open_dental_procedures', 'Open Dental', 'User query on the procedure log (CSV; database column names)', ['ProcDate', 'ProcCode', 'ToothNum', 'Surf', 'ProcFee']),
+  e('open_dental_procedures', 'Open Dental', 'User query on the procedure log (CSV; database column names)', ['ProcDate', 'ProcCode', 'ToothNum', 'Surf', 'ProcFee'], { basis: 'documented', source: 'opendental.com/site/apiprocedurelogs.html: procedurelog.ProcDate, ProcFee, ToothNum, Surf, ProcStatus, CodeNum and procedurecode.ProcCode (the full schema pages need a support login)', checked: '2026-11-17', note: 'when the query includes ProcStatus, only completed procedures (C, or 2 in the database) are read; treatment-planned, existing and deleted ones are skipped', rows: completedOnly('ProcStatus') }),
 ].map((x) => [x.id, x])));
+
+/** Row hook for Open Dental's procedure log: keep completed procedures only (status C, stored as 2), when the status column is there. */
+export function completedOnly(column) {
+  return (rows) => (rows.some((r) => column in r) ? rows.filter((r) => !(column in r) || /^(2|c|complete|completed)$/i.test(String(r[column] ?? '').trim())) : rows);
+}
 
 /** A profile for an agent: a catalogue entry plus the agent's column map. */
 export function exportProfile(key, map, extra = {}) {
@@ -45,7 +50,7 @@ export function exportProfile(key, map, extra = {}) {
   return { ...base, map, ...extra };
 }
 
-export const EXPORTS_BASIS_NOTE = 'Where a layout says "checked", its column names were compared with the publisher\'s template or documentation on that date (the CMS price-transparency templates and the pfs.data.cms.gov column lists). The NCCI, MUE and RVU file headers and every practice-management and clearinghouse layout were written from knowledge of the export and were not checked. None was tested against a live account.';
+export const EXPORTS_BASIS_NOTE = 'Where a layout says "checked", its column names were compared with the publisher\'s template or documentation on that date (the CMS price-transparency templates, the pfs.data.cms.gov column lists and Open Dental\'s published procedure log fields). The NCCI, MUE and RVU file headers and the other practice-management and clearinghouse layouts were written from knowledge of the export and were not checked; where the vendor\'s public help says something about the export, the layout\'s note says what. None was tested against a live account.';
 
 /**
  * Row hook for grouped reports (QuickBooks style): a row with only its first

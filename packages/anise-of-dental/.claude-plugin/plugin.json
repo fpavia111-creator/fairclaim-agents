@@ -1,6 +1,6 @@
 {
   "name": "anise-of-dental",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Dental claims that go out right: checks tooth numbers, surfaces against the restoration code, anterior and posterior codes, quadrants for scaling and root planing, frequency limits against the patient's history, extracted teeth, crown replacement windows and the attachments payers ask for, from an 837D or a practice export.",
   "author": {
     "name": "Kurt Francisco"

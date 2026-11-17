@@ -1,6 +1,6 @@
 {
   "name": "fennel-of-remits",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Fennel of Remits: matches 835 remittances to bank deposits by trace number, then amount and date, explains provider-level adjustments (recoveries, interest, levies), and drafts the payer inquiry for money without a remittance or a remittance without money.",
   "type": "module",
   "license": "MIT",
@@ -31,7 +31,7 @@
     "eval": "node bin/fennel-of-remits.js eval"
   },
   "dependencies": {
-    "remedy-core": "^0.1.0"
+    "remedy-core": "^0.2.0"
   },
   "repository": {
     "type": "git",

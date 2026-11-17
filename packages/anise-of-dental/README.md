@@ -124,9 +124,9 @@ Named exports recognised by their column names:
 
 | System | Export | Recognised by | Layout checked against vendor docs |
 |---|---|---|---|
-| Open Dental | User query on the procedure log (CSV; database column names) | ProcDate, ProcCode, ToothNum, Surf, ProcFee | no |
+| Open Dental | User query on the procedure log (CSV; database column names) | ProcDate, ProcCode, ToothNum, Surf, ProcFee | against opendental.com/site/apiprocedurelogs.html: procedurelog.ProcDate, ProcFee, ToothNum, Surf, ProcStatus, CodeNum and procedurecode.ProcCode (the full schema pages need a support login) on 2026-11-17 |
 
-Where a layout says "checked", its column names were compared with the publisher's template or documentation on that date (the CMS price-transparency templates and the pfs.data.cms.gov column lists). The NCCI, MUE and RVU file headers and every practice-management and clearinghouse layout were written from knowledge of the export and were not checked. None was tested against a live account.
+Where a layout says "checked", its column names were compared with the publisher's template or documentation on that date (the CMS price-transparency templates, the pfs.data.cms.gov column lists and Open Dental's published procedure log fields). The NCCI, MUE and RVU file headers and the other practice-management and clearinghouse layouts were written from knowledge of the export and were not checked; where the vendor's public help says something about the export, the layout's note says what. None was tested against a live account.
 
 ### Procedure history (`history`)
 

@@ -43,7 +43,7 @@ export function reviewPlans(plans, payments, { config = {}, facts = [], asOf } =
     else it.message = 'Current.';
     if (minPay !== null && monthly < minPay && remaining > 0) it.policy.push(`Monthly ${monthly} is below your minimum ${minPay}.`);
     const mm = maxMonths(orig, config.tiers || []);
-    if (mm && term && term > mm) it.policy.push(`Term of ${term} months is over your ${mm}-month limit for this balance.`);
+    if (mm && term && term > mm && remaining > 0) it.policy.push(`Term of ${term} months is over your ${mm}-month limit for this balance.`);
     return it;
   });
   const order = { default_review: 0, missed_payment: 1, current: 2, ahead: 3, paid_off: 4 };
@@ -63,6 +63,14 @@ export function planOptions(balance, { config = {} } = {}) {
     if (monthly < min) break;
     opts.push({ months, monthly, last_payment: round2(balance - monthly * (months - 1)) });
   }
-  if (!opts.length) opts.push({ months: Math.max(1, Math.ceil(balance / min)), monthly: Math.min(balance, min), last_payment: round2(balance - min * (Math.max(1, Math.ceil(balance / min)) - 1)) });
+  // The policy's own longest term, when it is not one of the standard lengths above.
+  if (!opts.some((o) => o.months === mm) && mm > (opts.at(-1)?.months ?? 0) && mm > 1) { const monthly = Math.ceil((balance / mm) * 100) / 100; if (monthly >= min) opts.push({ months: mm, monthly, last_payment: round2(balance - monthly * (mm - 1)) }); }
+  if (!opts.length) {
+    // Never longer than the policy allows: a short limit raises the monthly amount instead.
+    const atMin = Math.max(1, Math.ceil(balance / min)); const months = Math.max(1, Math.min(mm, atMin));
+    // The minimum payment each month with a smaller last one; a shorter policy limit raises the monthly amount instead.
+    const monthly = months === atMin ? Math.min(balance, min) : Math.ceil((balance / months) * 100) / 100;
+    opts.push({ months, monthly, last_payment: round2(balance - monthly * (months - 1)) });
+  }
   return { balance, min_payment: min, max_months: mm, options: opts };
 }

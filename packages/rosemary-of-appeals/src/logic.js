@@ -32,7 +32,7 @@ export function findCitations(docs, { codes = [], category = 'unknown', extraWor
       const t = raw.trim(); if (t.length < 12) return;
       const low = t.toLowerCase(); const hits = [];
       let score = 0;
-      for (const c of codes) if (c && new RegExp(`\\b${c}\\b`, 'i').test(t)) { score += 5; hits.push(c); }
+      for (const c of codes) if (c && new RegExp(`(^|[^A-Za-z0-9])${String(c).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![A-Za-z0-9])`, 'i').test(t)) { score += 5; hits.push(c); }
       for (const w of words) if (low.includes(w)) { score += 1; hits.push(w); }
       if (!score) return;
       const flagged = injectionSignals(t);
@@ -62,8 +62,9 @@ export function trackAppeals(rows, { config = {}, asOf } = {}) {
     const over = due && asOf ? daysBetween(due, asOf) : null;
     let next = 'Wait for the decision.'; let state = 'waiting';
     if (!filed) { state = 'not_filed'; next = 'File the appeal; no filed date is recorded.'; }
-    else if (/won|paid|overturn|approved/.test(st)) { state = 'won'; next = 'Check the payment posts at the right amount.'; }
-    else if (/lost|upheld|denied/.test(st)) { state = level < maxLevel ? 'next_level' : 'exhausted'; next = level < maxLevel ? `Decide whether to file level ${level + 1}; check the deadline in the decision letter.` : 'All payer levels used: consider external review where the plan allows it, or write off by policy.'; }
+    // Whole words, so "unpaid" is not a win and "not denied" is not a loss.
+    else if (/\b(won|paid|overturn\w*|approved|reversed)\b/.test(st) && !/\b(not|un)\s?(paid|approved)\b|\bunpaid\b/.test(st)) { state = 'won'; next = 'Check the payment posts at the right amount.'; }
+    else if (/\b(lost|upheld|denied|affirmed)\b/.test(st) && !/\bnot (denied|upheld)\b/.test(st)) { state = level < maxLevel ? 'next_level' : 'exhausted'; next = level < maxLevel ? `Decide whether to file level ${level + 1}; check the deadline in the decision letter.` : 'All payer levels used: consider external review where the plan allows it, or write off by policy.'; }
     else if (over !== null && over > 0) { state = 'overdue'; next = `No decision ${over} day(s) after the payer's ${respond(r.payer)}-day window: call the payer and record the reference.`; }
     return { claim_id: str(r.claim_id), payer: str(r.payer) || null, patient_name: str(r.patient_name) || null, level, filed, response_due: due, days_overdue: over !== null && over > 0 ? over : 0, amount: Number(r.amount) || 0, status: state, next_step: next };
   });

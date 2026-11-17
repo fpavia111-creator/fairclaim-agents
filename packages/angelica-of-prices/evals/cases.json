@@ -14,6 +14,9 @@
     {"id": "report-in-spanish", "tool": "angelica_write_report", "args": {"file": "fixtures/standard-charges-v3.csv", "chargemaster": "fixtures/chargemaster.csv", "as_of": "2026-03-01", "language": "es", "out_dir": "remedy-out/eval-angelica"}, "expect": {"status": "executed", "equals": {"result.lang": "es"}}},
     {"id": "allowed-table", "tool": "angelica_write_allowed", "args": {"remits": "fixtures/era-2025-2026.835", "posting_date": "2026-04-01", "config": "fixtures/price-config.json", "out_dir": "remedy-out/eval-angelica"}, "expect": {"status": "executed", "contains": ["angelica-allowed-amounts.csv"]}},
     {"id": "publish-refused", "tool": "mrf_publish", "args": {}, "expect": {"status": "blocked", "decision": "block"}},
-    {"id":"recall-empty-memory","tool":"angelica_recall","args":{},"expect":{"status":"executed","contains":["memory is empty","required_code"]}}
+    {"id": "recall-empty-memory", "tool": "angelica_recall", "args": {}, "expect": {"status": "executed", "contains": ["memory is empty", "required_code"]}},
+    {"id": "required-shoppable-code-missing", "tool": "angelica_check_file", "args": {"file": "fixtures/standard-charges-v3.csv", "config": "fixtures/price-config.json", "as_of": "2026-03-01", "rule": "required_code"}, "expect": {"status": "executed", "length": {"result.items": 1}, "contains": ["74177 is on your required list", "but is not in the file."]}},
+    {"id": "hospital-npi-check-digit", "tool": "angelica_check_file", "args": {"file": "fixtures/standard-charges-v3.csv", "as_of": "2026-03-01", "rule": "type_2_npi"}, "expect": {"equals": {"result.items.0.row": 2, "result.items.0.severity": "error"}, "contains": ["NPI 2990000013 fails the check digit."]}},
+    {"id": "warnings-only", "tool": "angelica_check_file", "args": {"file": "fixtures/standard-charges-v3.csv", "config": "fixtures/price-config.json", "as_of": "2026-03-01", "severity": "warning"}, "expect": {"length": {"result.items": 2}, "contains": ["Same item, setting, payer and plan as row 4.", "Cash price 12.00 is above the gross charge 10.00."], "not_contains": ["\"severity\":\"error\""]}}
   ]
 }

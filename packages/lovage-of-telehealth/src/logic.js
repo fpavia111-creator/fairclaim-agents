@@ -13,6 +13,8 @@ export const DEFAULT_RULE = Object.freeze({ pos: ['02', '10'], modifier: null, a
 
 const yes = (v) => /^(y|yes|true|1|on file|signed|verbal|written|documented)$/i.test(str(v));
 const isHome = (v) => /home|residence|house/i.test(str(v));
+// A modality column says "In person" for office visits too: only a remote modality marks a line as telehealth.
+const isRemote = (v) => /audio|video|phone|tele|virtual|remote/i.test(str(v)) && !/in.?person|office/i.test(str(v));
 const isAudio = (v) => /audio|phone|telephone|voice/i.test(str(v)) && !/video/i.test(str(v));
 
 /**
@@ -26,12 +28,12 @@ export function checkTelehealth(rows, { config = {}, facts = [] } = {}) {
     for (const f of learned) { if (f.value.modifier) base.modifier = f.value.modifier; if (f.value.audio_modifier) base.audio_modifier = f.value.audio_modifier; if (f.value.audio_allowed === false) base.audio_allowed = false; if (f.value.pos) base.pos = base.pos.filter((p) => f.value.pos.includes(p)).length ? base.pos.filter((p) => f.value.pos.includes(p)) : f.value.pos; base.fact_id = f.id; }
     return base;
   };
-  const lic = new Map((config.providers || []).map((p) => [str(p.name).toLowerCase(), p.states.map((s) => s.toUpperCase())]));
+  const lic = new Map((config.providers || []).filter((p) => Array.isArray(p.states)).map((p) => [str(p.name).toLowerCase(), p.states.map((s) => str(s).toUpperCase())]));
   const lines = rows.map((r, i) => ({ i, claim_id: str(r.claim_id), patient_name: str(r.patient_name) || null, who: str(r.member_id).toUpperCase() || str(r.patient_name).toLowerCase(), payer: str(r.payer) || null, provider: str(r.provider) || null, date: isoDate(r.date_of_service), code: str(r.code).toUpperCase(), mods: modifierList(r.modifiers), pos: str(r.pos).padStart(2, '0').slice(-2), state: str(r.patient_state).toUpperCase() || null, location: str(r.patient_location) || null, modality: str(r.modality) || null, consent: r.consent }));
   const sameDay = new Map(); for (const y of lines) { const k = `${y.who}|${y.date}|${y.provider}`; if (!sameDay.has(k)) sameDay.set(k, []); sameDay.get(k).push(y); }
   const out = [];
   for (const x of lines) {
-    const tele = ['02', '10'].includes(x.pos) || x.mods.some((m) => TELE_MODS.includes(m)) || VIDEO_CODES.includes(x.code) || AUDIO_CODES.includes(x.code) || CONSENT_CODES.includes(x.code) || !!x.modality || !!DELETED[x.code] || x.code === 'Q3014';
+    const tele = ['02', '10'].includes(x.pos) || x.mods.some((m) => TELE_MODS.includes(m)) || VIDEO_CODES.includes(x.code) || AUDIO_CODES.includes(x.code) || CONSENT_CODES.includes(x.code) || isRemote(x.modality) || !!DELETED[x.code] || x.code === 'Q3014';
     if (!tele) continue;
     const issues = []; const add = (check, severity, message) => issues.push({ check, severity, message });
     const rule = ruleFor(x.payer);

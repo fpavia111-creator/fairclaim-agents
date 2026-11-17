@@ -1,6 +1,6 @@
 {
   "name": "thyme-of-underpayments",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Thyme of Underpayments: compares what payers allowed on each 835 line with your contract (fee schedule, percent of Medicare or percent of charge, with modifier and multiple-procedure rules) and drafts the reprocessing request for a person to send.",
   "type": "module",
   "license": "MIT",
@@ -31,7 +31,7 @@
     "eval": "node bin/thyme-of-underpayments.js eval"
   },
   "dependencies": {
-    "remedy-core": "^0.1.0"
+    "remedy-core": "^0.2.0"
   },
   "repository": {
     "type": "git",

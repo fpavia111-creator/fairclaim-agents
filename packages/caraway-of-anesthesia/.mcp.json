@@ -4,7 +4,7 @@
       "command": "npx",
       "args": [
         "-y",
-        "caraway-of-anesthesia@0.1.0",
+        "caraway-of-anesthesia@0.2.0",
         "mcp"
       ]
     }

@@ -1,6 +1,6 @@
 {
   "name": "aloe-of-statements",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Plans each patient statement cycle: who gets a first, second or final statement, who is held (insurance still pending, payment plan, dispute, estate or bankruptcy, bad address, small balance, recent payment) and who reaches collections review, and drafts a plain-language statement for a person to send. Patient identifiers are masked before results reach the model.",
   "author": {
     "name": "Kurt Francisco"

@@ -1,6 +1,6 @@
 {
   "name": "savory-of-plans",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Tracks patient payment plans against your policy: installments due after a grace period, missed payments and plans to review for default, plans paid off or ahead, monthly amounts and terms outside your policy, plan options for a new balance, and a draft plan agreement for a person to send. Patient identifiers are masked before results reach the model.",
   "author": {
     "name": "Kurt Francisco"

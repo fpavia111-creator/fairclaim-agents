@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.2.0 (unreleased, Remedy ver 2)
+
+Fixed:
+
+- Modifier conflicts: the list missed AA with QY, QK with QY, AA with QZ, 25 with 57, and NU, RR and UE together; all are now conflicts (Dill and Sage).
+- Reason code overrides: a config override given as just a category ("197": "documentation") was ignored and left the category blank; both the short and the object form now work.
+- Open Dental layout: a procedure-log query that includes ProcStatus also lists treatment-planned, existing and deleted procedures; only completed ones are read now (Anise).
+
+Added:
+
+- Contract test: every listed value of every choice argument is run against each tool's eval case and must not end in an internal error.
+- Open Dental procedure-log layout checked against Open Dental's published field names; Tebra and Availity layouts now carry a note on what their public help says.
+- Tests: 131.
+
 ## 0.1.0 (unreleased, Remedy ver 1, 2026-11-17)
 
 First version. The runtime (policy, approvals, audit log, memory, MCP server, readers for

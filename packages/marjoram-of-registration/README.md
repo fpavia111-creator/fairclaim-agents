@@ -31,7 +31,7 @@ Marjoram of Registration demo (fictional practice, payers and patients) in <demo
     error    same_plan_twice      MRN-319ed1f9  Secondary is Sample Mutual Insurance with the same id.
     error    dob_future           MRN-34af8fc0  Birth date [DOB] is in the future.
     warning  possible_duplicate   MRN-e4dbf1d0  Chart MRN-dddb93f1 has the same birth date and a name 98% alike.
-    warning  zip_format           MRN-43239f47  ZIP "995…" is not 5 or 9 digits.
+    warning  zip_format           MRN-43239f47  ZIP "995…" is not 5 or 9 digits: it has probably lost its leading zero (spreadsheets drop it).
     warning  minor_no_guarantor   MRN-20cc09c8  Patient is 13; no guarantor.
     warning  subscriber_mismatch  MRN-3c37fcb3  Relationship is self but the subscriber is a different person.
     warning  not_verified         MRN-3c37fcb3  Insurance last verified 2024-06-01, 624 days ago.

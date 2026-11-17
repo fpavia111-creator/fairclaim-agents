@@ -1,6 +1,6 @@
 {
   "name": "marjoram-of-registration",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Checks patient registration and insurance records before the visit: member id shape per payer and Medicare MBI format, missing or impossible birth dates, subscriber and guarantor gaps, ended coverage, the same plan entered twice, and likely duplicate charts. Patient identifiers are masked before results reach the model.",
   "type": "module",
   "license": "MIT",
@@ -31,7 +31,7 @@
     "eval": "node bin/marjoram-of-registration.js eval"
   },
   "dependencies": {
-    "remedy-core": "^0.1.0"
+    "remedy-core": "^0.2.0"
   },
   "repository": {
     "type": "git",

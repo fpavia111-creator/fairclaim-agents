@@ -4,7 +4,7 @@
       "command": "npx",
       "args": [
         "-y",
-        "tarragon-of-labs@0.1.0",
+        "tarragon-of-labs@0.2.0",
         "mcp"
       ]
     }

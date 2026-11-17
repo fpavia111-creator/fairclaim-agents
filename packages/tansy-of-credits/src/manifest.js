@@ -71,7 +71,7 @@ const refused = refusedTools([
 
 export const manifest = defineManifest({
   name: 'tansy-of-credits', version: pkg.version,
-  description: 'Works the credit balance report: tells patient credits from payer overpayments, counts days against each payer\'s refund deadline (60 days from identification for Medicare by default), finds credits that should go to an open balance first or are nearing unclaimed-property age, and drafts each refund for a person to approve. Patient identifiers are masked before results reach the model.',
+  description: 'Works the credit balance report: tells patient credits from payer overpayments, counts days against each payer\'s refund deadline (60 days from identification for Medicare and Medicaid by default), finds credits that should go to an open balance first or are nearing unclaimed-property age, and drafts each refund for a person to approve. Patient identifiers are masked before results reach the model.',
   model: MODEL_PIN,
   caps: { maxSteps: 60, maxSpendUsd: 0 },
   configSchemas: { credit_config: CREDIT_CONFIG_SCHEMA },

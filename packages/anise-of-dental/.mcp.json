@@ -4,7 +4,7 @@
       "command": "npx",
       "args": [
         "-y",
-        "anise-of-dental@0.1.0",
+        "anise-of-dental@0.2.0",
         "mcp"
       ]
     }

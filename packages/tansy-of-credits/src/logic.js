@@ -1,8 +1,10 @@
 // Tansy logic: credit balances, refund deadlines and what to do with each credit. No I/O.
 import { str, num, round2, isoDate, addDays, daysBetween, payerKey } from 'remedy-core';
 
-const PATIENT = /patient|self|guarantor|copay|co-pay|cash|card|credit card/i;
-const MEDICARE = /medicare|cms\b|\bmac\b/i;
+// Whole words: "Self-funded plan" and "BlueCard" are payers, not the patient.
+const PATIENT = /^(self|patient|guarantor)$|\b(patient|self.?pay|guarantor|co-?pay(ment)?|cash|check from patient|credit card|debit card|card payment)\b/i;
+// The 60-day report-and-return rule (Social Security Act section 1128J(d)) covers Medicare and Medicaid overpayments.
+const MEDICARE = /medicare|medicaid|cms\b|\bmac\b/i;
 
 /** Refund deadline days for a payer: the shortest of config, memory and the Medicare default. */
 export function refundRule(payer, { config = {}, facts = [] } = {}) {
@@ -38,7 +40,7 @@ export function reviewCredits(rows, { config = {}, facts = [], asOf } = {}) {
       const rule = refundRule(it.payer || from, { config, facts });
       if (rule && identified) { it.refund_deadline = addDays(identified, rule.days); it.days_left = asOf ? daysBetween(asOf, it.refund_deadline) : null; it.rule_source = rule.source; if (rule.fact_id) it.fact_id = rule.fact_id; }
     }
-    if (!patient && it.days_left !== null && it.days_left < 0) Object.assign(it, { action: 'refund_overdue', message: `Refund deadline ${it.refund_deadline} passed ${-it.days_left} day(s) ago (${it.rule_source === 'medicare_rule' ? '60 days from identification for Medicare' : `${it.rule_source} rule`}). Refund now and record why it was late.` });
+    if (!patient && it.days_left !== null && it.days_left < 0) Object.assign(it, { action: 'refund_overdue', message: `Refund deadline ${it.refund_deadline} passed ${-it.days_left} day(s) ago (${it.rule_source === 'medicare_rule' ? '60 days from identification for Medicare and Medicaid' : `${it.rule_source} rule`}). Refund now and record why it was late.` });
     else if (!patient && it.days_left !== null && it.days_left <= warn) Object.assign(it, { action: 'refund_now', message: `${it.days_left} day(s) left to refund (deadline ${it.refund_deadline}).` });
     else if (!patient && it.refund_deadline === null) Object.assign(it, { action: 'refund', message: 'No refund deadline set for this payer: refund promptly or set refund_days in the config.' });
     else if (patient && debit > 0) Object.assign(it, { action: 'apply_to_balance', message: `The account owes ${it.open_debit} elsewhere: apply the credit there first if your policy and the patient allow, then refund what is left.` });

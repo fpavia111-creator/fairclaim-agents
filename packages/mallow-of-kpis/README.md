@@ -134,9 +134,9 @@ Named exports recognised by their column names:
 | System | Export | Recognised by | Layout checked against vendor docs |
 |---|---|---|---|
 | athenaOne | Claim worklist export (CSV) | Claim ID, Primary Payer, Claim Status, Outstanding | no |
-| Tebra (Kareo) | Charges detail report (CSV) | Encounter ID, Procedure Code, Service Date, Primary Insurance | no |
+| Tebra (Kareo) | Charges detail report (CSV) | Encounter ID, Procedure Code, Service Date, Primary Insurance | no; Tebra help (Encounters Detail Report, read 2026-11-17) confirms Encounter ID as the first column and lists service date, procedure, modifiers and diagnoses, but publishes no exact header text |
 
-Where a layout says "checked", its column names were compared with the publisher's template or documentation on that date (the CMS price-transparency templates and the pfs.data.cms.gov column lists). The NCCI, MUE and RVU file headers and every practice-management and clearinghouse layout were written from knowledge of the export and were not checked. None was tested against a live account.
+Where a layout says "checked", its column names were compared with the publisher's template or documentation on that date (the CMS price-transparency templates, the pfs.data.cms.gov column lists and Open Dental's published procedure log fields). The NCCI, MUE and RVU file headers and the other practice-management and clearinghouse layouts were written from knowledge of the export and were not checked; where the vendor's public help says something about the export, the layout's note says what. None was tested against a live account.
 
 ### Remittances (835 or ERA export) (`remits`)
 
@@ -174,10 +174,10 @@ Named exports recognised by their column names:
 
 | System | Export | Recognised by | Layout checked against vendor docs |
 |---|---|---|---|
-| Availity | Remittance viewer export (CSV) | Patient Control Number, Payer Claim Control Number, Check/EFT Number, Paid Amount | no |
+| Availity | Remittance viewer export (CSV) | Patient Control Number, Payer Claim Control Number, Check/EFT Number, Paid Amount | no; a payer tip sheet for the Availity Remittance Viewer (Nov 2020, read 2026-11-17) describes PDF download only; if your account has no CSV, use the 835 file instead |
 | Waystar | Remit detail export (CSV) | Patient Account, Payer ICN, Check #, Paid Amt | no |
 
-Where a layout says "checked", its column names were compared with the publisher's template or documentation on that date (the CMS price-transparency templates and the pfs.data.cms.gov column lists). The NCCI, MUE and RVU file headers and every practice-management and clearinghouse layout were written from knowledge of the export and were not checked. None was tested against a live account.
+Where a layout says "checked", its column names were compared with the publisher's template or documentation on that date (the CMS price-transparency templates, the pfs.data.cms.gov column lists and Open Dental's published procedure log fields). The NCCI, MUE and RVU file headers and the other practice-management and clearinghouse layouts were written from knowledge of the export and were not checked; where the vendor's public help says something about the export, the layout's note says what. None was tested against a live account.
 
 ### Files from other countries
 

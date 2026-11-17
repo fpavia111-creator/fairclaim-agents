@@ -1,6 +1,6 @@
 {
   "name": "sage-of-claims",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Scrubs 837 claims (or claim exports) before they go out, catching the errors payers reject on: NPIs, payer and member ids, dates, totals, codes, modifiers, diagnosis pointers, place of service, corrected-claim references and prior authorizations.",
   "author": {
     "name": "Kurt Francisco"

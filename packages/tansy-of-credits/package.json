@@ -1,6 +1,6 @@
 {
   "name": "tansy-of-credits",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Works the credit balance report: tells patient credits from payer overpayments, counts days against each payer's refund deadline (60 days from identification for Medicare by default), finds credits that should go to an open balance first or are nearing unclaimed-property age, and drafts each refund for a person to approve. Patient identifiers are masked before results reach the model.",
   "type": "module",
   "license": "MIT",
@@ -31,7 +31,7 @@
     "eval": "node bin/tansy-of-credits.js eval"
   },
   "dependencies": {
-    "remedy-core": "^0.1.0"
+    "remedy-core": "^0.2.0"
   },
   "repository": {
     "type": "git",

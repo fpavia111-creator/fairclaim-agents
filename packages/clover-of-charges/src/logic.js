@@ -2,7 +2,9 @@
 import { str, isoDate, daysBetween, round2, pct, isEm, normalizeName } from 'remedy-core';
 
 const DONE = /complete|checked.?out|seen|arrived|checked.?in|closed|signed/i;
-const CANCELLED = /cancel|no.?show|rescheduled|did not (come|arrive)|bumped/i;
+const CANCELLED = /cancel|no.?show|rescheduled|did not (come|arrive)|bumped|not seen|left without|\blwbs\b/i;
+// "Not checked in" or "not arrived" is still a scheduled visit, not a completed one.
+const isDone = (st) => DONE.test(st) && !/\bnot\b/i.test(st);
 const NEW_EM = /^9920[2-5]$/;
 const EST_EM = /^9921[1-5]$/;
 
@@ -18,7 +20,7 @@ const visitKey = (x, date) => `${who(x)}|${date}`;
  */
 export function reconcileCharges(appts, claims, { config = {}, facts = [], asOf } = {}) {
   const lag = Number.isFinite(config.lag_days) ? config.lag_days : 3;
-  const expected = [...(config.expected || []).map((e) => ({ ...e, source: 'config' })), ...facts.map((f) => ({ ...f.value, source: 'memory', fact_id: f.id }))];
+  const expected = [...(config.expected || []).map((e) => ({ ...e, source: 'config' })), ...facts.map((f) => ({ ...f.value, source: 'memory', fact_id: f.id }))].filter((e) => Array.isArray(e.codes) && e.codes.length);
   const byId = new Map(claims.map((c) => [str(c.claim_id), c]));
   const byKey = new Map();
   for (const c of claims) { const d = c.lines.map((l) => l.date_from).find(Boolean); if (d) { const k = visitKey(c, d); if (!byKey.has(k)) byKey.set(k, []); byKey.get(k).push(c); } }
@@ -31,7 +33,7 @@ export function reconcileCharges(appts, claims, { config = {}, facts = [], asOf 
     if (CANCELLED.test(st)) {
       if (claim) Object.assign(base, { status: 'charge_on_cancelled', message: `Visit is "${st}" but claim ${claim.claim_id} charges ${base.charge}.`, fix: 'Check whether the visit happened; void the charge if it did not.' });
       else continue;
-    } else if (!DONE.test(st) && !claim) {
+    } else if (!isDone(st) && !claim) {
       continue; // still scheduled, nothing to reconcile
     } else if (!claim) {
       const late = base.days_since !== null && base.days_since > lag;

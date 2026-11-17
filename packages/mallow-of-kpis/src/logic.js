@@ -103,7 +103,9 @@ export function computeKpis(claims, remits, { config = {}, facts = [], asOf = nu
   const top_denials = Object.values(cats).map((c) => ({ ...c, claims: c.claims.size, next_step: (DENIAL_CATEGORIES[c.category] || DENIAL_CATEGORIES.unknown).next })).sort((a, b) => b.amount - a.amount || b.count - a.count);
   return {
     as_of, period_days: periodDays, no_response_days: noResp, ...overall, kpis, alerts,
-    by_payer, by_month: group((r) => (r.service_date ? r.service_date.slice(0, 7) : null)).map((m) => ({ ...m, days_in_ar: null })).sort((a, b) => String(a.group).localeCompare(String(b.group))), // days in A/R needs a full period of charges, not one month by_provider: group((r) => r.provider),
+    // Days in A/R needs a full period of charges, not one month, so it is left out per month.
+    by_payer, by_month: group((r) => (r.service_date ? r.service_date.slice(0, 7) : null)).map((m) => ({ ...m, days_in_ar: null })).sort((a, b) => String(a.group).localeCompare(String(b.group))),
+    by_provider: group((r) => r.provider),
     open_claims_by_bucket: Object.entries(open.reduce((m, o) => { (m[o.bucket] ||= { bucket: o.bucket, count: 0, amount: 0 }); m[o.bucket].count++; m[o.bucket].amount = round2(m[o.bucket].amount + o.charge); return m; }, {})).map(([, v]) => v),
     open, top_denials,
     data_notes: [

@@ -40,6 +40,9 @@ export function checkLines(claims, { config = {}, fees = [], medicare = [], fact
       lines.push(row); rowOf.set(l, row);
       if (l.paid === 0 && sumAdj(l, 'PR') === 0) { row.status = 'denied'; row.notes.push('No payment: a denial, worked in yarrow-of-denials.'); continue; }
       if (!terms) { row.status = 'no_contract'; row.notes.push('No contract terms for this payer in the config.'); continue; }
+      // A method that is misspelt, or a percent that is missing, prices nothing rather than an expected amount of 0.
+      if (!METHODS.includes(terms.method)) { row.status = 'no_contract'; row.notes.push(`Contract method "${terms.method ?? ''}" for ${terms.name} is not one of ${METHODS.join(', ')}.`); continue; }
+      if (terms.method !== 'fee_schedule' && !Number.isFinite(terms.percent)) { row.status = 'no_contract'; row.notes.push(`Contract for ${terms.name} uses ${terms.method} but has no percent.`); continue; }
       let unit = null;
       if (terms.method === 'fee_schedule') {
         const f = contract(c.payer, l.code, l.modifiers, l.date_from);

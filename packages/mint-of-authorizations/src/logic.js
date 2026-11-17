@@ -5,15 +5,31 @@ const norm = (v) => str(v).toUpperCase().replace(/[^A-Z0-9]/g, '');
 const codeMatch = (patterns, code) => (patterns || []).some((p) => { const s = str(p).toUpperCase(); return s.endsWith('*') ? str(code).toUpperCase().startsWith(s.slice(0, -1)) : s === str(code).toUpperCase(); });
 const codesOf = (v) => (Array.isArray(v) ? v : str(v).split(/[\s,;|]+/)).map((x) => str(x).toUpperCase()).filter(Boolean);
 
+/** A log status in the words people use, read as approved, pending, denied or cancelled. */
+export function logStatus(v) {
+  const s = str(v).toLowerCase().trim();
+  if (!s) return 'approved';
+  if (/not (certified|approved|authori[sz]ed)|denied|declined|reject/.test(s)) return 'denied';
+  if (/cancel|void|withdrawn|rescinded/.test(s)) return 'cancelled';
+  if (/pend|review|submitted|requested|in process|waiting|awaiting|open/.test(s)) return 'pending';
+  if (/approv|certif|authori[sz]ed|active|granted|partial|modified/.test(s)) return 'approved';
+  return 'pending'; // an unknown word is never taken as an approval
+}
+
 /** Authorizations from the log rows and from certified 278 reviews, one list. */
 export function authList(rows = [], reviews = []) {
   const byNum = new Map();
-  const out = rows.map((r, i) => ({ auth_number: str(r.auth_number), member_id: str(r.member_id) || null, patient_name: str(r.patient_name) || null, payer: str(r.payer) || null, codes: codesOf(r.codes), units: num(r.units), from: isoDate(r.from), to: isoDate(r.to), status: str(r.status).toLowerCase() || 'approved', source: 'log', row: i + 1 }));
+  const out = rows.map((r, i) => ({ auth_number: str(r.auth_number), member_id: str(r.member_id) || null, patient_name: str(r.patient_name) || null, payer: str(r.payer) || null, codes: codesOf(r.codes), units: num(r.units), from: isoDate(r.from), to: isoDate(r.to), status: logStatus(r.status), status_text: str(r.status) || null, source: 'log', row: i + 1 }));
   for (const a of out) { const k = norm(a.auth_number); if (k && !byNum.has(k)) byNum.set(k, a); }
   for (const v of reviews) {
     const st = { certified: 'approved', certified_partial: 'approved', modified: 'approved', pended: 'pending', not_certified: 'denied', cancelled: 'cancelled' }[v.decision] || 'pending';
     const known = v.auth_number && byNum.get(norm(v.auth_number));
-    if (known) { known.status = st; known.review = v.decision; continue; }
+    if (known) {
+      known.status = st; known.review = v.decision;
+      // The payer's decision is the record: approved units and dates in the 278 replace the ones typed in the log.
+      if (st === 'approved') { if (Number.isFinite(v.units)) known.units = v.units; if (v.from) known.from = v.from; if (v.to) known.to = v.to; }
+      continue;
+    }
     out.push({ auth_number: v.auth_number || `278:${v.trace}`, member_id: v.member_id, patient_name: v.patient_name, payer: null, codes: v.codes.map((c) => c.toUpperCase()), units: v.units, from: v.from, to: v.to, status: st, source: '278', review: v.decision, trace: v.trace });
   }
   return out;
@@ -61,7 +77,7 @@ export function checkAuths(claims, auths, { rules = {}, facts = [], asOf } = {})
     const it = { claim_id: c.claim_id, patient_name: c.patient_name, member_id: c.member_id, payer, date_of_service: date, code, units: Number(l.units) || 1, charge: l.charge, auth_on_claim: onClaim || null, auth_number: auth ? auth.auth_number : null, auth_from: auth ? auth.from : null, auth_to: auth ? auth.to : null, auth_units: auth ? auth.units : null, units_used: null, status: null, message: '', fix: '' };
     const lf = factFor(payer, code); if (lf && !(rules.payers || []).some((p) => payerKey(p.name) === payerKey(payer) && codeMatch(p.codes, code))) it.fact_id = lf.id;
     if (!auth && !required) Object.assign(it, { status: 'not_in_log', message: `The claim carries authorization ${onClaim}, which is not in the log for this patient.`, fix: 'Add the authorization to the log (or remove a number that does not belong on the claim).' });
-    else if (!auth) Object.assign(it, { status: 'missing', message: `${payer} needs prior authorization for ${code}; none on file for this patient.`, fix: 'Get the authorization before the service, or reschedule. If it was done, add it to the log.' });
+    else if (!auth) { const other = mine.find((a) => a.status === 'approved' && a.codes.length && (!a.from || a.from <= date) && (!a.to || a.to >= date)); Object.assign(it, { status: 'missing', message: `${payer} needs prior authorization for ${code}; none on file for this patient${other ? ` (${other.auth_number} covers ${other.codes.join(', ')} only)` : ''}.`, fix: 'Get the authorization before the service, or reschedule. If it was done, add it to the log.' }); }
     else if (onClaim && !byNumber) Object.assign(it, { status: 'number_mismatch', message: `The claim carries ${onClaim}; the log has ${auth.auth_number} for this service.`, fix: 'Put the authorization number from the payer\'s approval on the claim (REF*G1).' });
     else if (auth.status === 'denied') Object.assign(it, { status: 'denied', message: `Authorization ${auth.auth_number} was not certified.`, fix: 'Do not bill as authorized: ask for peer-to-peer review or an appeal, or have the patient sign a waiver before the service.' });
     else if (auth.status === 'pending') Object.assign(it, { status: 'pending', message: `Authorization ${auth.auth_number} is pended with the payer.`, fix: 'Follow up with the payer before the service date.' });

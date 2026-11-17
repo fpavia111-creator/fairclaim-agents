@@ -1,6 +1,6 @@
 {
   "name": "mallow-of-kpis",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Revenue cycle KPIs from your own claims and remittances: denial rate, first-pass rate, net collection, days to pay, days in A/R and unanswered claims, by payer, month and provider, against the targets you set.",
   "type": "module",
   "license": "MIT",
@@ -31,7 +31,7 @@
     "eval": "node bin/mallow-of-kpis.js eval"
   },
   "dependencies": {
-    "remedy-core": "^0.1.0"
+    "remedy-core": "^0.2.0"
   },
   "repository": {
     "type": "git",

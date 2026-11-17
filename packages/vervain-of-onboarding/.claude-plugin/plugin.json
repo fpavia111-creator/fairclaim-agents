@@ -1,6 +1,6 @@
 {
   "name": "vervain-of-onboarding",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Go-live readiness for a new practice: checks the billing NPI, tax ID and billing address, the provider roster, every payer's EDI, ERA, EFT and credentialing enrollment, payer IDs and the fee schedule against the charges you will bill, and lists the blockers before go-live.",
   "author": {
     "name": "Kurt Francisco"

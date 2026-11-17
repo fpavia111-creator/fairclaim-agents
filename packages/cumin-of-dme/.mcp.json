@@ -4,7 +4,7 @@
       "command": "npx",
       "args": [
         "-y",
-        "cumin-of-dme@0.1.0",
+        "cumin-of-dme@0.2.0",
         "mcp"
       ]
     }

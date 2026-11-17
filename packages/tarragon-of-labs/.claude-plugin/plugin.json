@@ -1,6 +1,6 @@
 {
   "name": "tarragon-of-labs",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Lab claims that get paid: checks the CLIA number and certificate (QW on waived tests, nothing outside a waiver), finds panel components billed one by one or with their panel, venipuncture more than once a day, repeats without 91, diagnoses that do not support a test, and tests ordered more often than your rules allow.",
   "author": {
     "name": "Kurt Francisco"

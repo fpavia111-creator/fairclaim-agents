@@ -1,6 +1,6 @@
 {
   "name": "dill-of-modifiers",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Checks the modifiers on each claim line before it goes out: missing 25 on an E/M with a procedure, 25 or 57 on the wrong code, conflicting pairs, 59 with X modifiers, missing laterality, bilateral units, repeat modifiers with no first service, pricing order, and payer rules. Patient identifiers are masked before results reach the model.",
   "author": {
     "name": "Kurt Francisco"

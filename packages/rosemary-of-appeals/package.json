@@ -1,6 +1,6 @@
 {
   "name": "rosemary-of-appeals",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Rosemary of Appeals: drafts a first-level appeal for a denied claim with quotes from the payer policies you supply (file and line), tracks every appeal against its filing deadline and the payer's response time, and never sends anything itself.",
   "type": "module",
   "license": "MIT",
@@ -31,7 +31,7 @@
     "eval": "node bin/rosemary-of-appeals.js eval"
   },
   "dependencies": {
-    "remedy-core": "^0.1.0"
+    "remedy-core": "^0.2.0"
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
 {
   "name": "caraway-of-anesthesia",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Anesthesia claims priced and paired right: computes base, time, physical-status and qualifying-circumstance units, checks start and stop times, AA, QK, QY, QX, QZ and AD against how many rooms the anesthesiologist covered at once, pairs each CRNA claim with its medical direction, and flags overlaps.",
   "type": "module",
   "license": "MIT",
@@ -31,7 +31,7 @@
     "eval": "node bin/caraway-of-anesthesia.js eval"
   },
   "dependencies": {
-    "remedy-core": "^0.1.0"
+    "remedy-core": "^0.2.0"
   },
   "repository": {
     "type": "git",

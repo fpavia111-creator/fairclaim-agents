@@ -25,10 +25,12 @@ export default function (section, { W, buildX12, writer, readme }) {
     ]));
     w('credentialing-config.json', { warn_days: 90, caqh_days: 120, pending_followup_days: 30, required_docs: ['license_expires', 'malpractice_expires'] });
     w('credentialing-config-typo.json', { required_docs: ['license'] });
+    w('payer-enrollments-statuses.csv', "Provider,NPI,Payer,Status,Date Submitted,Effective Date,Revalidation Due\nAlma Reyes MD (fictional),1990000014,Example Health Plan,Not submitted,,,\nAlma Reyes MD (fictional),1990000014,Sample Mutual Insurance,Terminated,01/10/2023,03/01/2023,\nFelix Brandt DO (fictional),1990000022,Demo Medicaid Plan,Not enrolled,,,\nFelix Brandt DO (fictional),1990000022,Test Medicare Contractor,In process,01/20/2026,,\n");
     readme('lavender-of-credentialing', 'Lavender of Credentialing', [
       '`provider-roster.csv`: four fictional providers. Planted, as of 2026-02-15: a DEA registration 74 days from expiry (Reyes); a license expiring in 13 days and a CAQH attestation overdue (Brandt); no malpractice date (Moreau); an NPI with a wrong check digit (Vance).',
       '`payer-enrollments.csv`: seven enrollments: a Medicare revalidation in 74 days, one pending 62 days, one denied, one approved but not effective until 2026-03-01, one not started, and a Medicaid revalidation in 136 days that only a learned 150-day lead time flags.',
       '`credentialing-config.json`: warning and follow-up days. `credentialing-config-typo.json` names an unknown document.',
+      '`payer-enrollments-statuses.csv`: four enrollments with everyday status words (Not submitted, Terminated, Not enrolled, In process), as staff type them.',
       'Provider names are not patient data. No patient data is used; `phi-canaries.json` lists fictional patients anyway so the shared leak test runs.',
     ], ['P1', 'P2', 'P3']);
   });
@@ -203,10 +205,12 @@ export default function (section, { W, buildX12, writer, readme }) {
     ]));
     w('dental-config.json', { primary_tooth_age: 14 });
     w('dental-config-typo.json', { frequency: [{ codes: ['1110'], max: 2, per: 'patient' }] });
+    w('exports/open-dental-procs-with-status.csv', "ClaimNum,Patient,Birthdate,ProcDate,ProcCode,ToothNum,Surf,ProcFee,ProcStatus\n7101,\"Pemberton, Harlow\",1958-03-14,2026-02-12,D2391,30,O,160.00,2\n7101,\"Pemberton, Harlow\",1958-03-14,2026-02-12,D2740,19,,1200.00,1\n7101,\"Pemberton, Harlow\",1958-03-14,2026-02-12,D0140,,,70.00,2\n7102,\"Pemberton, Harlow\",1958-03-14,2026-02-12,D7140,3,,190.00,6\n");
     readme('anise-of-dental', 'Anise of Dental', [
       '`dental-claims-2026-02.837`: an 837D (005010X224A2) with six fictional claims. Planted: bitewings already taken this year; a 2-surface code for 3 surfaces; an anterior resin code on a molar; a crown 32 months after the last one on that tooth; an anterior root canal code on a molar; scaling and root planing with no quadrant, and with a cleaning the same day; a sealant billed twice; a posterior resin code with an occlusal surface on a front tooth; a filling on a tooth extracted in November. D5006 is clean.',
       '`dental-history.csv`: seven past procedures for those patients (exams, cleaning, bitewings, a crown, an extraction, root planing in another quadrant).',
       '`exports/open-dental-procs.csv`: two lines in an Open Dental user-query layout (database column names), with a lettered (primary) tooth on an adult.',
+      '`exports/open-dental-procs-with-status.csv`: the same layout with ProcStatus: two completed lines (2), a treatment-planned crown (1) and a deleted extraction (6), which are skipped.',
       '`dental-config.json`: primary-tooth age. `dental-config-typo.json` has a code without the D.',
     ], ['P1', 'P2', 'P5', 'P6', 'P7', 'P8']);
   });

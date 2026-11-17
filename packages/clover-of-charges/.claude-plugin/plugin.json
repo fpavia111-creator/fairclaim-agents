@@ -1,6 +1,6 @@
 {
   "name": "clover-of-charges",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Matches completed visits to charges: finds visits with no charge, charges with no visit or on a cancelled one, late charge entry, missing expected codes, and E/M level mix by provider against peers. Patient identifiers are masked before results reach the model.",
   "author": {
     "name": "Kurt Francisco"

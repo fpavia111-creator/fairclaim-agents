@@ -1,6 +1,6 @@
 {
   "name": "yarrow-of-denials",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Yarrow of Denials: sorts 835 denials by reason code and root cause into a worklist with the team and next step for each, learns payer-specific code meanings a person accepts, and never resubmits or appeals on its own.",
   "type": "module",
   "license": "MIT",
@@ -31,7 +31,7 @@
     "eval": "node bin/yarrow-of-denials.js eval"
   },
   "dependencies": {
-    "remedy-core": "^0.1.0"
+    "remedy-core": "^0.2.0"
   },
   "repository": {
     "type": "git",

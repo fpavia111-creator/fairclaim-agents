@@ -4,7 +4,7 @@
       "command": "npx",
       "args": [
         "-y",
-        "fennel-of-remits@0.1.0",
+        "fennel-of-remits@0.2.0",
         "mcp"
       ]
     }

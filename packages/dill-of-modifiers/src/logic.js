@@ -22,6 +22,9 @@ export const MODIFIER_TABLE = Object.freeze({
   GA: ['info', 'Waiver of liability (ABN) on file'], GY: ['info', 'Statutorily excluded service'], GZ: ['info', 'Expected to be denied, no ABN'], GP: ['info', 'Physical therapy plan of care'], GO: ['info', 'Occupational therapy plan of care'], GN: ['info', 'Speech-language pathology plan of care'],
   KX: ['info', 'Policy requirements met'], CQ: ['pricing', 'Outpatient PT by a PT assistant'], CO: ['pricing', 'Outpatient OT by an OT assistant'], QW: ['info', 'CLIA-waived test'], GT: ['info', 'Interactive audio and video (older code)'],
   AI: ['info', 'Principal physician of record'], SA: ['info', 'Nurse practitioner with a physician'], SG: ['info', 'Ambulatory surgical center facility service'], JW: ['info', 'Drug amount discarded'], JZ: ['info', 'No drug amount discarded'],
+  // Anesthesia physical status: some payers add base units for P3 to P5, so they count as payment modifiers.
+  P1: ['pricing', 'Physical status: normal healthy patient'], P2: ['pricing', 'Physical status: mild systemic disease'], P3: ['pricing', 'Physical status: severe systemic disease'],
+  P4: ['pricing', 'Physical status: severe systemic disease, constant threat to life'], P5: ['pricing', 'Physical status: not expected to survive without the operation'], P6: ['pricing', 'Physical status: declared brain-dead organ donor'],
   ...Object.fromEntries(Object.keys(MODIFIERS.anesthesia).map((k) => [k, ['pricing', MODIFIERS.anesthesia[k]]])),
   ...Object.fromEntries(Object.keys(MODIFIERS.dme).map((k) => [k, ['pricing', MODIFIERS.dme[k]]])),
 });
@@ -84,12 +87,14 @@ export function checkModifiers(claims, { config = {}, facts = [] } = {}) {
       for (const r of rules) {
         if (payerKey(r.payer) !== payerKey(payer) || (r.codes && r.codes.length && !codeMatches(l.code, r.codes))) continue;
         const ref = { source: r.source, ...(r.fact_id ? { fact_id: r.fact_id } : {}) };
-        if (r.action === 'not_accepted') for (const m of r.modifiers.filter(has)) add(l, 'payer_not_accepted', `${payer} does not accept ${m}${r.note ? `: ${r.note}` : '.'}`, ref);
-        if (r.action === 'needs_one_of' && !r.modifiers.some(has)) add(l, 'payer_needs_one_of', `${payer} needs one of ${r.modifiers.join(', ')} on ${l.code}${r.note ? `: ${r.note}` : '.'}`, ref);
+        const rm = (r.modifiers || []).map((m) => str(m).toUpperCase()); if (!rm.length) continue;
+        if (r.action === 'not_accepted') for (const m of rm.filter(has)) add(l, 'payer_not_accepted', `${payer} does not accept ${m}${r.note ? `: ${r.note}` : '.'}`, ref);
+        if (r.action === 'needs_one_of' && !rm.some(has)) add(l, 'payer_needs_one_of', `${payer} needs one of ${rm.join(', ')} on ${l.code}${r.note ? `: ${r.note}` : '.'}`, ref);
       }
     }
     // E/M with a procedure on the same date and no 25
-    for (const em of c.lines.filter((l) => isEm(l.code) && !(l.modifiers || []).includes('25') && !(l.modifiers || []).includes('57'))) {
+    const modsOf = (l) => (l.modifiers || []).map((m) => str(m).toUpperCase());
+    for (const em of c.lines.filter((l) => isEm(l.code) && !modsOf(l).includes('25') && !modsOf(l).includes('57'))) {
       const procs = procsOn.get(em.date_from || null) || [];
       if (procs.length) add(em, 'em_needs_25', `E/M ${em.code} with ${procs.map((p) => p.code).join(', ')} on the same day and no 25.`);
     }

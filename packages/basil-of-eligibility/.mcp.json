@@ -4,7 +4,7 @@
       "command": "npx",
       "args": [
         "-y",
-        "basil-of-eligibility@0.1.0",
+        "basil-of-eligibility@0.2.0",
         "mcp"
       ]
     }

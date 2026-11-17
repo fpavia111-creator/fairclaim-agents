@@ -15,6 +15,8 @@
     {"id": "names-masked", "tool": "lovage_check", "args": {"visits": "fixtures/telehealth-visits-2026-02.csv"}, "expect": {"matches": ["\"patient_name\":\"PT-[0-9a-f]{8}\""], "not_contains": ["Halvorsen", "DMP000799001", "1995-04-25", "Pemberton"]}},
     {"id": "report-in-japanese", "tool": "lovage_write_report", "args": {"visits": "fixtures/telehealth-visits-2026-02.csv", "config": "fixtures/telehealth-config.json", "language": "ja", "out_dir": "remedy-out/eval-lovage"}, "expect": {"status": "executed", "equals": {"result.lang": "ja"}}},
     {"id": "visit-start-refused", "tool": "visit_start", "args": {}, "expect": {"status": "blocked", "decision": "block"}},
-    {"id":"recall-empty-memory","tool":"lovage_recall","args":{},"expect":{"status":"executed","contains":["memory is empty","payer_telehealth_rule"]}}
+    {"id": "recall-empty-memory", "tool": "lovage_recall", "args": {}, "expect": {"status": "executed", "contains": ["memory is empty", "payer_telehealth_rule"]}},
+    {"id": "originating-site-fee-at-home", "tool": "lovage_check", "args": {"visits": "fixtures/telehealth-visits-2026-02.csv", "config": "fixtures/telehealth-config.json", "check": "originating_site"}, "expect": {"status": "executed", "length": {"result.items": 1}, "equals": {"result.items.0.claim_id": "T9010", "result.items.0.code": "Q3014"}, "contains": ["billed by the facility where the patient is, not for a patient at home"]}},
+    {"id": "consent-code-needs-consent", "tool": "lovage_check", "args": {"visits": "fixtures/telehealth-visits-2026-02.csv", "config": "fixtures/telehealth-config.json", "check": "consent"}, "expect": {"length": {"result.items": 1}, "equals": {"result.items.0.claim_id": "T9007", "result.items.0.status": "warning"}, "contains": ["98016 needs the patient's consent documented"], "not_contains": ["Audio-only visit: add 93"]}}
   ]
 }

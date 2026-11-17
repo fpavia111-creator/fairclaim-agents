@@ -96,7 +96,7 @@ Named exports recognised by their column names:
 | CMS hospital price transparency | Machine-readable file, CSV tall template v3.0 | description, setting, standard_charge\|gross, median_amount, 10th_percentile | against github.com/CMSgov/hospital-price-transparency V3.0.0_Tall_CSV_Format_Template.csv and UPDATE_GUIDE.md on 2026-11-16 |
 | CMS hospital price transparency | Machine-readable file, CSV tall template v2.x | description, setting, standard_charge\|gross, standard_charge\|discounted_cash, payer_name | against github.com/CMSgov/hospital-price-transparency V2.0.0_Tall_CSV_Format_Template.csv on 2026-11-16 |
 
-Where a layout says "checked", its column names were compared with the publisher's template or documentation on that date (the CMS price-transparency templates and the pfs.data.cms.gov column lists). The NCCI, MUE and RVU file headers and every practice-management and clearinghouse layout were written from knowledge of the export and were not checked. None was tested against a live account.
+Where a layout says "checked", its column names were compared with the publisher's template or documentation on that date (the CMS price-transparency templates, the pfs.data.cms.gov column lists and Open Dental's published procedure log fields). The NCCI, MUE and RVU file headers and the other practice-management and clearinghouse layouts were written from knowledge of the export and were not checked; where the vendor's public help says something about the export, the layout's note says what. None was tested against a live account.
 
 ### Chargemaster (`chargemaster`)
 

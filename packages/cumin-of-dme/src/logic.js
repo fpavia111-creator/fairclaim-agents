@@ -48,6 +48,8 @@ export function rentalPeriods(events, { gapDays = 60 } = {}) {
     let cur = null;
     for (const e of list) {
       if (!cur || daysBetween(cur.last, e.date) > gapDays) { cur = { key: k, code: e.code, who: e.who, start: e.date, last: e.date, months: [], gap_before: cur ? daysBetween(cur.last, e.date) : null }; out.push(cur); }
+      // The same month billed again (a resubmission, or a history export that already holds this claim) is not a new rental month.
+      if (cur.months.length && cur.last === e.date) { e.month = cur.months.length; e.period = cur; continue; }
       cur.months.push(e); cur.last = e.date; e.month = cur.months.length; e.period = cur;
     }
   }

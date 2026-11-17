@@ -2,7 +2,7 @@
 import { str, num, round2, pct } from 'remedy-core';
 
 const PRICED = new Set(['A', 'R', 'T']); // status codes that carry a payment amount
-export const STATUS_TEXT = Object.freeze({ A: 'Active', B: 'Bundled (not paid separately)', C: 'Carrier priced', D: 'Deleted', E: 'Excluded by regulation', I: 'Not valid for Medicare', M: 'Measurement code', N: 'Non-covered', P: 'Bundled or excluded', R: 'Restricted coverage', T: 'Paid only when no other service that day', X: 'Statutory exclusion' });
+export const STATUS_TEXT = Object.freeze({ A: 'Active', B: 'Bundled (not paid separately)', C: 'Carrier priced', D: 'Deleted', E: 'Excluded by regulation', I: 'Not valid for Medicare', M: 'Measurement code', N: 'Non-covered', P: 'Bundled or excluded', R: 'Restricted coverage', T: 'Paid only when no other service that day', X: 'Statutory exclusion', J: 'Anesthesia service (priced under the anesthesia conversion factor, not RVUs)', F: 'Deleted, carrier priced', G: 'Not valid for Medicare; another code is used', H: 'Deleted modifier', Q: 'Therapy functional information code' });
 
 /** RVU index: code|modifier → row. Rows from the PPRRVU or pfs.data.cms.gov indicators file. */
 export function rvuIndex(rows) {
@@ -50,7 +50,8 @@ export function reviewFees(fees, rvuRows, gpciRows, { config = {}, facts = [] } 
     const code = str(f.code).toUpperCase(); if (!code) continue;
     const mod = str(f.modifier).toUpperCase();
     const fee = num(f.fee); const volume = num(f.volume);
-    const rvu = idx.get(`${code}|${mod}`) || idx.get(`${code}|`);
+    // A professional (26) or technical (TC) fee is never priced from the global row: that would price the whole service.
+    const rvu = idx.get(`${code}|${mod}`) || (['26', 'TC'].includes(mod) ? null : idx.get(`${code}|`));
     const memo = facts.filter((x) => (x.value.codes || []).some((p) => (p.endsWith('*') ? code.startsWith(p.slice(0, -1).toUpperCase()) : code === p.toUpperCase())));
     const target = Math.max(baseTarget ?? 0, ...memo.map((x) => x.value.percent)) || null;
     const fact = memo.sort((a, b) => b.value.percent - a.value.percent)[0];

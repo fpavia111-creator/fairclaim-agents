@@ -1,6 +1,6 @@
 {
   "name": "sorrel-of-payers",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Scores each payer from your 835s and claim submissions: days to pay, denial rate and top denial reasons, share of billed paid, reversals, and a month-by-month trend, against your targets. Patient identifiers are masked before results reach the model.",
   "type": "module",
   "license": "MIT",
@@ -31,7 +31,7 @@
     "eval": "node bin/sorrel-of-payers.js eval"
   },
   "dependencies": {
-    "remedy-core": "^0.1.0"
+    "remedy-core": "^0.2.0"
   },
   "repository": {
     "type": "git",

@@ -4,7 +4,7 @@
       "command": "npx",
       "args": [
         "-y",
-        "angelica-of-prices@0.1.0",
+        "angelica-of-prices@0.2.0",
         "mcp"
       ]
     }

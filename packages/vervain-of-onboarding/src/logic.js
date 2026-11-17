@@ -57,7 +57,7 @@ export function checkReadiness({ setup = {}, roster = [], enrollments = [], fees
     if (!payers.has(pk)) payers.set(pk, { payer: str(e.payer), payer_ids: new Set(), rows: [] });
     const P = payers.get(pk); if (str(e.payer_id)) P.payer_ids.add(str(e.payer_id)); P.rows.push(e);
   }
-  const lead = (payer) => { const f = facts.filter((x) => payerKey(x.value.payer) === payerKey(payer)).sort((x, y) => y.value.days - x.value.days)[0]; return f ? { days: f.value.days, fact_id: f.id, note: f.value.note } : { days: leadDefault }; };
+  const lead = (payer) => { const f = facts.filter((x) => payerKey(x.value.payer) === payerKey(payer) && x.value.days >= leadDefault).sort((x, y) => y.value.days - x.value.days)[0]; return f ? { days: f.value.days, fact_id: f.id, note: f.value.note } : { days: leadDefault }; };
   const matrix = [];
   for (const P of payers.values()) {
     const group = P.rows.filter((r) => !str(r.provider));

@@ -7,6 +7,7 @@ export const HOLDS = Object.freeze({
   legal_hold: 'Estate, bankruptcy or attorney on file: stop statements and route to the manager.',
   dispute_hold: 'The patient disputes the bill: answer the dispute before another statement.',
   hardship_review: 'Hardship noted: offer your financial assistance policy before another statement.',
+  workers_comp: 'Workers compensation case: bill the carrier, not the patient. Many states do not allow billing the injured worker for a covered work injury.',
   insurance_pending: 'Part of the balance still sits with insurance: wait for the payer before billing the patient.',
   on_payment_plan: 'On a payment plan: the plan sends its own reminders.',
   bad_address: 'Mail came back or the address is marked bad: fix it before printing.',
@@ -28,6 +29,7 @@ export function statementCycle(rows, { config = {}, facts = [], asOf } = {}) {
     { re: /deceased|estate|probate|bankrupt|chapter (7|13)|attorney|lawyer/i, hold: 'legal_hold', source: 'built_in' },
     { re: /disput|complain/i, hold: 'dispute_hold', source: 'built_in' },
     { re: /hardship|financial assistance|charity/i, hold: 'hardship_review', source: 'built_in' },
+    { re: /\bwork(?:er|ers|ers'|man|men|man's|men's)?\s*comp\b|\bworkers'?\s*compensation\b|\bwork(?:place)?[- ]related injury\b|\bon[- ]the[- ]job injury\b/i, hold: 'workers_comp', source: 'built_in' },
     ...facts.map((f) => ({ re: new RegExp(f.value.word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i'), hold: f.value.hold, note: f.value.note, source: 'memory', fact_id: f.id })),
   ];
   const items = [];

@@ -4,7 +4,7 @@
       "command": "npx",
       "args": [
         "-y",
-        "savory-of-plans@0.1.0",
+        "savory-of-plans@0.2.0",
         "mcp"
       ]
     }

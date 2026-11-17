@@ -1,0 +1,5 @@
+Provider,NPI,Payer,Status,Date Submitted,Effective Date,Revalidation Due
+Alma Reyes MD (fictional),1990000014,Example Health Plan,Not submitted,,,
+Alma Reyes MD (fictional),1990000014,Sample Mutual Insurance,Terminated,01/10/2023,03/01/2023,
+Felix Brandt DO (fictional),1990000022,Demo Medicaid Plan,Not enrolled,,,
+Felix Brandt DO (fictional),1990000022,Test Medicare Contractor,In process,01/20/2026,,

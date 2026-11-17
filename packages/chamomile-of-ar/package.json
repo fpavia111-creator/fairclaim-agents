@@ -1,6 +1,6 @@
 {
   "name": "chamomile-of-ar",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Chamomile of A/R: ages open insurance balances by payer and bucket, warns before timely-filing limits pass, finds claims filed late or with no payer response, and builds the follow-up call queue by dollars and age.",
   "type": "module",
   "license": "MIT",
@@ -31,7 +31,7 @@
     "eval": "node bin/chamomile-of-ar.js eval"
   },
   "dependencies": {
-    "remedy-core": "^0.1.0"
+    "remedy-core": "^0.2.0"
   },
   "repository": {
     "type": "git",

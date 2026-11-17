@@ -110,7 +110,7 @@ export function checkAnesthesia(claims, baseUnits, { config = {}, facts = [] } =
     const units = base !== undefined ? round2(base + tu + psqc) : null;
     if (units !== null && c.units_reported !== null && Math.abs(c.units_reported - units) > 0.05) add('units', 'warning', `Billed ${c.units_reported} unit(s); base ${base} + time ${tu}${psqc ? ` + physical status and qualifying ${psqc}` : ''} = ${units}.`);
     const cf = pc.conversion_factor;
-    const factor = c.modifiers.some((m) => ['QK', 'QX'].includes(m)) ? 0.5 : c.modifiers.includes('AD') ? null : 1;
+    const factor = c.modifiers.some((m) => ['QK', 'QY', 'QX'].includes(m)) ? 0.5 : c.modifiers.includes('AD') ? null : 1;
     const expected = units !== null && cf ? (factor === null ? null : round2(units * cf * factor)) : null;
     out.push(row(c, issues, { minutes, base: base ?? null, time_units: tu, ps_qc_units: psqc, units, expected, concurrency: p ? p.most : null, rounding, unit_minutes: unitMinutes }));
   }

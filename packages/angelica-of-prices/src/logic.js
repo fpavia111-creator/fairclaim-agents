@@ -195,7 +195,7 @@ export function allowedAmounts(claims, { from, to, postingDate = null, plans = [
   }
   const rows = [...groups.values()].map((g) => {
     const s = g.amounts.sort((a, b) => a - b);
-    return { payer_name: g.payer_name, plan_name: g.plan_name, code: g.code, code_type: /^\d{5}$/.test(g.code) ? 'CPT' : /^[A-Z]\d{4}$/.test(g.code) ? 'HCPCS' : 'LOCAL', modifiers: g.modifiers, n: s.length, count: countLabel(s.length), '10th_percentile': cmsPercentile(s, 0.1), median_amount: cmsPercentile(s, 0.5), '90th_percentile': cmsPercentile(s, 0.9), plan_missing: !g.plan_name };
+    return { payer_name: g.payer_name, plan_name: g.plan_name, code: g.code, code_type: /^\d{4}[0-9FTU]$/.test(g.code) ? 'CPT' : /^[A-V]\d{4}$/.test(g.code) ? 'HCPCS' : 'LOCAL', modifiers: g.modifiers, n: s.length, count: countLabel(s.length), '10th_percentile': cmsPercentile(s, 0.1), median_amount: cmsPercentile(s, 0.5), '90th_percentile': cmsPercentile(s, 0.9), plan_missing: !g.plan_name };
   }).sort((a, b) => a.payer_name.localeCompare(b.payer_name) || a.code.localeCompare(b.code));
   if (rows.some((r) => r.plan_missing)) notes.push(`No plan name for: ${[...new Set(rows.filter((r) => r.plan_missing).map((r) => r.payer_name))].join(', ')}. The file needs payer and plan; add them under plans in the config.`);
   return { from: from || null, to: to || null, lines_used: rows.reduce((s, r) => s + r.n, 0), skipped, notes, rows };

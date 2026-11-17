@@ -25,7 +25,10 @@ export function claimAt(claims, control, position) {
  * acks: readHealthcareX12 results; claims: the 837 claims sent (optional); facts: accepted rejection_fix facts.
  */
 export function rejections({ acks = [], claims = [], facts = [] }) {
-  const items = []; const sets = []; const acked = new Set();
+  const items = []; const sets = []; const acked = new Set(); let resolved = 0;
+  // A rejection followed by a later 277CA acceptance of the same claim (it was corrected and resent) is no longer work.
+  const acceptedOn = new Map();
+  for (const a of acks) for (const t of a.by_set['277'] || []) for (const c of t.claims) if (!c.rejected && c.date) { const d = acceptedOn.get(c.claim_id); if (!d || c.date > d) acceptedOn.set(c.claim_id, c.date); }
   const fixFor = (status, entity, payer) => facts.find((f) => str(f.value.status_code) === str(status) && (!f.value.entity || f.value.entity === entity) && (!f.value.payer || payerKey(f.value.payer) === payerKey(payer)));
   for (const a of acks) {
     for (const t of a.by_set['999'] || []) for (const s of t.sets) {
@@ -42,6 +45,7 @@ export function rejections({ acks = [], claims = [], facts = [] }) {
     for (const t of a.by_set['277'] || []) for (const c of t.claims) {
       acked.add(c.claim_id);
       if (!c.rejected) continue;
+      if (c.date && acceptedOn.get(c.claim_id) && acceptedOn.get(c.claim_id) >= c.date) { resolved++; continue; }
       const sent = claims.find((x) => x.claim_id === c.claim_id);
       const reasons = c.statuses.filter((x) => ['A3', 'A4', 'A6', 'A7', 'A8'].includes(x.category));
       const learned = reasons.map((x) => fixFor(x.status, x.entity, c.payer)).find(Boolean);
@@ -57,7 +61,7 @@ export function rejections({ acks = [], claims = [], facts = [] }) {
     transactions: sets.length, transactions_rejected: sets.filter((s) => s.status === 'rejected').length,
     claims_sent: claims.length, claims_rejected: rejectedClaims.size,
     charges_rejected: Math.round([...rejectedClaims].reduce((s, id) => s + ((claims.find((c) => c.claim_id === id) || all.find((i) => i.claim_id === id) || {}).total_charge ?? (all.find((i) => i.claim_id === id) || {}).charge ?? 0), 0) * 100) / 100,
-    not_acknowledged: missing.length,
+    not_acknowledged: missing.length, resolved_by_later_acceptance: resolved,
     by_source: all.reduce((m, i) => { m[i.source] = (m[i.source] || 0) + 1; return m; }, {}),
     sets, items: all,
   };

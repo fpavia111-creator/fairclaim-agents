@@ -14,6 +14,9 @@
     {"id": "names-masked", "tool": "dill_check", "args": {"claims": "fixtures/batch-2026-02-06.837"}, "expect": {"matches": ["\"patient_name\":\"PT-[0-9a-f]{8}\""], "not_contains": ["OKAFOR", "Okafor", "LINDQVIST"]}},
     {"id": "list-in-spanish", "tool": "dill_write_report", "args": {"claims": "fixtures/batch-2026-02-06.837", "config": "fixtures/modifier-config.json", "language": "es", "out_dir": "remedy-out/eval-dill"}, "expect": {"status": "executed", "equals": {"result.lang": "es"}}},
     {"id": "append-refused", "tool": "modifier_append", "args": {}, "expect": {"status": "blocked", "decision": "block"}},
-    {"id":"recall-empty-memory","tool":"dill_recall","args":{},"expect":{"status":"executed","contains":["memory is empty","payer_modifier_rule"]}}
+    {"id": "recall-empty-memory", "tool": "dill_recall", "args": {}, "expect": {"status": "executed", "contains": ["memory is empty", "payer_modifier_rule"]}},
+    {"id": "payer-wants-x-not-59", "tool": "dill_check", "args": {"claims": "fixtures/batch-2026-02-06.837", "config": "fixtures/modifier-config.json", "check": "payer_not_accepted"}, "expect": {"status": "executed", "length": {"result.items": 1}, "equals": {"result.items.0.claim_id": "D1006", "result.items.0.source": "config"}, "contains": ["does not accept 59: use XE, XS, XP or XU instead"]}},
+    {"id": "payment-modifier-first", "tool": "dill_explain", "args": {"claims": "fixtures/batch-2026-02-06.837", "claim_id": "D1009"}, "expect": {"equals": {"result.issues.0.check": "pricing_order", "result.issues.0.severity": "warning"}, "contains": ["26 (payment) comes after RT (informational)."]}},
+    {"id": "physical-status-is-pricing", "tool": "dill_modifier", "args": {"modifier": "p3"}, "expect": {"equals": {"result.modifier": "P3", "result.kind": "pricing", "result.known": true}, "contains": ["severe systemic disease"]}}
   ]
 }

@@ -37,6 +37,14 @@ export const CHECKS = Object.freeze({
 const lineLabel = (l) => `line ${l.line}${l.code ? ` (${l.code})` : ''}`;
 const findPayer = (config, c) => (config.payers || []).find((p) => (p.payer_id && p.payer_id === c.payer_id) || payerKey(p.name) === payerKey(c.payer_name));
 const codeMatches = (patterns, code) => (patterns || []).some((p) => { const s = str(p).toUpperCase(); return s.endsWith('*') ? str(code).toUpperCase().startsWith(s.slice(0, -1)) : s === str(code).toUpperCase(); });
+/** A member id pattern from the config: anchored, and refused when it could run for a very long time or does not compile. */
+const patterns = new Map();
+export function memberPattern(p) {
+  const s = str(p); if (patterns.has(s)) return patterns.get(s);
+  if (s.length > 80 || /\)[*+?{]/.test(s) || /\\[1-9]/.test(s)) throw new Error(`member_id_pattern "${s.slice(0, 40)}" may not repeat a group or use back-references and must be at most 80 characters; write it as a flat pattern such as EHP\\d{9}`);
+  let re; try { re = new RegExp(`^(?:${s})$`, 'i'); } catch { throw new Error(`member_id_pattern "${s.slice(0, 40)}" is not a valid pattern`); }
+  patterns.set(s, re); return re;
+}
 const isProcedure = (code) => /^[1-6]\d{4}$/.test(str(code)) || /^G0\d{3}$/.test(str(code));
 
 /**
@@ -55,7 +63,7 @@ export function scrubClaims(claims, { config = {}, facts = [], asOf } = {}) {
     for (const [where, npi] of [['claim', c.rendering_npi], ...c.lines.map((l) => [lineLabel(l), l.rendering_npi])]) { if (!npi) continue; const p = npiProblem(npi); if (p) add('rendering_npi', `Rendering NPI on ${where}: ${p}.`); }
     if (!str(c.payer_id)) add('payer_id', 'No payer id.');
     if (!str(c.member_id)) add('member_id', 'No member id.');
-    else if (payer && payer.member_id_pattern && !new RegExp(`^(?:${payer.member_id_pattern})$`, 'i').test(str(c.member_id))) add('member_id_pattern', `Member id does not match the pattern set for ${payer.name}.`);
+    else if (payer && payer.member_id_pattern && !memberPattern(payer.member_id_pattern).test(str(c.member_id).replace(/[\s-]/g, ''))) add('member_id_pattern', `Member id does not match the pattern set for ${payer.name}.`);
     const dob = isoDate(c.patient_dob);
     if (!dob) add('patient_dob', 'No date of birth.');
     else if (c.service_from && dob > c.service_from) add('patient_dob', 'Date of birth is after the date of service.');
@@ -86,12 +94,12 @@ export function scrubClaims(claims, { config = {}, facts = [], asOf } = {}) {
       if (keys.has(k)) add('duplicate_line', `${lineLabel(l)} repeats line ${keys.get(k)}.`, at); else keys.set(k, l.line);
       if (payer && codeMatches(payer.prior_auth_codes, l.code) && !str(l.prior_auth) && !str(c.prior_auth)) add('prior_auth', `${payer.name} needs prior authorization for ${l.code}.`, at);
       const dk = `${str(c.member_id) || str(c.patient_name)}|${l.date_from}|${l.code}`;
-      if (seen.has(dk) && seen.get(dk) !== c.claim_id && str(c.frequency) === '1') add('duplicate_claim', `${lineLabel(l)} is also on claim ${seen.get(dk)}.`, at); else if (!seen.has(dk)) seen.set(dk, c.claim_id);
+      if (seen.has(dk) && seen.get(dk) !== c.claim_id && !['7', '8'].includes(str(c.frequency))) add('duplicate_claim', `${lineLabel(l)} is also on claim ${seen.get(dk)}.`, at); else if (!seen.has(dk)) seen.set(dk, c.claim_id);
     }
     // E/M with a procedure on the same date and no 25 on the E/M.
     for (const em of c.lines.filter((l) => isEm(l.code))) {
       const proc = c.lines.find((l) => l !== em && isProcedure(l.code) && l.date_from === em.date_from);
-      if (proc && !em.modifiers.includes('25')) add('em_modifier_25', `${lineLabel(em)} and ${lineLabel(proc)} on ${em.date_from}; the E/M has no modifier 25.`, { line: em.line, code: em.code });
+      if (proc && !em.modifiers.includes('25') && !em.modifiers.includes('57')) add('em_modifier_25', `${lineLabel(em)} and ${lineLabel(proc)} on ${em.date_from}; the E/M has no modifier 25.`, { line: em.line, code: em.code });
     }
     for (const field of (payer && payer.required_fields) || []) if (!str(c[field]) && !c.lines.some((l) => str(l[field]))) add('payer_required', `${payer.name} requires ${field} (config).`, { field });
     for (const fact of facts) {

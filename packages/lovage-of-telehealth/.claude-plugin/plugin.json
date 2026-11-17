@@ -1,6 +1,6 @@
 {
   "name": "lovage-of-telehealth",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Telehealth claims coded the way each payer wants: checks place of service 02 or 10 against where the patient was, the 95, GT, 93 or FQ modifiers by payer, audio-only against video codes, deleted phone codes, the provider's license in the patient's state, consent for virtual check-ins, and same-day in-person visits.",
   "author": {
     "name": "Kurt Francisco"

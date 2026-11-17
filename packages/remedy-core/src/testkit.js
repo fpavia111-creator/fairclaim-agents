@@ -130,6 +130,25 @@ export function agentContract({ manifest, casesFile }) {
     });
   }
 
+  // Every value of every choice argument runs (ver 2: a breakdown by one of its listed groups once failed inside the code).
+  const INTERNAL = /Cannot read prop|is not a function|is not iterable|is not defined|of undefined|of null|TypeError|ReferenceError|RangeError/;
+  test(`${manifest.name} contract: every listed value of every choice argument runs without an internal error`, async () => {
+    const root = sandbox();
+    let tried = 0;
+    for (const t of runs.filter((x) => x.kind === 'read')) {
+      const c = caseFor(t); if (!c) continue;
+      for (const [arg, sch] of Object.entries((t.inputSchema && t.inputSchema.properties) || {})) {
+        const values = sch.enum || (sch.items && sch.items.enum && sch.items.enum.map((v) => [v])) || [];
+        for (const v of values) {
+          const r = await rtIn(root).call(t.name, { ...c.args, [arg]: v });
+          tried++;
+          assert.ok(r.status === 'executed' || (r.status === 'error' && !INTERNAL.test(String(r.reason))), `${t.name} with ${arg} = ${JSON.stringify(v)}: ${r.status} ${String(r.reason || '').slice(0, 160)}`);
+        }
+      }
+    }
+    assert.ok(tried >= 0);
+  });
+
   test(`${manifest.name} contract: the same call on the same files gives the same result`, async () => {
     const root = sandbox();
     let checked = 0;

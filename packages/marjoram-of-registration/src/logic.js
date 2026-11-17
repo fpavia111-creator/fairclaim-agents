@@ -6,7 +6,7 @@ const SELF = /^(self|18|patient|same)$/i;
 
 /** Medicare Beneficiary Identifier shape (CMS): 11 characters, letters exclude S, L, O, I, B and Z. */
 export function mbiValid(v) {
-  const s = str(v).toUpperCase().replace(/-/g, '');
+  const s = str(v).toUpperCase().replace(/[\s-]/g, '');
   const A = '[AC-HJKMNP-RT-Y]', AN = '[AC-HJKMNP-RT-Y0-9]';
   return new RegExp(`^[1-9]${A}${AN}[0-9]${A}${AN}[0-9]${A}${A}[0-9][0-9]$`).test(s);
 }
@@ -74,7 +74,7 @@ export function checkRegistrations(rows, { config = {}, facts = [], asOf } = {})
       if (ver && asOf && daysBetween(ver, asOf) > verifyDays) add('not_verified', `Insurance last verified ${ver}, ${daysBetween(ver, asOf)} days ago.`);
     }
     if (age !== null && age >= 0 && age < minor && !str(r.guarantor)) add('minor_no_guarantor', `Patient is ${age}; no guarantor.`);
-    const zip = str(r.zip); if (zip && !/^\d{5}(-?\d{4})?$/.test(zip)) add('zip_format', `ZIP "${zip.length > 3 ? `${zip.slice(0, 3)}…` : zip}" is not 5 or 9 digits.`);
+    const zip = str(r.zip); if (zip && !/^\d{5}(-?\d{4})?$/.test(zip)) add('zip_format', `ZIP "${zip.length > 3 ? `${zip.slice(0, 3)}…` : zip}" is not 5 or 9 digits${/^\d{4}(-?\d{4})?$/.test(zip) ? ': it has probably lost its leading zero (spreadsheets drop it)' : ''}.`);
     const state = str(r.state); if (state && !/^[A-Za-z]{2}$/.test(state)) add('state_format', `State "${state}" is not a two-letter code.`);
     const phone = str(r.phone).replace(/\D/g, ''); if (str(r.phone) && !(phone.length === 10 || (phone.length === 11 && phone[0] === '1'))) add('phone_format', `Phone has ${phone.length} digit(s).`);
   }

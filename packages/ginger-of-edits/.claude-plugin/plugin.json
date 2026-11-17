@@ -1,6 +1,6 @@
 {
   "name": "ginger-of-edits",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Checks claims against the CMS NCCI procedure-to-procedure edits and medically unlikely edits files you download, by date of service, with the modifier indicator, bypass modifiers and MUE adjudication indicator, plus payer pair edits your team adds.",
   "author": {
     "name": "Kurt Francisco"

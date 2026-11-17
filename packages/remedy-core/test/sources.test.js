@@ -127,7 +127,7 @@ test('remedy-sources.json is schema-checked when read', () => {
 });
 
 // Layouts whose column names were compared with the publisher's documentation.
-const DOCUMENTED = ['cms_hpt_csv_tall', 'cms_hpt_csv_tall_v3', 'cms_pfs_indicators', 'cms_pfs_localities'];
+const DOCUMENTED = ['cms_hpt_csv_tall', 'cms_hpt_csv_tall_v3', 'cms_pfs_indicators', 'cms_pfs_localities', 'open_dental_procedures'];
 
 test('the catalogue: every entry has a system, a label and a way to be recognised; only checked layouts say so', () => {
   const all = Object.values(EXPORTS); assert.ok(all.length >= 12);

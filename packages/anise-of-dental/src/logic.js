@@ -62,7 +62,7 @@ export function checkDental(claims, history = [], { config = {}, facts = [] } = 
   const lines = [];
   for (const c of claims) for (const l of c.lines) {
     const date = l.date_from || c.service_from; const code = str(l.code).toUpperCase();
-    const ev = { code, date, tooth: str(l.tooth).toUpperCase() || null, quadrant: quadOf(l.quadrant), source: 'claim', claim_id: c.claim_id, line: l.line };
+    const ev = { code, date, tooth: str(l.tooth).toUpperCase() || null, quadrant: quadOf(l.quadrant), source: 'claim', claim_id: c.claim_id, line: l.line, seq: lines.length };
     push(who(c), ev);
     lines.push({ c, l, ev, key: who(c) });
   }
@@ -101,14 +101,14 @@ export function checkDental(claims, history = [], { config = {}, facts = [] } = 
       if (x) add('extracted', 'error', `Tooth ${tooth} was extracted on ${x.date} (${x.code}).`);
     }
     const same = (events.get(key) || []).filter((e) => e !== ev && e.date === date && e.source === 'claim');
-    if (same.some((e) => e.code === code && e.tooth === tooth && e.quadrant === ev.quadrant && (e.claim_id !== ev.claim_id || e.line < ev.line))) add('duplicate', 'error', `${code}${tooth ? ` on tooth ${tooth}` : ''} is billed twice on ${date}.`);
+    if (same.some((e) => e.code === code && e.tooth === tooth && e.quadrant === ev.quadrant && e.seq < ev.seq)) add('duplicate', 'error', `${code}${tooth ? ` on tooth ${tooth}` : ''} is billed twice on ${date}.`);
     if (/^D434[12]$/.test(code) && same.some((e) => e.code === 'D1110')) add('same_day', 'warning', 'Scaling and root planing with a prophylaxis on the same day: most plans pay one of them.');
     for (const r of [...baseRules, ...memRules]) {
       if (!matchCode(r, code) || issues.some((i) => i.check === 'duplicate')) continue;
       if (r.payer && payerKey(r.payer) !== payerKey(c.payer_name)) continue;
       if (Number.isFinite(r.age_max) && age !== null && age > r.age_max) add('age', 'warning', `${r.label || code}: patient is ${age}; the limit is age ${r.age_max}${r.source === 'memory' ? ' (from memory)' : ''}.`, r.fact_id ? { fact_id: r.fact_id } : {});
       const start = r.calendar_year ? `${date.slice(0, 4)}-01-01` : addMonths(date, -(r.months || 12));
-      const prior = before.concat(same.filter((e) => e.claim_id !== ev.claim_id || e.line < ev.line)).filter((e) => matchCode(r, e.code) && e.date >= start && (r.per === 'tooth' ? e.tooth === tooth : r.per === 'quadrant' ? e.quadrant === ev.quadrant : true));
+      const prior = before.concat(same.filter((e) => e.seq < ev.seq)).filter((e) => matchCode(r, e.code) && e.date >= start && (r.per === 'tooth' ? e.tooth === tooth : r.per === 'quadrant' ? e.quadrant === ev.quadrant : true));
       if (prior.length >= r.max) add('frequency', 'warning', `${r.label || r.codes.join('/')}: ${r.max} per ${r.calendar_year ? 'calendar year' : `${r.months} months`}${r.per !== 'patient' ? ` per ${r.per}` : ''}${r.payer ? ` for ${r.payer}` : ''}; already ${prior.map((e) => `${e.code} ${e.date}`).join(', ')}. The plan may deny: check the patient's benefits${r.source === 'default' ? ' (this is a common limit, not this plan\'s rule)' : ''}.`, r.fact_id ? { fact_id: r.fact_id } : {});
     }
     for (const a of attachments) if (a.codes.includes(code)) add('attachment', 'info', `Payers usually ask for ${a.need} with ${code}.`);
