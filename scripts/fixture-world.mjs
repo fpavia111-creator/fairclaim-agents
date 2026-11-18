@@ -1,4 +1,4 @@
-// The fictional practice every Remedy fixture is drawn from. Nothing here is real:
+// The fictional practice every Fairclaim fixture is drawn from. Nothing here is real:
 // the patients, member ids, payers, payer ids and the practice are invented. The
 // NPIs are made-up numbers that pass the check digit; any match with a real
 // provider is a coincidence.

@@ -1,4 +1,4 @@
-# Agentes Remedy para faturamento médico
+# Agentes Fairclaim para faturamento médico
 
 *Traduzido pelo Claude; revisão por falante nativo pendente. O [README](README.md) em inglês é a referência.*
 
@@ -9,19 +9,19 @@ Licença MIT · Node 20 ou mais recente · apenas arquivos locais · sem credenc
 ## Experimente
 
 ```bash
-npx -y sage-of-claims demo          # revisão de guias com dados fictícios
-npx -y yarrow-of-denials demo       # lista de glosas a partir de um 835 fictício
+npx -y fairclaim-claim-scrubber demo          # revisão de guias com dados fictícios
+npx -y fairclaim-denial-worklist demo       # lista de glosas a partir de um 835 fictício
 ```
 
 Cada agente tem uma `demo` com arquivos fictícios, um `eval` com seus próprios casos de teste e um servidor MCP (`npx -y <agente> mcp --root <pasta>`) para Claude Desktop, Claude Code, Cursor e outros hosts MCP. Os nomes de colunas também são reconhecidos em português; os relatórios HTML saem em português com `--lang pt`.
 
 ## Os agentes
 
-**Antes de a guia sair:** `marjoram-of-registration` (cadastro e convênio do paciente), `basil-of-eligibility` (respostas de elegibilidade 271), `mint-of-authorizations` (autorizações prévias e 278), `borage-of-estimates` (estimativas de boa-fé para pacientes sem convênio), `clover-of-charges` (consultas sem cobrança lançada), `sage-of-claims` (revisão de guias), `dill-of-modifiers` (modificadores), `ginger-of-edits` (edições NCCI publicadas pelo CMS), `anise-of-dental` (odontologia), `caraway-of-anesthesia` (unidades de anestesia), `cumin-of-dme` (equipamentos médicos e locações), `tarragon-of-labs` (laboratório, CLIA), `lovage-of-telehealth` (telessaúde), `nettle-of-audits` (auditorias de codificação).
+**Antes de a guia sair:** `fairclaim-patient-registration` (cadastro e convênio do paciente), `fairclaim-eligibility-checks` (respostas de elegibilidade 271), `fairclaim-prior-authorizations` (autorizações prévias e 278), `fairclaim-good-faith-estimates` (estimativas de boa-fé para pacientes sem convênio), `fairclaim-charge-capture` (consultas sem cobrança lançada), `fairclaim-claim-scrubber` (revisão de guias), `fairclaim-modifier-checks` (modificadores), `fairclaim-ncci-edits` (edições NCCI publicadas pelo CMS), `fairclaim-dental-claims` (odontologia), `fairclaim-anesthesia-claims` (unidades de anestesia), `fairclaim-dme-claims` (equipamentos médicos e locações), `fairclaim-lab-claims` (laboratório, CLIA), `fairclaim-telehealth-claims` (telessaúde), `fairclaim-coding-audits` (auditorias de codificação).
 
-**Depois que ela sai:** `verbena-of-rejects` (rejeições 999 e 277CA), `chamomile-of-ar` (contas a receber e prazos de envio), `fennel-of-remits` (835 contra depósitos bancários), `yarrow-of-denials` (glosas por causa), `rosemary-of-appeals` (rascunhos de recurso), `thyme-of-underpayments` (pagamentos a menor pelo contrato), `tansy-of-credits` (saldos credores e reembolsos), `aloe-of-statements` (extratos de pacientes), `savory-of-plans` (planos de pagamento).
+**Depois que ela sai:** `fairclaim-claim-rejections` (rejeições 999 e 277CA), `fairclaim-ar-aging` (contas a receber e prazos de envio), `fairclaim-remit-deposits` (835 contra depósitos bancários), `fairclaim-denial-worklist` (glosas por causa), `fairclaim-denial-appeals` (rascunhos de recurso), `fairclaim-underpayments` (pagamentos a menor pelo contrato), `fairclaim-credit-balances` (saldos credores e reembolsos), `fairclaim-patient-statements` (extratos de pacientes), `fairclaim-payment-plans` (planos de pagamento).
 
-**Gerir a clínica:** `hyssop-of-fees` (tabela de preços contra o Medicare), `laurel-of-contracts` (contratos com operadoras), `sorrel-of-payers` (painéis por operadora), `lavender-of-credentialing` (credenciamentos e vencimentos), `angelica-of-prices` (arquivo de transparência de preços de hospitais), `mallow-of-kpis` (indicadores contra as suas próprias metas), `vervain-of-onboarding` (prontidão para a entrada em operação de uma nova clínica).
+**Gerir a clínica:** `fairclaim-fee-schedule` (tabela de preços contra o Medicare), `fairclaim-payer-contract-rates` (contratos com operadoras), `fairclaim-payer-scorecards` (painéis por operadora), `fairclaim-provider-credentialing` (credenciamentos e vencimentos), `fairclaim-price-transparency` (arquivo de transparência de preços de hospitais), `fairclaim-revenue-kpis` (indicadores contra as suas próprias metas), `fairclaim-practice-go-live` (prontidão para a entrada em operação de uma nova clínica).
 
 ## Dados de pacientes
 

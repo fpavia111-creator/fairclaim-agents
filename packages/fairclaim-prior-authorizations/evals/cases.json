@@ -1,0 +1,300 @@
+{
+  "suite": "fairclaim-prior-authorizations",
+  "root": "..",
+  "data_note": "Fictional practice, payers and patients in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    {
+      "id": "totals",
+      "tool": "authorizations_check",
+      "args": {
+        "services": "fixtures/services-2026-02.csv",
+        "auths": "fixtures/auth-log.csv",
+        "rules": "fixtures/auth-rules.json",
+        "responses": [
+          "fixtures/responses-278.x12"
+        ],
+        "as_of": "2026-02-10"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.lines_needing_auth": 11,
+          "result.covered": 2,
+          "result.at_risk": 8,
+          "result.charges_at_risk": 5610,
+          "result.authorizations": 6
+        }
+      }
+    },
+    {
+      "id": "every-planted-status",
+      "tool": "authorizations_check",
+      "args": {
+        "services": "fixtures/services-2026-02.csv",
+        "auths": "fixtures/auth-log.csv",
+        "rules": "fixtures/auth-rules.json",
+        "responses": [
+          "fixtures/responses-278.x12"
+        ],
+        "as_of": "2026-02-10"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.status": "missing",
+          "result.items.1.status": "denied",
+          "result.items.2.status": "expired",
+          "result.items.3.status": "units_exceeded",
+          "result.items.3.units_used": 5,
+          "result.items.4.status": "code_not_on_auth",
+          "result.items.5.status": "number_mismatch",
+          "result.items.6.status": "pending",
+          "result.items.7.status": "not_in_log",
+          "result.items.8.status": "running_out"
+        }
+      }
+    },
+    {
+      "id": "without-278-the-request-is-pending-in-log",
+      "tool": "authorizations_check",
+      "args": {
+        "services": "fixtures/services-2026-02.csv",
+        "auths": "fixtures/auth-log.csv",
+        "rules": "fixtures/auth-rules.json",
+        "as_of": "2026-02-10",
+        "status": "missing"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.claim_id": "M5",
+          "result.items.1.claim_id": "M7"
+        }
+      }
+    },
+    {
+      "id": "list-authorizations",
+      "tool": "authorizations_authorizations",
+      "args": {
+        "auths": "fixtures/auth-log.csv",
+        "responses": [
+          "fixtures/responses-278.x12"
+        ]
+      },
+      "expect": {
+        "equals": {
+          "result.authorizations.4.status": "denied",
+          "result.authorizations.5.source": "278",
+          "result.authorizations.5.status": "pending"
+        }
+      }
+    },
+    {
+      "id": "bad-rules-refused",
+      "tool": "authorizations_check",
+      "args": {
+        "services": "fixtures/services-2026-02.csv",
+        "auths": "fixtures/auth-log.csv",
+        "rules": "fixtures/auth-rules-typo.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "/payers/0/codes"
+        ]
+      }
+    },
+    {
+      "id": "names-masked",
+      "tool": "authorizations_check",
+      "args": {
+        "services": "fixtures/services-2026-02.csv",
+        "auths": "fixtures/auth-log.csv",
+        "rules": "fixtures/auth-rules.json",
+        "as_of": "2026-02-10"
+      },
+      "expect": {
+        "matches": [
+          "\"patient_name\":\"PT-[0-9a-f]{8}\""
+        ],
+        "not_contains": [
+          "Ndiaye",
+          "EHP100207733"
+        ]
+      }
+    },
+    {
+      "id": "report-in-german",
+      "tool": "authorizations_write_report",
+      "args": {
+        "services": "fixtures/services-2026-02.csv",
+        "auths": "fixtures/auth-log.csv",
+        "rules": "fixtures/auth-rules.json",
+        "as_of": "2026-02-10",
+        "language": "de",
+        "out_dir": "remedy-out/eval-authorizations"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.lang": "de"
+        }
+      }
+    },
+    {
+      "id": "request-refused",
+      "tool": "auth_request_submit",
+      "args": {},
+      "expect": {
+        "status": "blocked",
+        "decision": "block"
+      }
+    },
+    {
+      "id": "recall-empty-memory",
+      "tool": "authorizations_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty",
+          "payer_auth_rule"
+        ]
+      }
+    },
+    {
+      "id": "log-status-in-everyday-words",
+      "tool": "authorizations_check",
+      "args": {
+        "services": "fixtures/services-2026-02.csv",
+        "auths": "fixtures/auth-log-status-words.csv",
+        "rules": "fixtures/auth-rules.json",
+        "as_of": "2026-02-10"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.by_status.denied": 1,
+          "result.by_status.pending": 4,
+          "result.covered": 2
+        }
+      }
+    },
+    {
+      "id": "not-approved-is-denied",
+      "tool": "authorizations_check",
+      "args": {
+        "services": "fixtures/services-2026-02.csv",
+        "auths": "fixtures/auth-log-status-words.csv",
+        "rules": "fixtures/auth-rules.json",
+        "as_of": "2026-02-10",
+        "status": "denied"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.claim_id": "M6",
+          "result.items.0.auth_number": "AUTH-305"
+        },
+        "contains": [
+          "was not certified"
+        ]
+      }
+    },
+    {
+      "id": "code-not-on-auth",
+      "tool": "authorizations_check",
+      "args": {
+        "services": "fixtures/services-2026-02.csv",
+        "auths": "fixtures/auth-log.csv",
+        "rules": "fixtures/auth-rules.json",
+        "as_of": "2026-02-10",
+        "status": "code_not_on_auth"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.claim_id": "M8",
+          "result.items.0.code": "97530"
+        },
+        "contains": [
+          "Ask the payer to add the code"
+        ]
+      }
+    },
+    {
+      "id": "typo-in-number-on-claim",
+      "tool": "authorizations_check",
+      "args": {
+        "services": "fixtures/services-2026-02.csv",
+        "auths": "fixtures/auth-log.csv",
+        "rules": "fixtures/auth-rules.json",
+        "as_of": "2026-02-10",
+        "status": "number_mismatch"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.claim_id": "M11",
+          "result.items.0.auth_on_claim": "AUTH-3O1",
+          "result.items.0.auth_number": "AUTH-301"
+        },
+        "contains": [
+          "REF*G1"
+        ]
+      }
+    },
+    {
+      "id": "units-exceeded",
+      "tool": "authorizations_check",
+      "args": {
+        "services": "fixtures/services-2026-02.csv",
+        "auths": "fixtures/auth-log.csv",
+        "rules": "fixtures/auth-rules.json",
+        "as_of": "2026-02-10",
+        "status": "units_exceeded"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.claim_id": "M4",
+          "result.items.0.units_used": 5,
+          "result.items.0.auth_units": 4
+        }
+      }
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "authorizations_check",
+      "args": {
+        "services": "../../outside-root.csv",
+        "auths": "fixtures/auth-log.csv",
+        "rules": "fixtures/auth-rules.json",
+        "responses": [
+          "fixtures/responses-278.x12"
+        ],
+        "as_of": "2026-02-10"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside the allowed root"
+        ]
+      }
+    },
+    {
+      "id": "missing-file-named",
+      "tool": "authorizations_check",
+      "args": {
+        "services": "fixtures/missing-export.csv",
+        "auths": "fixtures/auth-log.csv",
+        "rules": "fixtures/auth-rules.json",
+        "responses": [
+          "fixtures/responses-278.x12"
+        ],
+        "as_of": "2026-02-10"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "not found",
+          "missing-export.csv"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairclaim-dme-claims": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fairclaim-dme-claims@0.2.0",
+        "mcp"
+      ]
+    }
+  }
+}

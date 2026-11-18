@@ -2,8 +2,8 @@
 export default function (section, { W, buildX12, writer, readme }) {
   const P = (id) => W.patient(id);
 
-  section('yarrow-of-denials', () => {
-    const w = writer('yarrow-of-denials');
+  section('fairclaim-denial-worklist', () => {
+    const w = writer('fairclaim-denial-worklist');
     const era = W.body835({ trace: 'EFT20260120A', payer: 'EHP', date: '2026-01-20', claims: [
       { id: 'C2001', patient: 'P1', charge: 150, paid: 80, pr: 20, lines: [{ code: '99213', charge: 150, paid: 80, date: '2026-01-05', allowed: 100, cas: [['CO', '45', 50], ['PR', '2', 20]] }] },
       { id: 'C2005', patient: 'P5', status: '4', charge: 150, paid: 0, lines: [{ code: '99213', charge: 150, paid: 0, date: '2025-03-02', cas: [['CO', '29', 150]] }] },
@@ -28,14 +28,14 @@ export default function (section, { W, buildX12, writer, readme }) {
       { 'Claim #': 'C3002', Patient: W.fullName(P('P7')), Payer: 'Example Health Plan', 'Check No': 'CHK7781', 'Payment Date': '01/22/2026', DOS: '01/15/2026', CPT: '99214', Billed: '200.00', Paid: '130.00', 'Adj Code': 'CO-45', 'Adj Amount': '70.00', 'Remark Code': '' },
       { 'Claim #': 'C3003', Patient: W.fullName(P('P5')), Payer: 'Example Health Plan', 'Check No': 'CHK7781', 'Payment Date': '01/22/2026', DOS: '01/15/2026', CPT: '87880', Billed: '40.00', Paid: '0.00', 'Adj Code': 'CO-11', 'Adj Amount': '40.00', 'Remark Code': 'M76' },
     ]));
-    readme('yarrow-of-denials', 'Yarrow of Denials', [
+    readme('fairclaim-denial-worklist', 'Fairclaim Denial Worklist', [
       '`era-2026-01.835`: one interchange with four 835 payments (four payers, eight claims). Planted: authorization (CO-197), bundling (CO-97 + M15), CO-16 + N290 that the config maps to provider enrolment for one payer, medical necessity (CO-50), timely filing (CO-29), an unknown code (CO-989), duplicate (CO-18), coordination of benefits (CO-22 + MA04); plus clean lines with CO-45 and PR-2, and provider-level interest and a recovery.',
       '`denial-config.json`: appeal days (90, one payer 60) and one payer-specific code meaning. `denial-config-typo.json` has a bad category, to show the schema error.',
       '`exports/office-ally-era.csv`: three remittance lines in an ERA-export layout with US dates.',
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8']);
   });
-  section('sage-of-claims', () => {
-    const w = writer('sage-of-claims');
+  section('fairclaim-claim-scrubber', () => {
+    const w = writer('fairclaim-claim-scrubber');
     const L = (code, date, extra = {}) => ({ code, charge: extra.charge ?? 150, units: 1, date, ...extra });
     const tx = W.body837P([
       { id: 'C4001', patient: 'P1', dx: ['E11.9'], lines: [L('99213', '2026-01-12')] },
@@ -60,14 +60,14 @@ export default function (section, { W, buildX12, writer, readme }) {
       { 'Encounter ID': 'E5002', 'Patient Name': W.fullName(P('P6')), DOB: '09/17/1983', 'Member ID': P('P6').member, 'Primary Insurance': 'Sample Mutual Insurance', 'Payer ID': '99902', 'Billing NPI': W.PRACTICE.npi, 'Rendering NPI': '1990000022', POS: '11', DOS: '01/16/2026', CPT: '99214', 'Modifier 1': '', Units: '1', Charge: '200.00', 'Dx 1': 'M25.561', 'Dx 2': '', 'Dx Pointer': '' },
       { 'Encounter ID': 'E5002', 'Patient Name': W.fullName(P('P6')), DOB: '09/17/1983', 'Member ID': P('P6').member, 'Primary Insurance': 'Sample Mutual Insurance', 'Payer ID': '99902', 'Billing NPI': W.PRACTICE.npi, 'Rendering NPI': '1990000022', POS: '11', DOS: '01/16/2026', CPT: '20610', 'Modifier 1': '', Units: '1', Charge: '120.00', 'Dx 1': 'M25.561', 'Dx 2': '', 'Dx Pointer': '1' },
     ]));
-    readme('sage-of-claims', 'Sage of Claims', [
+    readme('fairclaim-claim-scrubber', 'Fairclaim Claim Scrubber', [
       '`batch-2026-01-20.837`: one 837P with ten claims. C4001 is clean. Planted: missing member id and a bad rendering NPI check digit (C4002), an ICD-9 code and a pointer to a diagnosis that is not there (C4003), a corrected claim with no original reference and a future date (C4004), E/M plus injection without 25 and a code the config says needs prior auth (C4005), a wrong total, 26+TC together and zero units (C4006), a duplicate line and an unknown place of service (C4007), a member id that does not fit the payer pattern, birth date after service, bad code and modifier (C4008), a duplicate of C4001 (C4009), a service past the payer filing limit (C4010).',
-      '`scrub-config.json`: member id patterns, prior-auth codes, filing limits and a unit limit. `scrub-config-typo.json` names a field Sage cannot require.',
+      '`scrub-config.json`: member id patterns, prior-auth codes, filing limits and a unit limit. `scrub-config-typo.json` names a field Fairclaim Claim Scrubber cannot require.',
       '`exports/tebra-charges.csv`: three charge lines in a practice-management export layout; one line has no diagnosis pointer.',
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8']);
   });
-  section('fennel-of-remits', () => {
-    const w = writer('fennel-of-remits');
+  section('fairclaim-remit-deposits', () => {
+    const w = writer('fairclaim-remit-deposits');
     const line = (code, charge, paid, date, cas) => ({ code, charge, paid, date, allowed: paid + (cas.filter((c) => c[0] === 'PR').reduce((t, c) => t + c[2], 0)), cas });
     const a = W.body835({ trace: 'EFT20260205A', payer: 'EHP', date: '2026-02-05', claims: [
       { id: 'C6001', patient: 'P1', charge: 150, paid: 90, pr: 10, lines: [line('99213', 150, 90, '2026-01-20', [['CO', '45', 50], ['PR', '3', 10]])] },
@@ -102,14 +102,14 @@ export default function (section, { W, buildX12, writer, readme }) {
       { 'Claim Number': 'C6102', Patient: W.fullName(P('P2')), Payer: 'Sample Mutual Insurance', 'Check/EFT #': 'EFT20260212Q', 'Check/EFT Date': '2026-02-12', 'Service Date': '2026-01-28', 'Procedure Code': '99214', Billed: '200.00', Allowed: '130.50', Paid: '130.50', 'Adjustment Codes': 'CO-45 69.50' },
     ]));
     w('exports/bank-2026-02-12.csv', W.csv([{ Date: '2026-02-13', Description: 'SMPL MUTUAL INS HCCLAIMPMT', Amount: '226.50' }]));
-    readme('fennel-of-remits', 'Fennel of Remits', [
+    readme('fairclaim-remit-deposits', 'Fairclaim Remit Deposits', [
       '`era-2026-02.835`: five 835 payments. EHP (with a 40.00 overpayment recovery and 2.10 interest) matches its deposit by the TRN in the bank description; SMI matches by amount two days later; DMP has the trace in the reference column but the bank received 10.00 less; the TMC paper check has no deposit; an EHP payment of 0.00 (a denial) expects no money.',
       '`bank-2026-02.csv`: six deposits. One EHP deposit has no remittance; a card settlement and a savings transfer are not insurance (the config ignores the transfer).',
       '`exports/waystar-remit.csv` and `exports/bank-2026-02-12.csv`: an ERA export with one check of two claims, and its deposit.',
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8']);
   });
-  section('thyme-of-underpayments', () => {
-    const w = writer('thyme-of-underpayments');
+  section('fairclaim-underpayments', () => {
+    const w = writer('fairclaim-underpayments');
     const ln = (code, charge, allowed, date, extra = {}) => { const pr = extra.pr || 0; const paid = Math.round((allowed - pr) * 100) / 100; return { code, mods: extra.mods, units: extra.units, charge, paid, allowed, date, cas: [['CO', '45', Math.round((charge - allowed) * 100) / 100], ...(pr ? [['PR', '2', pr]] : [])] }; };
     const sum = (ls, k) => Math.round(ls.reduce((t, l) => t + l[k], 0) * 100) / 100;
     const cl = (id, patient, lines, extra = {}) => ({ id, patient, charge: sum(lines, 'charge'), paid: sum(lines, 'paid'), pr: Math.round(lines.reduce((t, l) => t + (l.cas.find((c) => c[0] === 'PR') || [0, 0, 0])[2], 0) * 100) / 100, lines, ...extra });
@@ -143,14 +143,14 @@ export default function (section, { W, buildX12, writer, readme }) {
       { Payer: 'Example Health Plan', CPT: '99213', Modifier: '', Allowed: '92.00', 'Effective Date': '2025-01-01', 'End Date': '2025-12-31' },
     ]));
     w('medicare-fees.csv', W.csv([{ HCPCS: '99213', Fee: '88.00' }, { HCPCS: '99214', Fee: '125.00' }]));
-    readme('thyme-of-underpayments', 'Thyme of Underpayments', [
+    readme('fairclaim-underpayments', 'Fairclaim Underpayments', [
       '`era-2026-02-10.835`: nine claims from four payers. Planted: 99213 allowed 90 against a 96 fee (C7001), a -26 line paid at 40% as the contract says (C7002), a second procedure that should be at 50% but was allowed 30 against 40 (C7003), three units allowed as two (C7004), 99214 allowed at 100% of Medicare where the contract says 115% (C7005), a percent-of-charge payer paid right (C7006), a payer with no contract (C7007), a code missing from the fee file (C7008) and a denied line (C7009).',
       '`contract.json`: method per payer, modifier percents, the multiple-procedure rule. `contract-typo.json` leaves out the percent a percent-of-Medicare payer needs.',
       '`fees-ehp.csv`: the fee schedule, with an expired 2025 row that must not be used. `medicare-fees.csv`: two Medicare fees.',
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P7']);
   });
-  section('ginger-of-edits', () => {
-    const w = writer('ginger-of-edits');
+  section('fairclaim-ncci-edits', () => {
+    const w = writer('fairclaim-ncci-edits');
     const L = (code, date, extra = {}) => ({ code, charge: extra.charge ?? 100, units: extra.units ?? 1, date, mods: extra.mods });
     const tx = W.body837P([
       { id: 'G1001', patient: 'P1', dx: ['M17.11'], lines: [L('20610', '2026-01-12', { charge: 120 }), L('99213', '2026-01-12', { mods: ['25'], charge: 150 })] },
@@ -166,7 +166,7 @@ export default function (section, { W, buildX12, writer, readme }) {
       { id: 'G1011', patient: 'P1', dx: ['M17.11'], lines: [L('20610', '2026-01-17', { mods: ['LT'], charge: 120 }), L('99213', '2026-01-17', { mods: ['LT'], charge: 150 })] },
     ]);
     w('batch-ncci.837', buildX12([tx], { functional: 'HC', date: '20260120' }));
-    const pre = 'Illustrative rows in the NCCI practitioner PTP layout for the Remedy fixtures. Not the CMS edits: download the current file from cms.gov.\nCPT only copyright notice line\n';
+    const pre = 'Illustrative rows in the NCCI practitioner PTP layout for the Fairclaim fixtures. Not the CMS edits: download the current file from cms.gov.\nCPT only copyright notice line\n';
     w('ncci-ptp-practitioner.csv', pre + W.csv([
       { 'Column 1': '20610', 'Column 2': '99213', '*=in existence prior to 1996': '', 'Effective Date': '20100101', 'Deletion Date *=no data': '*', 'Modifier 0=not allowed 1=allowed 9=not applicable': '1', 'PTP Edit Rationale': 'Standards of medical / surgical services' },
       { 'Column 1': '20610', 'Column 2': '99214', '*=in existence prior to 1996': '', 'Effective Date': '20100101', 'Deletion Date *=no data': '*', 'Modifier 0=not allowed 1=allowed 9=not applicable': '1', 'PTP Edit Rationale': 'Standards of medical / surgical services' },
@@ -181,13 +181,13 @@ export default function (section, { W, buildX12, writer, readme }) {
       { 'HCPCS/CPT Code': '99213', 'Practitioner Services MUE Values': '1', 'MUE Adjudication Indicator': '2 Date of Service Edit: Policy', 'MUE Rationale': 'Code Descriptor / CPT Instruction' },
       { 'HCPCS/CPT Code': '93000', 'Practitioner Services MUE Values': '3', 'MUE Adjudication Indicator': '1 Line Edit', 'MUE Rationale': 'Clinical: Data' },
     ]));
-    readme('ginger-of-edits', 'Ginger of Edits', [
+    readme('fairclaim-ncci-edits', 'Fairclaim NCCI Edits', [
       '`batch-ncci.837`: eleven claims. Planted: injection plus E/M with 25 (bypassed, warning) and without (error), an indicator 0 pair (93000 + 93010), 97530 + 97140 with 59 (bypassed), 97110 x6 against a clinical MUE of 4, three 20610 lines on one day against a policy MUE of 2, two claims with 99213 for one patient on one day, a pair whose edit was deleted on 2025-12-31 (no finding), a preventive visit pair with indicator 9 (no finding), and the same side (LT) on both lines, which does not bypass.',
       '`ncci-ptp-practitioner.csv` and `ncci-mue-practitioner.csv`: illustrative rows in the CMS layouts (with title lines above the header, as CMS files have). They are not the CMS edits.',
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8']);
   });
-  section('verbena-of-rejects', () => {
-    const w = writer('verbena-of-rejects');
+  section('fairclaim-claim-rejections', () => {
+    const w = writer('fairclaim-claim-rejections');
     const L = (code, date, charge = 150) => ({ code, charge, units: 1, date });
     const tx1 = W.body837P([
       { id: 'V1001', patient: 'P1', dx: ['E11.9'], lines: [L('99213', '2026-01-19')] },
@@ -224,15 +224,15 @@ export default function (section, { W, buildX12, writer, readme }) {
     ].map((sg) => sg.map((x) => x)) };
     w('ack-277ca.x12', buildX12([ca], { date: '20260121', sender: 'CLEARINGHOUSE', receiver: 'PRACTICE' }));
     w('ack-277ca-resent.x12', "ISA*00*          *00*          *ZZ*CLEARINGHOUSE  *ZZ*PRACTICE       *260123*1200*^*00501*000000002*0*T*:~GS*HN*CLEARINGHOUSE*PRACTICE*20260123*1200*2*X*005010X214~ST*277*0002*005010X214~BHT*0085*08*CA0123*20260123*0900*TH~HL*1**20*1~NM1*PR*2*EXAMPLE HEALTH PLAN*****PI*99901~TRN*1*CA0123~DTP*050*D8*20260123~DTP*009*D8*20260123~HL*2*1*21*1~NM1*41*2*EXAMPLE FAMILY MEDICINE*****46*SUB001~TRN*2*B0002~STC*A1:19:PR*20260123*WQ*80~HL*3*2*19*1~NM1*85*2*EXAMPLE FAMILY MEDICINE*****XX*2990000012~HL*4*3*PT~NM1*QC*1*CASTELLANO*ROWAN****MI*DMP000781234~TRN*2*V1003~STC*A2:20:PR*20260123*WQ*80~REF*1K*EHP2601230003~DTP*472*D8*20260119~SE*20*0002~GE*1*2~IEA*1*000000002~");
-    readme('verbena-of-rejects', 'Verbena of Rejects', [
+    readme('fairclaim-claim-rejections', 'Fairclaim Claim Rejections', [
       '`batch-2026-01-20.837`: two 837P transactions. 0001 has five claims (one with a birth date in the future, one with a bad rendering NPI, one with no member id); 0002 has two claims and no billing NPI.',
       '`ack-999.x12`: transaction 0001 accepted with an element error on the second claim\'s DMG segment; 0002 rejected for the missing billing NPI (both its claims must be resent).',
       '`ack-277ca.x12`: the payer accepts V1001 and V1002, rejects V1003 (rendering NPI) and V1007 (member number); V1004 has no line.',
       '`ack-277ca-resent.x12`: a later 277CA (2026-01-23) accepting V1003 after it was resent with the right rendering NPI, so it drops off the worklist.',
     ], ['P1', 'P2', 'P3', 'P5', 'P6', 'P7', 'P8']);
   });
-  section('basil-of-eligibility', () => {
-    const w = writer('basil-of-eligibility');
+  section('fairclaim-eligibility-checks', () => {
+    const w = writer('fairclaim-eligibility-checks');
     const d8 = (iso) => iso.replace(/-/g, '');
     const member = (hl, appt, pid, segs) => { const p = W.patient(pid); return [['HL', String(hl), '2', '22', '0'], ['TRN', '2', appt, '9EXAMPLE01'], ['NM1', 'IL', '1', p.last.toUpperCase(), p.first.toUpperCase(), '', '', '', 'MI', p.member], ['DMG', 'D8', d8(p.dob), p.gender], ...segs]; };
     const head = (pk) => { const py = W.payer(pk); return [['BHT', '0022', '11', `E${pk}`, '20260201', '0800'], ['HL', '1', '', '20', '1'], ['NM1', 'PR', '2', py.name.toUpperCase(), '', '', '', '', 'PI', py.id], ['HL', '2', '1', '21', '1'], ['NM1', '1P', '2', 'EXAMPLE FAMILY MEDICINE', '', '', '', '', 'XX', W.PRACTICE.npi]]; };
@@ -261,13 +261,13 @@ export default function (section, { W, buildX12, writer, readme }) {
       appt('A1008', 'P8', '02/03/2026', 'Reyes', 'Sick visit', 'Demo Medicaid Plan'),
       appt('A1009', 'P1', '02/03/2026', 'Reyes', 'Lab only', 'Example Health Plan', 'Cancelled'),
     ]));
-    readme('basil-of-eligibility', 'Basil of Eligibility', [
+    readme('fairclaim-eligibility-checks', 'Fairclaim Eligibility Checks', [
       '`eligibility-2026-02-01.271`: four 271 responses (one per payer) for the visits on 3 February 2026, each tied to its appointment by the trace number. Planted: active with copay, coinsurance and deductible left (A1001); coverage ended 2025-12-31 (A1002); subscriber not found, AAA 75 (A1003); another payer primary (A1004); plan ends 31 January, before the visit (A1005); an HMO naming a primary care provider (A1007); Medicaid with no copay (A1008).',
       '`appointments-2026-02-03.csv`: nine visits; A1006 has no response and A1009 is cancelled.',
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8']);
   });
-  section('mint-of-authorizations', () => {
-    const w = writer('mint-of-authorizations');
+  section('fairclaim-prior-authorizations', () => {
+    const w = writer('fairclaim-prior-authorizations');
     const svc = (id, pid, payerName, date, code, units, charge, auth = '') => ({ 'Encounter ID': id, 'Patient Name': W.fullName(P(pid)), 'Member ID': P(pid).member, 'Primary Insurance': payerName, DOS: date, CPT: code, Units: String(units), Charge: charge.toFixed(2), 'Prior Auth': auth, 'Dx 1': 'M54.50' });
     w('services-2026-02.csv', W.csv([
       svc('M1', 'P3', 'Demo Medicaid Plan', '02/02/2026', '97110', 2, 80, 'AUTH-301'),
@@ -303,15 +303,15 @@ export default function (section, { W, buildX12, writer, readme }) {
     ] };
     w('responses-278.x12', buildX12([r278], { date: '20260207', sender: 'SAMPLEMUTUAL', receiver: 'PRACTICE' }));
     w('auth-log-status-words.csv', "Auth Number,Patient Name,Member ID,Payer,CPT Codes,Approved Units,Start Date,End Date,Status\nAUTH-301,Rowan Castellano,DMP000781234,Demo Medicaid Plan,\"97110, 97140\",12,2026-01-01,2026-03-31,Partial approval\nAUTH-302,Caspian Ndiaye,EHP100207733,Example Health Plan,97110,4,2026-01-15,2026-02-15,Under review\nAUTH-305,Ezra Lindqvist,EHP100200455,Example Health Plan,72148,1,2026-01-02,2026-01-31,Not approved\nAUTH-308,Wren Halvorsen,DMP000799001,Demo Medicaid Plan,97110,8,2026-01-10,2026-04-10,see notes\nAUTH-309,Delphine Achterberg,SMI553209981,Sample Mutual Insurance,70553,1,2026-02-01,2026-03-01,Requested\n");
-    readme('mint-of-authorizations', 'Mint of Authorizations', [
+    readme('fairclaim-prior-authorizations', 'Fairclaim Prior Authorizations', [
       '`services-2026-02.csv`: eleven service lines (charge-export layout with a prior-auth column). Planted, as of 2026-02-10: covered therapy (M1, M2); an authorization running out and then over its units (M3, M4); an injection with no authorization (M5); an MRI after the authorization ended (M6); surgery pended by the payer (M7); a code not on the authorization (M8); a denied review (M9); a number on a claim that needs none and is not in the log (M10); a typo in the number (M11).',
       '`auth-log.csv`: the authorization log. `responses-278.x12`: the payer\'s 278 answers (one pended, one not certified).',
       '`auth-log-status-words.csv`: the same log with everyday status words (Partial approval, Under review, Not approved, see notes, Requested).',
       '`auth-rules.json`: codes each payer requires authorization for. `auth-rules-typo.json` gives codes as a string.',
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8']);
   });
-  section('rosemary-of-appeals', () => {
-    const w = writer('rosemary-of-appeals');
+  section('fairclaim-denial-appeals', () => {
+    const w = writer('fairclaim-denial-appeals');
     const smi = W.body835({ trace: 'EFT20260212S', payer: 'SMI', date: '2026-02-12', claims: [
       { id: 'R1001', patient: 'P2', status: '4', charge: 120, paid: 0, lines: [{ code: '20610', charge: 120, paid: 0, date: '2026-01-27', cas: [['CO', '197', 120]] }] },
       { id: 'R1002', patient: 'P6', charge: 320, paid: 130.5, lines: [{ code: '99214', mods: ['25'], charge: 200, paid: 130.5, allowed: 130.5, date: '2026-01-28', cas: [['CO', '45', 69.5]] }, { code: '20610', charge: 120, paid: 0, date: '2026-01-28', cas: [['CO', '97', 120]], remarks: ['M15'] }] },
@@ -324,7 +324,7 @@ export default function (section, { W, buildX12, writer, readme }) {
     ] });
     w('era-2026-02-12.835', buildX12([smi, tmc, ehp], { date: '20260212' }));
     w('policies/smi-joint-injections.md', [
-      '# Sample Mutual Insurance: joint injections (fictional policy for the Remedy fixtures)',
+      '# Sample Mutual Insurance: joint injections (fictional policy for the Fairclaim fixtures)',
       '',
       'Effective 2025-07-01.',
       'Prior authorization is not required for 20610 when performed in the office (place of service 11).',
@@ -350,14 +350,14 @@ export default function (section, { W, buildX12, writer, readme }) {
       { 'Claim #': 'R0905', Patient: W.fullName(P('P1')), Payer: 'Example Health Plan', Level: '1', 'Date Filed': '2025-12-20', Status: 'Overturned', Amount: '120.00' },
       { 'Claim #': 'R0906', Patient: W.fullName(P('P2')), Payer: 'Sample Mutual Insurance', Level: '1', 'Date Filed': '', Status: 'Drafted', Amount: '120.00' },
     ]));
-    readme('rosemary-of-appeals', 'Rosemary of Appeals', [
+    readme('fairclaim-denial-appeals', 'Fairclaim Denial Appeals', [
       '`era-2026-02-12.835`: an authorization denial (R1001), a bundled injection with remark M15 (R1002), a medical-necessity denial (R1003) and a paid claim with nothing to appeal (R1004).',
       '`policies/`: two fictional payer policies. One line in the injection policy is written like an instruction to an AI: it must be flagged and never quoted.',
       '`appeal-log.csv`: six appeals (as of 2026-02-15: one overdue, one waiting, one upheld at level 1, one exhausted, one won, one not filed). `appeal-config.json`: deadlines and response times.',
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8']);
   });
-  section('chamomile-of-ar', () => {
-    const w = writer('chamomile-of-ar');
+  section('fairclaim-ar-aging', () => {
+    const w = writer('fairclaim-ar-aging');
     const row = (id, p, payer, dos, sub, last, charge, bal, status, resp = 'Insurance') => ({ 'Claim #': id, Patient: W.fullName(P(p)), 'Member ID': P(p).member, 'Primary Payer': payer, Provider: 'Alma Reyes MD (fictional)', DOS: dos, Submitted: sub, 'Last Activity': last, Charge: charge, Balance: bal, Status: status, 'Responsible Party': resp });
     w('open-ar-2026-02-15.csv', W.csv([
       row('A1001', 'P1', 'Example Health Plan', '01/20/2026', '01/22/2026', '02/01/2026', '150.00', '150.00', 'Submitted'),
@@ -377,7 +377,7 @@ export default function (section, { W, buildX12, writer, readme }) {
       { 'Claim ID': 'B2001', 'Patient Name': W.fullName(P('P2')), 'Primary Payer': 'Sample Mutual Insurance', 'Service Date': '12/01/2025', 'Claim Status': 'HOLD', 'Outstanding': '180.00', Charges: '180.00' },
       { 'Claim ID': 'B2002', 'Patient Name': W.fullName(P('P4')), 'Primary Payer': 'Test Medicare Contractor', 'Service Date': '12/20/2025', 'Claim Status': 'BILLED', 'Outstanding': '95.00', Charges: '95.00', 'Bill Date': '12/22/2025' },
     ], ['Claim ID', 'Patient Name', 'Primary Payer', 'Service Date', 'Bill Date', 'Claim Status', 'Charges', 'Outstanding']));
-    readme('chamomile-of-ar', 'Chamomile of A/R', [
+    readme('fairclaim-ar-aging', 'Fairclaim AR Aging', [
       '`open-ar-2026-02-15.csv`: ten open claims in a claim-aging export layout (US dates). Planted, as of 2026-02-15: a recent claim within the payer\'s time (A1001); an unbilled claim 8 days from the 90-day limit (A1002); an unbilled claim past the limit (A1003); a claim submitted 105 days after service against a 90-day limit (A1004); a claim with no payment or activity for over 30 days (A1005); an old claim someone worked last week (A1006); a patient balance (A1007); a payer with no filing limit set (A1008); a paid claim with no balance (A1009); a draft well inside the limit (A1010).',
       '`ar-config.json`: filing limits for the four payers and the follow-up rules. `ar-config-typo.json` gives a limit as text.',
       '`exports/athena-claims.csv`: two claims in a claim-worklist export layout with no submitted date for the held claim.',

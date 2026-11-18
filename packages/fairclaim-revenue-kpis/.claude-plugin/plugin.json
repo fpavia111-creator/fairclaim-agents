@@ -1,0 +1,24 @@
+{
+  "name": "fairclaim-revenue-kpis",
+  "version": "0.2.0",
+  "description": "Revenue cycle KPIs from your own claims and remittances: denial rate, first-pass rate, net collection, days to pay, days in A/R and unanswered claims, by payer, month and provider, against the targets you set.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairclaim-agents/tree/main/packages/fairclaim-revenue-kpis#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "kpi",
+    "dashboard",
+    "denial-rate",
+    "days-in-ar",
+    "net-collection",
+    "revenue-cycle"
+  ]
+}

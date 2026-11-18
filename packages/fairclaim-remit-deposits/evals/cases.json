@@ -1,0 +1,273 @@
+{
+  "suite": "fairclaim-remit-deposits",
+  "root": "..",
+  "data_note": "Fictional practice, payers, patients and bank lines in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    {
+      "id": "totals",
+      "tool": "remits_match",
+      "args": {
+        "remits": "fixtures/era-2026-02.835",
+        "deposits": "fixtures/bank-2026-02.csv",
+        "config": "fixtures/remit-config.json"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.payments": 5,
+          "result.matched": 2,
+          "result.era_total": 636.68,
+          "result.deposited_and_matched": 402.6,
+          "result.no_deposit_total": 74.88,
+          "result.mismatch_total": 10,
+          "result.deposits_without_era": 1,
+          "result.deposits_without_era_total": 512.34,
+          "result.x12_problems": []
+        }
+      }
+    },
+    {
+      "id": "trace-in-bank-description",
+      "tool": "remits_match",
+      "args": {
+        "remits": "fixtures/era-2026-02.835",
+        "deposits": "fixtures/bank-2026-02.csv"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.status": "matched",
+          "result.items.0.matched_by": "trace",
+          "result.items.1.status": "matched_by_amount",
+          "result.items.1.days_to_deposit": 2,
+          "result.items.2.status": "amount_mismatch",
+          "result.items.2.difference": 10
+        }
+      }
+    },
+    {
+      "id": "paper-check-and-zero-payment",
+      "tool": "remits_match",
+      "args": {
+        "remits": "fixtures/era-2026-02.835",
+        "deposits": "fixtures/bank-2026-02.csv"
+      },
+      "expect": {
+        "equals": {
+          "result.items.3.status": "no_deposit",
+          "result.items.3.method": "CHK",
+          "result.items.4.status": "no_money_expected"
+        }
+      }
+    },
+    {
+      "id": "non-insurance-deposits",
+      "tool": "remits_match",
+      "args": {
+        "remits": "fixtures/era-2026-02.835",
+        "deposits": "fixtures/bank-2026-02.csv",
+        "config": "fixtures/remit-config.json"
+      },
+      "expect": {
+        "equals": {
+          "result.unmatched_deposits.0.status": "deposit_without_era",
+          "result.unmatched_deposits.0.trace_numbers": [
+            "EFT20260209X"
+          ],
+          "result.unmatched_deposits.1.status": "not_insurance"
+        },
+        "not_contains": [
+          "TRANSFER FROM SAVINGS"
+        ]
+      }
+    },
+    {
+      "id": "plb-explained",
+      "tool": "remits_plb",
+      "args": {
+        "remits": "fixtures/era-2026-02.835"
+      },
+      "expect": {
+        "equals": {
+          "result.reduced": 40,
+          "result.added": 2.1,
+          "result.items.0.meaning": "Overpayment recovery",
+          "result.items.1.effect": "added to the payment"
+        }
+      }
+    },
+    {
+      "id": "era-export",
+      "tool": "remits_match",
+      "args": {
+        "remits": "fixtures/exports/waystar-remit.csv",
+        "deposits": "fixtures/exports/bank-2026-02-12.csv"
+      },
+      "expect": {
+        "equals": {
+          "result.source": "table",
+          "result.era_total": 226.5,
+          "result.items.0.status": "matched_by_amount"
+        }
+      }
+    },
+    {
+      "id": "bad-config-refused",
+      "tool": "remits_match",
+      "args": {
+        "remits": "fixtures/era-2026-02.835",
+        "deposits": "fixtures/bank-2026-02.csv",
+        "config": "fixtures/remit-config-typo.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "date_window_days"
+        ]
+      }
+    },
+    {
+      "id": "draft-needs-a-yes",
+      "tool": "remits_draft_inquiry",
+      "args": {
+        "remits": "fixtures/era-2026-02.835",
+        "deposits": "fixtures/bank-2026-02.csv",
+        "item": "00184412"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      }
+    },
+    {
+      "id": "report-in-german",
+      "tool": "remits_write_report",
+      "args": {
+        "remits": "fixtures/era-2026-02.835",
+        "deposits": "fixtures/bank-2026-02.csv",
+        "config": "fixtures/remit-config.json",
+        "language": "de",
+        "out_dir": "remedy-out/eval-remits"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.lang": "de"
+        },
+        "contains": [
+          "remits-reconciliation.html"
+        ]
+      }
+    },
+    {
+      "id": "no-patient-names-in-match",
+      "tool": "remits_match",
+      "args": {
+        "remits": "fixtures/era-2026-02.835",
+        "deposits": "fixtures/bank-2026-02.csv"
+      },
+      "expect": {
+        "not_contains": [
+          "PEMBERTON",
+          "THIBODEAUX"
+        ]
+      }
+    },
+    {
+      "id": "posting-refused",
+      "tool": "payment_post",
+      "args": {},
+      "expect": {
+        "status": "blocked",
+        "decision": "block"
+      }
+    },
+    {
+      "id": "recall-empty-memory",
+      "tool": "remits_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty",
+          "payer_deposit_name"
+        ]
+      }
+    },
+    {
+      "id": "request-waits-for-a-named-click",
+      "tool": "remits_request_send",
+      "args": {
+        "draft": "fixtures/drafts/inquiry-example000001.md",
+        "draft_sha256": "2b8d51104039722b1498e24f6add9dd637ddae2b26b5605d68a22f8f6e50bd4c",
+        "out_dir": "remedy-out/eval-remits-request"
+      },
+      "expect": {
+        "status": "needs_approval"
+      }
+    },
+    {
+      "id": "request-approved-records-nothing-sent",
+      "tool": "remits_request_send",
+      "approve": "Pat Example",
+      "args": {
+        "draft": "fixtures/drafts/inquiry-example000001.md",
+        "draft_sha256": "2b8d51104039722b1498e24f6add9dd637ddae2b26b5605d68a22f8f6e50bd4c",
+        "out_dir": "remedy-out/eval-remits-request"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "approved and recorded",
+          "Nothing was sent"
+        ]
+      }
+    },
+    {
+      "id": "request-wrong-sha-refused",
+      "tool": "remits_request_send",
+      "approve": "Pat Example",
+      "args": {
+        "draft": "fixtures/drafts/inquiry-example000001.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "out_dir": "remedy-out/eval-remits-request"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "does not match"
+        ]
+      }
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "remits_match",
+      "args": {
+        "remits": "fixtures/era-2026-02.835",
+        "deposits": "../../outside-root.csv",
+        "config": "fixtures/remit-config.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside the allowed root"
+        ]
+      }
+    },
+    {
+      "id": "missing-file-named",
+      "tool": "remits_match",
+      "args": {
+        "remits": "fixtures/era-2026-02.835",
+        "deposits": "fixtures/missing-export.csv",
+        "config": "fixtures/remit-config.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "not found",
+          "missing-export.csv"
+        ]
+      }
+    }
+  ]
+}

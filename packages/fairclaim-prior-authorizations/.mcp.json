@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairclaim-prior-authorizations": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fairclaim-prior-authorizations@0.2.0",
+        "mcp"
+      ]
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "name": "fairclaim-remit-deposits",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/fairclaim-remit-deposits",
+  "description": "Fairclaim Remit Deposits: matches 835 remittances to bank deposits by trace number, then amount and date, explains provider-level adjustments (recoveries, interest, levies), and drafts the payer inquiry for money without a remittance or a remittance without money.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "fairclaim-remit-deposits": "bin/fairclaim-remit-deposits.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "server.json"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/fairclaim-remit-deposits.js demo",
+    "eval": "node bin/fairclaim-remit-deposits.js eval"
+  },
+  "dependencies": {
+    "fairclaim-core": "^0.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairclaim-agents.git",
+    "directory": "packages/fairclaim-remit-deposits"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairclaim-agents/tree/main/packages/fairclaim-remit-deposits#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairclaim-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "835",
+    "era",
+    "eft",
+    "reconciliation",
+    "plb"
+  ]
+}

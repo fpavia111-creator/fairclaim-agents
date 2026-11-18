@@ -1,0 +1,59 @@
+{
+  "name": "fairclaim-claim-scrubber",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/fairclaim-claim-scrubber",
+  "description": "Fairclaim Claim Scrubber: scrubs 837 claims (or claim exports) before they go out, catching the errors payers reject on: NPIs, payer and member ids, dates, totals, codes, modifiers, diagnosis pointers, place of service, corrected-claim references and prior authorizations.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "fairclaim-claim-scrubber": "bin/fairclaim-claim-scrubber.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "server.json"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/fairclaim-claim-scrubber.js demo",
+    "eval": "node bin/fairclaim-claim-scrubber.js eval"
+  },
+  "dependencies": {
+    "fairclaim-core": "^0.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairclaim-agents.git",
+    "directory": "packages/fairclaim-claim-scrubber"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairclaim-agents/tree/main/packages/fairclaim-claim-scrubber#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairclaim-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "837",
+    "claim-scrubber",
+    "clean-claims",
+    "npi"
+  ]
+}

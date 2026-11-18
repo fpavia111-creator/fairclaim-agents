@@ -1,4 +1,4 @@
-# Remedy 의료 청구 에이전트
+# Fairclaim 의료 청구 에이전트
 
 *Claude가 번역했습니다. 원어민 검토는 아직 진행되지 않았습니다. 영어 [README](README.md)가 기준입니다.*
 
@@ -9,19 +9,19 @@ MIT 라이선스 · Node 20 이상 · 로컬 파일만 · 자격 증명 없음 �
 ## 사용해 보기
 
 ```bash
-npx -y sage-of-claims demo          # 가상 데이터로 청구 점검
-npx -y yarrow-of-denials demo       # 가상의 835로 지급 거절 작업 목록 만들기
+npx -y fairclaim-claim-scrubber demo          # 가상 데이터로 청구 점검
+npx -y fairclaim-denial-worklist demo       # 가상의 835로 지급 거절 작업 목록 만들기
 ```
 
 각 에이전트에는 가상 파일로 실행되는 `demo`, 자체 테스트 케이스로 확인하는 `eval`, 그리고 Claude Desktop, Claude Code, Cursor 등 MCP 호스트용 MCP 서버(`npx -y <agent> mcp --root <폴더>`)가 있습니다. 열 이름은 한국어로도 인식되며, `--lang ko`로 HTML 보고서를 한국어로 받을 수 있습니다.
 
 ## 에이전트 목록
 
-**청구를 보내기 전:** `marjoram-of-registration`(환자 등록과 보험 정보), `basil-of-eligibility`(271 자격 응답), `mint-of-authorizations`(사전 승인과 278), `borage-of-estimates`(무보험 환자를 위한 선의의 견적), `clover-of-charges`(청구가 누락된 진료), `sage-of-claims`(청구 점검), `dill-of-modifiers`(수정자), `ginger-of-edits`(CMS가 공개한 NCCI 편집 규칙), `anise-of-dental`(치과), `caraway-of-anesthesia`(마취 단위), `cumin-of-dme`(의료 장비와 임대), `tarragon-of-labs`(검사, CLIA), `lovage-of-telehealth`(원격 진료), `nettle-of-audits`(코딩 감사).
+**청구를 보내기 전:** `fairclaim-patient-registration`(환자 등록과 보험 정보), `fairclaim-eligibility-checks`(271 자격 응답), `fairclaim-prior-authorizations`(사전 승인과 278), `fairclaim-good-faith-estimates`(무보험 환자를 위한 선의의 견적), `fairclaim-charge-capture`(청구가 누락된 진료), `fairclaim-claim-scrubber`(청구 점검), `fairclaim-modifier-checks`(수정자), `fairclaim-ncci-edits`(CMS가 공개한 NCCI 편집 규칙), `fairclaim-dental-claims`(치과), `fairclaim-anesthesia-claims`(마취 단위), `fairclaim-dme-claims`(의료 장비와 임대), `fairclaim-lab-claims`(검사, CLIA), `fairclaim-telehealth-claims`(원격 진료), `fairclaim-coding-audits`(코딩 감사).
 
-**청구를 보낸 후:** `verbena-of-rejects`(999와 277CA 반려), `chamomile-of-ar`(미수금과 제출 기한), `fennel-of-remits`(835와 은행 입금 대조), `yarrow-of-denials`(원인별 지급 거절), `rosemary-of-appeals`(이의 신청 초안), `thyme-of-underpayments`(계약 대비 과소 지급), `tansy-of-credits`(대변 잔액과 환불), `aloe-of-statements`(환자 청구서), `savory-of-plans`(분할 납부 계획).
+**청구를 보낸 후:** `fairclaim-claim-rejections`(999와 277CA 반려), `fairclaim-ar-aging`(미수금과 제출 기한), `fairclaim-remit-deposits`(835와 은행 입금 대조), `fairclaim-denial-worklist`(원인별 지급 거절), `fairclaim-denial-appeals`(이의 신청 초안), `fairclaim-underpayments`(계약 대비 과소 지급), `fairclaim-credit-balances`(대변 잔액과 환불), `fairclaim-patient-statements`(환자 청구서), `fairclaim-payment-plans`(분할 납부 계획).
 
-**진료소 운영:** `hyssop-of-fees`(수가표와 Medicare 비교), `laurel-of-contracts`(지급자 계약), `sorrel-of-payers`(지급자별 성적표), `lavender-of-credentialing`(자격 인증과 만료일), `angelica-of-prices`(병원 가격 투명성 파일), `mallow-of-kpis`(자체 목표 대비 지표), `vervain-of-onboarding`(새 진료소 가동 준비).
+**진료소 운영:** `fairclaim-fee-schedule`(수가표와 Medicare 비교), `fairclaim-payer-contract-rates`(지급자 계약), `fairclaim-payer-scorecards`(지급자별 성적표), `fairclaim-provider-credentialing`(자격 인증과 만료일), `fairclaim-price-transparency`(병원 가격 투명성 파일), `fairclaim-revenue-kpis`(자체 목표 대비 지표), `fairclaim-practice-go-live`(새 진료소 가동 준비).
 
 ## 환자 데이터
 

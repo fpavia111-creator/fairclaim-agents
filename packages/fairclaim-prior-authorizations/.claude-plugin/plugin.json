@@ -1,0 +1,21 @@
+{
+  "name": "fairclaim-prior-authorizations",
+  "version": "0.2.0",
+  "description": "Matches claims or scheduled services to your prior-authorization log and 278 responses, and flags services with no authorization, expired or not-yet-valid dates, codes not on the authorization, units used up, pended or denied reviews, and authorizations about to run out.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairclaim-agents/tree/main/packages/fairclaim-prior-authorizations#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "prior-authorization",
+    "278",
+    "utilization-review"
+  ]
+}

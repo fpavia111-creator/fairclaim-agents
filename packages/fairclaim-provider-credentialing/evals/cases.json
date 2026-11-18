@@ -1,0 +1,275 @@
+{
+  "suite": "fairclaim-provider-credentialing",
+  "root": "..",
+  "data_note": "Fictional providers, NPIs and payers in ../fixtures. Provider names are not patient data. Deterministic checks; no model is called.",
+  "cases": [
+    {
+      "id": "tasks",
+      "tool": "credentialing_tasks",
+      "args": {
+        "roster": "fixtures/provider-roster.csv",
+        "enrollments": "fixtures/payer-enrollments.csv",
+        "config": "fixtures/credentialing-config.json",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.providers": 4,
+          "result.enrollments": 7,
+          "result.need_action": 11,
+          "result.by_status.due_soon": 5,
+          "result.items.0.status": "error",
+          "result.items.0.item": "NPI",
+          "result.items.0.provider": "Ruth Vance MD (fictional)"
+        }
+      }
+    },
+    {
+      "id": "caqh-expired",
+      "tool": "credentialing_tasks",
+      "args": {
+        "roster": "fixtures/provider-roster.csv",
+        "enrollments": "fixtures/payer-enrollments.csv",
+        "as_of": "2026-02-15",
+        "status": "expired"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.item": "CAQH re-attestation",
+          "result.items.0.days_left": -47
+        },
+        "contains": [
+          "re-attest now"
+        ]
+      }
+    },
+    {
+      "id": "pending-follow-up",
+      "tool": "credentialing_tasks",
+      "args": {
+        "roster": "fixtures/provider-roster.csv",
+        "enrollments": "fixtures/payer-enrollments.csv",
+        "as_of": "2026-02-15",
+        "status": "follow_up"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.payer": "Sample Mutual Insurance",
+          "result.items.0.days_left": -32
+        },
+        "contains": [
+          "Pending 62 days since 2025-12-15"
+        ]
+      }
+    },
+    {
+      "id": "not-yet-effective",
+      "tool": "credentialing_tasks",
+      "args": {
+        "roster": "fixtures/provider-roster.csv",
+        "enrollments": "fixtures/payer-enrollments.csv",
+        "as_of": "2026-02-15",
+        "provider": "moreau"
+      },
+      "expect": {
+        "contains": [
+          "Effective 2026-03-01: do not bill this payer",
+          "Not enrolled and no application sent",
+          "Malpractice insurance: no date on file"
+        ]
+      }
+    },
+    {
+      "id": "bad-config-refused",
+      "tool": "credentialing_tasks",
+      "args": {
+        "roster": "fixtures/provider-roster.csv",
+        "config": "fixtures/credentialing-config-typo.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "required_docs"
+        ]
+      }
+    },
+    {
+      "id": "report-and-calendar-in-japanese",
+      "tool": "credentialing_write_report",
+      "args": {
+        "roster": "fixtures/provider-roster.csv",
+        "enrollments": "fixtures/payer-enrollments.csv",
+        "config": "fixtures/credentialing-config.json",
+        "as_of": "2026-02-15",
+        "language": "ja",
+        "out_dir": "remedy-out/eval-credentialing"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.lang": "ja",
+          "result.calendar_events": 20
+        },
+        "contains": [
+          "credentialing-due-dates.ics"
+        ]
+      }
+    },
+    {
+      "id": "submit-refused",
+      "tool": "enrollment_submit",
+      "args": {},
+      "expect": {
+        "status": "blocked",
+        "decision": "block"
+      }
+    },
+    {
+      "id": "attest-refused",
+      "tool": "caqh_attest",
+      "args": {},
+      "expect": {
+        "status": "blocked",
+        "decision": "block"
+      }
+    },
+    {
+      "id": "recall-empty-memory",
+      "tool": "credentialing_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty",
+          "payer_lead_days"
+        ]
+      }
+    },
+    {
+      "id": "status-words-not-submitted-and-terminated",
+      "tool": "credentialing_tasks",
+      "args": {
+        "roster": "fixtures/provider-roster.csv",
+        "enrollments": "fixtures/payer-enrollments-statuses.csv",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.by_status.not_started": 2,
+          "result.by_status.denied": 1,
+          "result.by_status.pending": 1
+        },
+        "contains": [
+          "Enrollment is no longer active",
+          "Not enrolled and no application sent"
+        ]
+      }
+    },
+    {
+      "id": "terminated-only",
+      "tool": "credentialing_tasks",
+      "args": {
+        "roster": "fixtures/provider-roster.csv",
+        "enrollments": "fixtures/payer-enrollments-statuses.csv",
+        "as_of": "2026-02-15",
+        "status": "denied"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.payer": "Sample Mutual Insurance"
+        },
+        "contains": [
+          "reactivate or reapply"
+        ]
+      }
+    },
+    {
+      "id": "due-soon-list",
+      "tool": "credentialing_tasks",
+      "args": {
+        "roster": "fixtures/provider-roster.csv",
+        "enrollments": "fixtures/payer-enrollments.csv",
+        "config": "fixtures/credentialing-config.json",
+        "as_of": "2026-02-15",
+        "status": "due_soon"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.status": "due_soon"
+        },
+        "contains": [
+          "start the renewal"
+        ]
+      }
+    },
+    {
+      "id": "bad-npi-first",
+      "tool": "credentialing_tasks",
+      "args": {
+        "roster": "fixtures/provider-roster.csv",
+        "as_of": "2026-02-15",
+        "status": "error"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.item": "NPI"
+        },
+        "contains": [
+          "check digit"
+        ]
+      }
+    },
+    {
+      "id": "report-in-spanish",
+      "tool": "credentialing_write_report",
+      "args": {
+        "roster": "fixtures/provider-roster.csv",
+        "enrollments": "fixtures/payer-enrollments.csv",
+        "as_of": "2026-02-15",
+        "language": "es",
+        "out_dir": "remedy-out/eval-credentialing-es"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.lang": "es"
+        }
+      }
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "credentialing_tasks",
+      "args": {
+        "roster": "../../outside-root.csv",
+        "enrollments": "fixtures/payer-enrollments.csv",
+        "config": "fixtures/credentialing-config.json",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside the allowed root"
+        ]
+      }
+    },
+    {
+      "id": "missing-file-named",
+      "tool": "credentialing_tasks",
+      "args": {
+        "roster": "fixtures/missing-export.csv",
+        "enrollments": "fixtures/payer-enrollments.csv",
+        "config": "fixtures/credentialing-config.json",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "not found",
+          "missing-export.csv"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,297 @@
+{
+  "suite": "fairclaim-payer-scorecards",
+  "root": "..",
+  "data_note": "Fictional payers, claims and patients in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    {
+      "id": "scorecard",
+      "tool": "payers_scorecard",
+      "args": {
+        "remits": [
+          "fixtures/era-2026-01.835",
+          "fixtures/era-2026-02.835"
+        ],
+        "claims": "fixtures/claims-submitted.csv",
+        "config": "fixtures/payer-config.json"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.claims": 26,
+          "result.denied_claims": 6,
+          "result.days_to_pay_median": 32.5,
+          "result.payers.0.payer": "Sample Mutual Insurance",
+          "result.payers.0.reversals": 1,
+          "result.payers.0.days_to_pay_median": 34,
+          "result.payers.1.payer": "Demo Medicaid Plan",
+          "result.payers.1.denial_rate": 37.5,
+          "result.payers.2.payer": "Example Health Plan",
+          "result.payers.2.flags": []
+        }
+      }
+    },
+    {
+      "id": "per-payer-target-replaces-general",
+      "tool": "payers_scorecard",
+      "args": {
+        "remits": [
+          "fixtures/era-2026-01.835",
+          "fixtures/era-2026-02.835"
+        ],
+        "claims": "fixtures/claims-submitted.csv",
+        "config": "fixtures/payer-config.json"
+      },
+      "expect": {
+        "contains": [
+          "Median 59.5 days to pay; target 45."
+        ]
+      }
+    },
+    {
+      "id": "trend",
+      "tool": "payers_payer",
+      "args": {
+        "remits": [
+          "fixtures/era-2026-01.835",
+          "fixtures/era-2026-02.835"
+        ],
+        "claims": "fixtures/claims-submitted.csv",
+        "payer": "sample mutual insurance"
+      },
+      "expect": {
+        "equals": {
+          "result.scorecard.trend.0.denial_rate": 0,
+          "result.scorecard.trend.1.denial_rate": 50,
+          "result.items.0.days_to_pay": 41
+        }
+      }
+    },
+    {
+      "id": "no-claims-file-untimed",
+      "tool": "payers_scorecard",
+      "args": {
+        "remits": [
+          "fixtures/era-2026-01.835"
+        ]
+      },
+      "expect": {
+        "equals": {
+          "result.untimed_claims": 13,
+          "result.days_to_pay_median": null
+        }
+      }
+    },
+    {
+      "id": "unknown-payer",
+      "tool": "payers_payer",
+      "args": {
+        "remits": [
+          "fixtures/era-2026-01.835"
+        ],
+        "payer": "Nobody Health"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "not on these remittances"
+        ]
+      }
+    },
+    {
+      "id": "bad-config-refused",
+      "tool": "payers_scorecard",
+      "args": {
+        "remits": [
+          "fixtures/era-2026-01.835"
+        ],
+        "config": "fixtures/payer-config-typo.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "days_to_pay"
+        ]
+      }
+    },
+    {
+      "id": "names-masked",
+      "tool": "payers_payer",
+      "args": {
+        "remits": [
+          "fixtures/era-2026-01.835",
+          "fixtures/era-2026-02.835"
+        ],
+        "payer": "Demo Medicaid Plan"
+      },
+      "expect": {
+        "matches": [
+          "\"patient_name\":\"PT-[0-9a-f]{8}\""
+        ],
+        "not_contains": [
+          "Castellano",
+          "HALVORSEN",
+          "Halvorsen"
+        ]
+      }
+    },
+    {
+      "id": "scorecard-in-french",
+      "tool": "payers_write_report",
+      "args": {
+        "remits": [
+          "fixtures/era-2026-01.835",
+          "fixtures/era-2026-02.835"
+        ],
+        "claims": "fixtures/claims-submitted.csv",
+        "config": "fixtures/payer-config.json",
+        "language": "fr",
+        "out_dir": "remedy-out/eval-payers"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.lang": "fr"
+        }
+      }
+    },
+    {
+      "id": "complaint-refused",
+      "tool": "payer_complaint_file",
+      "args": {},
+      "expect": {
+        "status": "blocked",
+        "decision": "block"
+      }
+    },
+    {
+      "id": "recall-empty-memory",
+      "tool": "payers_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty",
+          "payer_target"
+        ]
+      }
+    },
+    {
+      "id": "on-target-payer-has-no-flags",
+      "tool": "payers_payer",
+      "args": {
+        "remits": [
+          "fixtures/era-2026-01.835",
+          "fixtures/era-2026-02.835"
+        ],
+        "claims": "fixtures/claims-submitted.csv",
+        "config": "fixtures/payer-config.json",
+        "payer": "Example Health Plan"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.scorecard.claims": 10,
+          "result.scorecard.paid_percent": 60,
+          "result.scorecard.within_30_percent": 100,
+          "result.scorecard.flags": [],
+          "result.scorecard.trend.0.month": "2026-01",
+          "result.scorecard.trend.1.denial_rate": 0
+        }
+      }
+    },
+    {
+      "id": "reversal-needs-recoupment-check",
+      "tool": "payers_payer",
+      "args": {
+        "remits": [
+          "fixtures/era-2026-01.835",
+          "fixtures/era-2026-02.835"
+        ],
+        "payer": "Sample Mutual Insurance"
+      },
+      "expect": {
+        "equals": {
+          "result.scorecard.reversals": 1
+        },
+        "contains": [
+          "check for a matching recoupment"
+        ]
+      }
+    },
+    {
+      "id": "one-month-without-targets",
+      "tool": "payers_scorecard",
+      "args": {
+        "remits": [
+          "fixtures/era-2026-02.835"
+        ],
+        "claims": "fixtures/claims-submitted.csv"
+      },
+      "expect": {
+        "equals": {
+          "result.claims": 13,
+          "result.payers.0.payer": "Sample Mutual Insurance",
+          "result.payers.0.denial_rate": 50,
+          "result.payers.0.flags.0.flag": "reversals"
+        }
+      }
+    },
+    {
+      "id": "scorecard-in-japanese",
+      "tool": "payers_write_report",
+      "args": {
+        "remits": [
+          "fixtures/era-2026-01.835",
+          "fixtures/era-2026-02.835"
+        ],
+        "claims": "fixtures/claims-submitted.csv",
+        "config": "fixtures/payer-config.json",
+        "language": "ja",
+        "out_dir": "remedy-out/eval-payers-ja"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.lang": "ja"
+        }
+      }
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "payers_scorecard",
+      "args": {
+        "remits": [
+          "fixtures/era-2026-01.835",
+          "fixtures/era-2026-02.835"
+        ],
+        "claims": "../../outside-root.csv",
+        "config": "fixtures/payer-config.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside the allowed root"
+        ]
+      }
+    },
+    {
+      "id": "missing-file-named",
+      "tool": "payers_scorecard",
+      "args": {
+        "remits": [
+          "fixtures/era-2026-01.835",
+          "fixtures/era-2026-02.835"
+        ],
+        "claims": "fixtures/missing-export.csv",
+        "config": "fixtures/payer-config.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "not found",
+          "missing-export.csv"
+        ]
+      }
+    }
+  ]
+}

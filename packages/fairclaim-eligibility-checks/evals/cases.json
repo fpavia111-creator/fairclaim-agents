@@ -1,0 +1,277 @@
+{
+  "suite": "fairclaim-eligibility-checks",
+  "root": "..",
+  "data_note": "Fictional practice, payers and patients in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    {
+      "id": "totals",
+      "tool": "eligibility_check",
+      "args": {
+        "appointments": "fixtures/appointments-2026-02-03.csv",
+        "eligibility": [
+          "fixtures/eligibility-2026-02-01.271"
+        ]
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.appointments": 8,
+          "result.ready": 3,
+          "result.need_action": 5,
+          "result.responses": 7,
+          "result.copay_to_collect": 50,
+          "result.by_status.not_found": 1,
+          "result.by_status.plan_ended": 1,
+          "result.by_status.no_response": 1
+        }
+      }
+    },
+    {
+      "id": "worst-first-with-reason",
+      "tool": "eligibility_check",
+      "args": {
+        "appointments": "fixtures/appointments-2026-02-03.csv",
+        "eligibility": [
+          "fixtures/eligibility-2026-02-01.271"
+        ]
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.status": "not_found",
+          "result.items.0.reasons": [
+            "AAA 75: Subscriber not found"
+          ],
+          "result.items.1.status": "inactive",
+          "result.items.1.plan_end": "2025-12-31"
+        }
+      }
+    },
+    {
+      "id": "benefits",
+      "tool": "eligibility_explain",
+      "args": {
+        "appointments": "fixtures/appointments-2026-02-03.csv",
+        "eligibility": [
+          "fixtures/eligibility-2026-02-01.271"
+        ],
+        "appointment_id": "A1001"
+      },
+      "expect": {
+        "equals": {
+          "result.visit.status": "active",
+          "result.visit.copay": 25,
+          "result.visit.coinsurance_percent": 20,
+          "result.visit.deductible": 1500,
+          "result.visit.deductible_remaining": 300,
+          "result.visit.in_network": "Y"
+        }
+      }
+    },
+    {
+      "id": "plan-ends-before-visit",
+      "tool": "eligibility_explain",
+      "args": {
+        "appointments": "fixtures/appointments-2026-02-03.csv",
+        "eligibility": [
+          "fixtures/eligibility-2026-02-01.271"
+        ],
+        "appointment_id": "A1005"
+      },
+      "expect": {
+        "equals": {
+          "result.visit.status": "plan_ended"
+        },
+        "contains": [
+          "new plan"
+        ]
+      }
+    },
+    {
+      "id": "other-payer-primary",
+      "tool": "eligibility_check",
+      "args": {
+        "appointments": "fixtures/appointments-2026-02-03.csv",
+        "eligibility": [
+          "fixtures/eligibility-2026-02-01.271"
+        ],
+        "status": "other_payer"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.appointment_id": "A1004"
+        },
+        "contains": [
+          "EXAMPLE EMPLOYER PLAN"
+        ]
+      }
+    },
+    {
+      "id": "cancelled-skipped",
+      "tool": "eligibility_check",
+      "args": {
+        "appointments": "fixtures/appointments-2026-02-03.csv",
+        "eligibility": [
+          "fixtures/eligibility-2026-02-01.271"
+        ]
+      },
+      "expect": {
+        "not_contains": [
+          "A1009"
+        ]
+      }
+    },
+    {
+      "id": "names-masked",
+      "tool": "eligibility_check",
+      "args": {
+        "appointments": "fixtures/appointments-2026-02-03.csv",
+        "eligibility": [
+          "fixtures/eligibility-2026-02-01.271"
+        ]
+      },
+      "expect": {
+        "matches": [
+          "\"patient_name\":\"PT-[0-9a-f]{8}\""
+        ],
+        "not_contains": [
+          "HALVORSEN",
+          "DMP000799001",
+          "M-1008"
+        ]
+      }
+    },
+    {
+      "id": "report-in-spanish",
+      "tool": "eligibility_write_report",
+      "args": {
+        "appointments": "fixtures/appointments-2026-02-03.csv",
+        "eligibility": [
+          "fixtures/eligibility-2026-02-01.271"
+        ],
+        "language": "es",
+        "out_dir": "remedy-out/eval-eligibility"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.lang": "es"
+        }
+      }
+    },
+    {
+      "id": "wrong-file-refused",
+      "tool": "eligibility_check",
+      "args": {
+        "appointments": "fixtures/appointments-2026-02-03.csv",
+        "eligibility": [
+          "fixtures/appointments-2026-02-03.csv"
+        ]
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "not an X12 file"
+        ]
+      }
+    },
+    {
+      "id": "inquiry-send-refused",
+      "tool": "eligibility_inquiry_send",
+      "args": {},
+      "expect": {
+        "status": "blocked",
+        "decision": "block"
+      }
+    },
+    {
+      "id": "recall-empty-memory",
+      "tool": "eligibility_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty",
+          "visit_type_review"
+        ]
+      }
+    },
+    {
+      "id": "subscriber-not-found-aaa",
+      "tool": "eligibility_check",
+      "args": {
+        "appointments": "fixtures/appointments-2026-02-03.csv",
+        "eligibility": [
+          "fixtures/eligibility-2026-02-01.271"
+        ],
+        "status": "not_found"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.items.0.appointment_id": "A1003",
+          "result.items.0.matched_by": "trace"
+        },
+        "contains": [
+          "AAA 75: Subscriber not found",
+          "check the member id, name and birth date"
+        ]
+      }
+    },
+    {
+      "id": "inactive-plan-ended-last-year",
+      "tool": "eligibility_check",
+      "args": {
+        "appointments": "fixtures/appointments-2026-02-03.csv",
+        "eligibility": [
+          "fixtures/eligibility-2026-02-01.271"
+        ],
+        "status": "inactive"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.appointment_id": "A1002",
+          "result.items.0.plan_end": "2025-12-31"
+        },
+        "contains": [
+          "set up self-pay"
+        ]
+      }
+    },
+    {
+      "id": "no-271-means-resend",
+      "tool": "eligibility_check",
+      "args": {
+        "appointments": "fixtures/appointments-2026-02-03.csv",
+        "eligibility": [
+          "fixtures/eligibility-2026-02-01.271"
+        ],
+        "status": "no_response"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.appointment_id": "A1006",
+          "result.items.0.matched_by": null
+        },
+        "contains": [
+          "send (or resend) the eligibility inquiry"
+        ]
+      }
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "eligibility_check",
+      "args": {
+        "appointments": "../../outside-root.csv",
+        "eligibility": [
+          "fixtures/eligibility-2026-02-01.271"
+        ]
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside the allowed root"
+        ]
+      }
+    }
+  ]
+}

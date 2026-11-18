@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairclaim-payment-plans": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fairclaim-payment-plans@0.2.0",
+        "mcp"
+      ]
+    }
+  }
+}

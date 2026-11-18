@@ -1,0 +1,58 @@
+{
+  "name": "fairclaim-telehealth-claims",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/fairclaim-telehealth-claims",
+  "description": "Telehealth claims coded the way each payer wants: checks place of service 02 or 10 against where the patient was, the 95, GT, 93 or FQ modifiers by payer, audio-only against video codes, deleted phone codes, the provider's license in the patient's state, consent for virtual check-ins, and same-day in-person visits.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "fairclaim-telehealth-claims": "bin/fairclaim-telehealth-claims.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "server.json"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/fairclaim-telehealth-claims.js demo",
+    "eval": "node bin/fairclaim-telehealth-claims.js eval"
+  },
+  "dependencies": {
+    "fairclaim-core": "^0.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairclaim-agents.git",
+    "directory": "packages/fairclaim-telehealth-claims"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairclaim-agents/tree/main/packages/fairclaim-telehealth-claims#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairclaim-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "telehealth",
+    "virtual-care",
+    "pos"
+  ]
+}

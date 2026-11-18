@@ -1,0 +1,59 @@
+{
+  "name": "fairclaim-good-faith-estimates",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/fairclaim-good-faith-estimates",
+  "description": "Keeps good faith estimates for self-pay and uninsured patients on time: counts business days from scheduling or request to each estimate's due date, finds missing and late estimates, compares final bills with estimates per provider against the 400-dollar dispute threshold, and drafts an estimate for a person to send. Patient identifiers are masked before results reach the model.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "fairclaim-good-faith-estimates": "bin/fairclaim-good-faith-estimates.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "server.json"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/fairclaim-good-faith-estimates.js demo",
+    "eval": "node bin/fairclaim-good-faith-estimates.js eval"
+  },
+  "dependencies": {
+    "fairclaim-core": "^0.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairclaim-agents.git",
+    "directory": "packages/fairclaim-good-faith-estimates"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairclaim-agents/tree/main/packages/fairclaim-good-faith-estimates#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairclaim-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "good-faith-estimate",
+    "no-surprises-act",
+    "self-pay",
+    "price-estimate"
+  ]
+}

@@ -1,6 +1,0 @@
-# Marjoram of Registration fixtures
-
-Everything here is fictional: the practice (Example Family Medicine (fictional)), the payers (Example Health Plan, Sample Mutual Insurance, Demo Medicaid Plan, Test Medicare Contractor), the patients, member ids and claim numbers. NPIs are made-up numbers that pass the check digit; any match with a real provider is a coincidence. Regenerate with `npm run fixtures` from the repository root.
-
-- `registrations-2026-02.csv`: eleven charts in a registration-export layout (US dates, first and last name in separate columns). Planted, as of 2026-02-15: a clean chart (M-1001); a member id one digit short (M-1002); no member id and a 4-digit ZIP (M-1003); a Medicare id that is not an MBI (M-1004); a minor with no guarantor and a subscriber with no birth date (M-1005); ended coverage and the same plan as secondary (M-1006); self as subscriber with another name, a short phone and an old verification (M-1007); a birth date in the future and a spelled-out state (M-1008); a likely duplicate of M-1001 (M-1101); a valid made-up MBI (M-1102); a self-pay patient (M-1103).
-- `registration-config.json`: member id patterns and the MBI rule. `registration-config-typo.json` has an unknown id format; `registration-config-redos.json` a pattern that could run for a very long time (refused).

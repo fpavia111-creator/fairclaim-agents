@@ -1,15 +1,15 @@
 {
   "name": "remedy-medical-billing",
   "owner": {
-    "name": "Remedy"
+    "name": "Fairclaim"
   },
   "metadata": {
     "description": "Thirty medical billing agents. Each reads your exported files (835, 837, 999, 277CA, 271, 278 or spreadsheets), masks patient identifiers before results reach the model, writes worklists locally and waits for a named person before anything is sent, refunded or paid."
   },
   "plugins": [
     {
-      "name": "aloe-of-statements",
-      "source": "./packages/aloe-of-statements",
+      "name": "fairclaim-patient-statements",
+      "source": "./packages/fairclaim-patient-statements",
       "description": "Plans each patient statement cycle: who gets a first, second or final statement, who is held (insurance still pending, payment plan, dispute, estate or bankruptcy, bad address, small balance, recent payment) and who reaches collections review, and drafts a plain-language statement for a person to send. Patient identifiers are masked before results reach the model.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -24,8 +24,8 @@
       ]
     },
     {
-      "name": "angelica-of-prices",
-      "source": "./packages/angelica-of-prices",
+      "name": "fairclaim-price-transparency",
+      "source": "./packages/fairclaim-price-transparency",
       "description": "Hospital price transparency without the fines: checks a machine-readable file against the CMS v3.0 tall CSV template (headers, attestation, code pairs, the twelve conditional rules), compares it with the chargemaster, and computes the median, 10th and 90th percentile allowed amounts and counts from 835s the CMS way.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -40,8 +40,8 @@
       ]
     },
     {
-      "name": "anise-of-dental",
-      "source": "./packages/anise-of-dental",
+      "name": "fairclaim-dental-claims",
+      "source": "./packages/fairclaim-dental-claims",
       "description": "Dental claims that go out right: checks tooth numbers, surfaces against the restoration code, anterior and posterior codes, quadrants for scaling and root planing, frequency limits against the patient's history, extracted teeth, crown replacement windows and the attachments payers ask for, from an 837D or a practice export.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -55,8 +55,8 @@
       ]
     },
     {
-      "name": "basil-of-eligibility",
-      "source": "./packages/basil-of-eligibility",
+      "name": "fairclaim-eligibility-checks",
+      "source": "./packages/fairclaim-eligibility-checks",
       "description": "Reads 271 eligibility responses against the appointment list and flags visits with inactive coverage, member not found, plan ending before the visit, another payer primary or no response, with copay and deductible to collect.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -71,8 +71,8 @@
       ]
     },
     {
-      "name": "borage-of-estimates",
-      "source": "./packages/borage-of-estimates",
+      "name": "fairclaim-good-faith-estimates",
+      "source": "./packages/fairclaim-good-faith-estimates",
       "description": "Keeps good faith estimates for self-pay and uninsured patients on time: counts business days from scheduling or request to each estimate's due date, finds missing and late estimates, compares final bills with estimates per provider against the 400-dollar dispute threshold, and drafts an estimate for a person to send. Patient identifiers are masked before results reach the model.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -87,8 +87,8 @@
       ]
     },
     {
-      "name": "caraway-of-anesthesia",
-      "source": "./packages/caraway-of-anesthesia",
+      "name": "fairclaim-anesthesia-claims",
+      "source": "./packages/fairclaim-anesthesia-claims",
       "description": "Anesthesia claims priced and paired right: computes base, time, physical-status and qualifying-circumstance units, checks start and stop times, AA, QK, QY, QX, QZ and AD against how many rooms the anesthesiologist covered at once, pairs each CRNA claim with its medical direction, and flags overlaps.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -103,9 +103,9 @@
       ]
     },
     {
-      "name": "chamomile-of-ar",
-      "source": "./packages/chamomile-of-ar",
-      "description": "Chamomile of A/R: ages open insurance balances by payer and bucket, warns before timely-filing limits pass, finds claims filed late or with no payer response, and builds the follow-up call queue by dollars and age.",
+      "name": "fairclaim-ar-aging",
+      "source": "./packages/fairclaim-ar-aging",
+      "description": "Fairclaim AR Aging: ages open insurance balances by payer and bucket, warns before timely-filing limits pass, finds claims filed late or with no payer response, and builds the follow-up call queue by dollars and age.",
       "version": "0.2.0",
       "category": "medical-billing",
       "keywords": [
@@ -119,8 +119,8 @@
       ]
     },
     {
-      "name": "clover-of-charges",
-      "source": "./packages/clover-of-charges",
+      "name": "fairclaim-charge-capture",
+      "source": "./packages/fairclaim-charge-capture",
       "description": "Matches completed visits to charges: finds visits with no charge, charges with no visit or on a cancelled one, late charge entry, missing expected codes, and E/M level mix by provider against peers. Patient identifiers are masked before results reach the model.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -134,8 +134,8 @@
       ]
     },
     {
-      "name": "cumin-of-dme",
-      "source": "./packages/cumin-of-dme",
+      "name": "fairclaim-dme-claims",
+      "source": "./packages/fairclaim-dme-claims",
       "description": "DME claims and rentals kept straight: checks rental and purchase modifiers, the capped-rental month (KH, KI, KJ) and the 13-month cap, oxygen months, right and left on paired items, prior authorization, the order before delivery and units, and tracks every rental to its next modifier.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -150,8 +150,8 @@
       ]
     },
     {
-      "name": "dill-of-modifiers",
-      "source": "./packages/dill-of-modifiers",
+      "name": "fairclaim-modifier-checks",
+      "source": "./packages/fairclaim-modifier-checks",
       "description": "Checks the modifiers on each claim line before it goes out: missing 25 on an E/M with a procedure, 25 or 57 on the wrong code, conflicting pairs, 59 with X modifiers, missing laterality, bilateral units, repeat modifiers with no first service, pricing order, and payer rules. Patient identifiers are masked before results reach the model.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -166,8 +166,8 @@
       ]
     },
     {
-      "name": "fennel-of-remits",
-      "source": "./packages/fennel-of-remits",
+      "name": "fairclaim-remit-deposits",
+      "source": "./packages/fairclaim-remit-deposits",
       "description": "Matches 835 remittances to bank deposits by trace number, then amount and date, explains provider-level adjustments (recoveries, interest, levies), and drafts the payer inquiry for money without a remittance or a remittance without money.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -183,8 +183,8 @@
       ]
     },
     {
-      "name": "ginger-of-edits",
-      "source": "./packages/ginger-of-edits",
+      "name": "fairclaim-ncci-edits",
+      "source": "./packages/fairclaim-ncci-edits",
       "description": "Checks claims against the CMS NCCI procedure-to-procedure edits and medically unlikely edits files you download, by date of service, with the modifier indicator, bypass modifiers and MUE adjudication indicator, plus payer pair edits your team adds.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -200,8 +200,8 @@
       ]
     },
     {
-      "name": "hyssop-of-fees",
-      "source": "./packages/hyssop-of-fees",
+      "name": "fairclaim-fee-schedule",
+      "source": "./packages/fairclaim-fee-schedule",
       "description": "Prices each code on your fee schedule from the Medicare RVU and GPCI files (RVU x GPCI x conversion factor), finds fees below what payers would allow (money left on the table when payers pay the lesser of charge or allowed), below your target percent of Medicare, or with no Medicare price, and drafts a fee update for a person to approve.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -217,8 +217,8 @@
       ]
     },
     {
-      "name": "laurel-of-contracts",
-      "source": "./packages/laurel-of-contracts",
+      "name": "fairclaim-payer-contract-rates",
+      "source": "./packages/fairclaim-payer-contract-rates",
       "description": "Compares what each payer pays per code against Medicare and each other, weighted by your volume, flags rates below your floor, keeps a calendar of contract end dates and notice deadlines (auto-renewal traps), and drafts a rate request for a person to send.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -233,8 +233,8 @@
       ]
     },
     {
-      "name": "lavender-of-credentialing",
-      "source": "./packages/lavender-of-credentialing",
+      "name": "fairclaim-provider-credentialing",
+      "source": "./packages/fairclaim-provider-credentialing",
       "description": "Keeps provider credentialing and payer enrollment on track: license, DEA, board and malpractice expirations, CAQH re-attestation every 120 days, NPI check digits, enrollments pending too long, denied or not yet effective, and revalidation dates, with a work list and a calendar (.ics) of every due date.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -250,8 +250,8 @@
       ]
     },
     {
-      "name": "lovage-of-telehealth",
-      "source": "./packages/lovage-of-telehealth",
+      "name": "fairclaim-telehealth-claims",
+      "source": "./packages/fairclaim-telehealth-claims",
       "description": "Telehealth claims coded the way each payer wants: checks place of service 02 or 10 against where the patient was, the 95, GT, 93 or FQ modifiers by payer, audio-only against video codes, deleted phone codes, the provider's license in the patient's state, consent for virtual check-ins, and same-day in-person visits.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -265,8 +265,8 @@
       ]
     },
     {
-      "name": "mallow-of-kpis",
-      "source": "./packages/mallow-of-kpis",
+      "name": "fairclaim-revenue-kpis",
+      "source": "./packages/fairclaim-revenue-kpis",
       "description": "Revenue cycle KPIs from your own claims and remittances: denial rate, first-pass rate, net collection, days to pay, days in A/R and unanswered claims, by payer, month and provider, against the targets you set.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -282,8 +282,8 @@
       ]
     },
     {
-      "name": "marjoram-of-registration",
-      "source": "./packages/marjoram-of-registration",
+      "name": "fairclaim-patient-registration",
+      "source": "./packages/fairclaim-patient-registration",
       "description": "Checks patient registration and insurance records before the visit: member id shape per payer and Medicare MBI format, missing or impossible birth dates, subscriber and guarantor gaps, ended coverage, the same plan entered twice, and likely duplicate charts. Patient identifiers are masked before results reach the model.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -298,8 +298,8 @@
       ]
     },
     {
-      "name": "mint-of-authorizations",
-      "source": "./packages/mint-of-authorizations",
+      "name": "fairclaim-prior-authorizations",
+      "source": "./packages/fairclaim-prior-authorizations",
       "description": "Matches claims or scheduled services to your prior-authorization log and 278 responses, and flags services with no authorization, expired or not-yet-valid dates, codes not on the authorization, units used up, pended or denied reviews, and authorizations about to run out.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -313,8 +313,8 @@
       ]
     },
     {
-      "name": "nettle-of-audits",
-      "source": "./packages/nettle-of-audits",
+      "name": "fairclaim-coding-audits",
+      "source": "./packages/fairclaim-coding-audits",
       "description": "Coding audits without the spreadsheet: draws a reproducible random sample of charges per provider, gives the auditor a worksheet, then scores the results (agree, upcoded, downcoded, wrong code, modifier or diagnosis error, not supported) with accuracy and dollar impact by provider.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -328,8 +328,8 @@
       ]
     },
     {
-      "name": "rosemary-of-appeals",
-      "source": "./packages/rosemary-of-appeals",
+      "name": "fairclaim-denial-appeals",
+      "source": "./packages/fairclaim-denial-appeals",
       "description": "Drafts a first-level appeal for a denied claim with quotes from the payer policies you supply (file and line), tracks every appeal against its filing deadline and the payer's response time, and never sends anything itself.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -343,8 +343,8 @@
       ]
     },
     {
-      "name": "sage-of-claims",
-      "source": "./packages/sage-of-claims",
+      "name": "fairclaim-claim-scrubber",
+      "source": "./packages/fairclaim-claim-scrubber",
       "description": "Scrubs 837 claims (or claim exports) before they go out, catching the errors payers reject on: NPIs, payer and member ids, dates, totals, codes, modifiers, diagnosis pointers, place of service, corrected-claim references and prior authorizations.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -359,8 +359,8 @@
       ]
     },
     {
-      "name": "savory-of-plans",
-      "source": "./packages/savory-of-plans",
+      "name": "fairclaim-payment-plans",
+      "source": "./packages/fairclaim-payment-plans",
       "description": "Tracks patient payment plans against your policy: installments due after a grace period, missed payments and plans to review for default, plans paid off or ahead, monthly amounts and terms outside your policy, plan options for a new balance, and a draft plan agreement for a person to send. Patient identifiers are masked before results reach the model.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -374,8 +374,8 @@
       ]
     },
     {
-      "name": "sorrel-of-payers",
-      "source": "./packages/sorrel-of-payers",
+      "name": "fairclaim-payer-scorecards",
+      "source": "./packages/fairclaim-payer-scorecards",
       "description": "Scores each payer from your 835s and claim submissions: days to pay, denial rate and top denial reasons, share of billed paid, reversals, and a month-by-month trend, against your targets. Patient identifiers are masked before results reach the model.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -389,8 +389,8 @@
       ]
     },
     {
-      "name": "tansy-of-credits",
-      "source": "./packages/tansy-of-credits",
+      "name": "fairclaim-credit-balances",
+      "source": "./packages/fairclaim-credit-balances",
       "description": "Works the credit balance report: tells patient credits from payer overpayments, counts days against each payer's refund deadline (60 days from identification for Medicare by default), finds credits that should go to an open balance first or are nearing unclaimed-property age, and drafts each refund for a person to approve. Patient identifiers are masked before results reach the model.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -405,8 +405,8 @@
       ]
     },
     {
-      "name": "tarragon-of-labs",
-      "source": "./packages/tarragon-of-labs",
+      "name": "fairclaim-lab-claims",
+      "source": "./packages/fairclaim-lab-claims",
       "description": "Lab claims that get paid: checks the CLIA number and certificate (QW on waived tests, nothing outside a waiver), finds panel components billed one by one or with their panel, venipuncture more than once a day, repeats without 91, diagnoses that do not support a test, and tests ordered more often than your rules allow.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -420,8 +420,8 @@
       ]
     },
     {
-      "name": "thyme-of-underpayments",
-      "source": "./packages/thyme-of-underpayments",
+      "name": "fairclaim-underpayments",
+      "source": "./packages/fairclaim-underpayments",
       "description": "Compares what payers allowed on each 835 line with your contract (fee schedule, percent of Medicare or percent of charge, with modifier and multiple-procedure rules) and drafts the reprocessing request for a person to send.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -436,8 +436,8 @@
       ]
     },
     {
-      "name": "verbena-of-rejects",
-      "source": "./packages/verbena-of-rejects",
+      "name": "fairclaim-claim-rejections",
+      "source": "./packages/fairclaim-claim-rejections",
       "description": "Reads 999 and 277CA acknowledgements, ties each syntax error to the claim and segment in the 837 you sent, lists front-end rejections with what to fix, and flags claims that were never acknowledged.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -452,8 +452,8 @@
       ]
     },
     {
-      "name": "vervain-of-onboarding",
-      "source": "./packages/vervain-of-onboarding",
+      "name": "fairclaim-practice-go-live",
+      "source": "./packages/fairclaim-practice-go-live",
       "description": "Go-live readiness for a new practice: checks the billing NPI, tax ID and billing address, the provider roster, every payer's EDI, ERA, EFT and credentialing enrollment, payer IDs and the fee schedule against the charges you will bill, and lists the blockers before go-live.",
       "version": "0.2.0",
       "category": "medical-billing",
@@ -472,8 +472,8 @@
       ]
     },
     {
-      "name": "yarrow-of-denials",
-      "source": "./packages/yarrow-of-denials",
+      "name": "fairclaim-denial-worklist",
+      "source": "./packages/fairclaim-denial-worklist",
       "description": "Sorts 835 denials by reason code and root cause into a worklist with the team and next step for each, learns payer-specific code meanings a person accepts, and never resubmits or appeals on its own.",
       "version": "0.2.0",
       "category": "medical-billing",

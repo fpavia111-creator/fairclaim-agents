@@ -1,0 +1,37 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.fpavia111-creator/fairclaim-credit-balances",
+  "title": "Fairclaim Credit Balances",
+  "description": "Works the credit balance report",
+  "version": "0.2.0",
+  "repository": {
+    "url": "https://github.com/fpavia111-creator/fairclaim-agents",
+    "source": "github",
+    "subfolder": "packages/fairclaim-credit-balances"
+  },
+  "websiteUrl": "https://fair-agents.com/fairclaim.html",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "fairclaim-credit-balances",
+      "version": "0.2.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "mcp"
+        },
+        {
+          "type": "named",
+          "name": "--root",
+          "description": "Folder holding the exports this agent may read and write (it cannot reach outside it)",
+          "isRequired": true,
+          "format": "filepath",
+          "valueHint": "exports_folder"
+        }
+      ]
+    }
+  ]
+}

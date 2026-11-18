@@ -4,14 +4,14 @@
 // and can be regenerated. Each section plants the issues its agent's evals expect.
 //
 //   node scripts/make-fixtures.mjs            all agents
-//   node scripts/make-fixtures.mjs yarrow     only agents whose name starts with this
+//   node scripts/make-fixtures.mjs fairclaim-denial     only agents whose name starts with this
 import { mkdirSync, writeFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import * as W from './fixture-world.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const { buildX12 } = await import(pathToFileURL(join(ROOT, 'packages/remedy-core/src/hc-x12.js')).href);
+const { buildX12 } = await import(pathToFileURL(join(ROOT, 'packages/fairclaim-core/src/hc-x12.js')).href);
 const only = process.argv[2] || '';
 const sections = {};
 export const section = (name, fn) => { sections[name] = fn; };

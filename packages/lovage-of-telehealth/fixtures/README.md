@@ -1,6 +1,0 @@
-# Lovage of Telehealth fixtures
-
-Everything here is fictional: the practice (Example Family Medicine (fictional)), the payers (Example Health Plan, Sample Mutual Insurance, Demo Medicaid Plan, Test Medicare Contractor), the patients, member ids and claim numbers. NPIs are made-up numbers that pass the check digit; any match with a real provider is a coincidence. Regenerate with `npm run fixtures` from the repository root.
-
-- `telehealth-visits-2026-02.csv`: 13 fictional claim lines (12 telehealth, one in-person). Planted: place of service 02 for a patient at home; the deleted 99442 for a payer that does not cover audio-only; an audio-only visit without 93; 98005 for a payer that does not take the telemedicine codes; a provider not licensed in the patient's state; 98016 with no consent recorded; a telehealth visit and an in-person visit by the same provider on the same day; Q3014 for a patient at home; GT where the payer wants 95. T9001, T9012 and T9013 are clean.
-- `telehealth-config.json`: example rules for three payers (for testing, not any payer's policy) and the states each provider is licensed in. Test Medicare Contractor is left out, so its lines use the built-in example rule. `telehealth-config-typo.json` has a modifier that does not exist.

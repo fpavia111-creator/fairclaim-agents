@@ -1,4 +1,4 @@
-# Remedy 医疗账单代理
+# Fairclaim 医疗账单代理
 
 *由 Claude 翻译；母语审校尚未完成。以英文 [README](README.md) 为准。*
 
@@ -9,19 +9,19 @@ MIT 许可证 · Node 20 或更高版本 · 仅本地文件 · 无需凭据 · �
 ## 试用
 
 ```bash
-npx -y sage-of-claims demo          # 用虚构数据检查索赔
-npx -y yarrow-of-denials demo       # 从虚构的 835 生成拒付工作清单
+npx -y fairclaim-claim-scrubber demo          # 用虚构数据检查索赔
+npx -y fairclaim-denial-worklist demo       # 从虚构的 835 生成拒付工作清单
 ```
 
 每个代理都有使用虚构文件的 `demo`、用自身测试用例检查的 `eval`，以及适用于 Claude Desktop、Claude Code、Cursor 等 MCP 主机的 MCP 服务器（`npx -y <agent> mcp --root <文件夹>`）。列名也能以中文识别；使用 `--lang zh` 可生成中文 HTML 报告。
 
 ## 代理列表
 
-**索赔发送之前：** `marjoram-of-registration`（患者登记与保险信息）、`basil-of-eligibility`（271 资格回复）、`mint-of-authorizations`（事先授权与 278）、`borage-of-estimates`（无保险患者的善意估价）、`clover-of-charges`（未录入费用的就诊）、`sage-of-claims`（索赔检查）、`dill-of-modifiers`（修饰符）、`ginger-of-edits`（CMS 发布的 NCCI 编辑规则）、`anise-of-dental`（牙科）、`caraway-of-anesthesia`（麻醉单位）、`cumin-of-dme`（医疗设备与租赁）、`tarragon-of-labs`（检验，CLIA）、`lovage-of-telehealth`（远程医疗）、`nettle-of-audits`（编码审计）。
+**索赔发送之前：** `fairclaim-patient-registration`（患者登记与保险信息）、`fairclaim-eligibility-checks`（271 资格回复）、`fairclaim-prior-authorizations`（事先授权与 278）、`fairclaim-good-faith-estimates`（无保险患者的善意估价）、`fairclaim-charge-capture`（未录入费用的就诊）、`fairclaim-claim-scrubber`（索赔检查）、`fairclaim-modifier-checks`（修饰符）、`fairclaim-ncci-edits`（CMS 发布的 NCCI 编辑规则）、`fairclaim-dental-claims`（牙科）、`fairclaim-anesthesia-claims`（麻醉单位）、`fairclaim-dme-claims`（医疗设备与租赁）、`fairclaim-lab-claims`（检验，CLIA）、`fairclaim-telehealth-claims`（远程医疗）、`fairclaim-coding-audits`（编码审计）。
 
-**索赔发送之后：** `verbena-of-rejects`（999 与 277CA 退回）、`chamomile-of-ar`（应收账款与提交时限）、`fennel-of-remits`（835 与银行入账核对）、`yarrow-of-denials`（按原因分类的拒付）、`rosemary-of-appeals`（申诉草稿）、`thyme-of-underpayments`（按合同核对少付）、`tansy-of-credits`（贷方余额与退款）、`aloe-of-statements`（患者账单）、`savory-of-plans`（分期付款计划）。
+**索赔发送之后：** `fairclaim-claim-rejections`（999 与 277CA 退回）、`fairclaim-ar-aging`（应收账款与提交时限）、`fairclaim-remit-deposits`（835 与银行入账核对）、`fairclaim-denial-worklist`（按原因分类的拒付）、`fairclaim-denial-appeals`（申诉草稿）、`fairclaim-underpayments`（按合同核对少付）、`fairclaim-credit-balances`（贷方余额与退款）、`fairclaim-patient-statements`（患者账单）、`fairclaim-payment-plans`（分期付款计划）。
 
-**诊所运营：** `hyssop-of-fees`（收费表与 Medicare 对比）、`laurel-of-contracts`（付款方合同）、`sorrel-of-payers`（付款方评分卡）、`lavender-of-credentialing`（资质认证与到期日）、`angelica-of-prices`（医院价格透明文件）、`mallow-of-kpis`（对照自定目标的指标）、`vervain-of-onboarding`（新诊所上线准备）。
+**诊所运营：** `fairclaim-fee-schedule`（收费表与 Medicare 对比）、`fairclaim-payer-contract-rates`（付款方合同）、`fairclaim-payer-scorecards`（付款方评分卡）、`fairclaim-provider-credentialing`（资质认证与到期日）、`fairclaim-price-transparency`（医院价格透明文件）、`fairclaim-revenue-kpis`（对照自定目标的指标）、`fairclaim-practice-go-live`（新诊所上线准备）。
 
 ## 患者数据
 

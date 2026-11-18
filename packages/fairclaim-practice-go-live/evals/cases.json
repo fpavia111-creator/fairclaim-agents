@@ -1,0 +1,317 @@
+{
+  "suite": "fairclaim-practice-go-live",
+  "root": "..",
+  "data_note": "Fictional practice, providers, payers and patients in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    {
+      "id": "check",
+      "tool": "golive_check",
+      "args": {
+        "setup": "fixtures/onboarding-setup.json",
+        "roster": "fixtures/provider-roster.csv",
+        "enrollments": "fixtures/payer-enrollments.csv",
+        "fees": "fixtures/fee-schedule.csv",
+        "charges": "fixtures/charges-last-month.csv",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.ready": false,
+          "result.days_to_go_live": 15,
+          "result.errors": 12,
+          "result.payers_ready": 2,
+          "result.by_area.practice.errors": 2,
+          "result.items.0.area": "practice"
+        }
+      }
+    },
+    {
+      "id": "po-box-billing-address",
+      "tool": "golive_check",
+      "args": {
+        "setup": "fixtures/onboarding-setup.json",
+        "roster": "fixtures/provider-roster.csv",
+        "enrollments": "fixtures/payer-enrollments.csv",
+        "area": "practice",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "contains": [
+          "is a PO box (PO Box 4410)",
+          "needs the full nine-digit ZIP",
+          "Confirm in NPPES"
+        ]
+      }
+    },
+    {
+      "id": "late-edi-enrollment",
+      "tool": "golive_payers",
+      "args": {
+        "setup": "fixtures/onboarding-setup.json",
+        "roster": "fixtures/provider-roster.csv",
+        "enrollments": "fixtures/payer-enrollments.csv",
+        "payer": "demo medicaid plan",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "equals": {
+          "result.payer.edi": "pending",
+          "result.payer.ready": false,
+          "result.payer.payer_id": null
+        },
+        "contains": [
+          "10 day(s) before go-live",
+          "effective 2026-03-15, after go-live",
+          "No clearinghouse payer ID"
+        ]
+      }
+    },
+    {
+      "id": "matrix",
+      "tool": "golive_payers",
+      "args": {
+        "setup": "fixtures/onboarding-setup.json",
+        "roster": "fixtures/provider-roster.csv",
+        "enrollments": "fixtures/payer-enrollments.csv",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "equals": {
+          "result.payers.0.payer": "Example Health Plan",
+          "result.payers.0.ready": true,
+          "result.payers.1.providers_credentialed": 1,
+          "result.payers.1.eft": "missing"
+        },
+        "contains": [
+          "2 of 4 payer(s) ready for go-live on 2026-03-02"
+        ]
+      }
+    },
+    {
+      "id": "roster-problems",
+      "tool": "golive_check",
+      "args": {
+        "setup": "fixtures/onboarding-setup.json",
+        "roster": "fixtures/provider-roster.csv",
+        "enrollments": "fixtures/payer-enrollments.csv",
+        "charges": "fixtures/charges-last-month.csv",
+        "area": "providers",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "contains": [
+          "Taxonomy 207Q0000X is not ten characters",
+          "NPI 1990000031: check digit is wrong",
+          "Tobi Okoro CRNA (fictional), who is not on the roster"
+        ]
+      }
+    },
+    {
+      "id": "fees-against-charges",
+      "tool": "golive_check",
+      "args": {
+        "setup": "fixtures/onboarding-setup.json",
+        "roster": "fixtures/provider-roster.csv",
+        "enrollments": "fixtures/payer-enrollments.csv",
+        "fees": "fixtures/fee-schedule.csv",
+        "charges": "fixtures/charges-last-month.csv",
+        "area": "fees",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "contains": [
+          "Fee for 36415 is 0.00",
+          "92014 is billed 1 time(s)"
+        ]
+      }
+    },
+    {
+      "id": "no-fees-loaded",
+      "tool": "golive_check",
+      "args": {
+        "setup": "fixtures/onboarding-setup.json",
+        "roster": "fixtures/provider-roster.csv",
+        "enrollments": "fixtures/payer-enrollments.csv",
+        "charges": "fixtures/charges-last-month.csv",
+        "area": "fees",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "contains": [
+          "No fee schedule loaded"
+        ]
+      }
+    },
+    {
+      "id": "bad-setup-refused",
+      "tool": "golive_check",
+      "args": {
+        "setup": "fixtures/onboarding-setup-typo.json",
+        "roster": "fixtures/provider-roster.csv",
+        "enrollments": "fixtures/payer-enrollments.csv"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "state"
+        ]
+      }
+    },
+    {
+      "id": "names-masked",
+      "tool": "golive_check",
+      "args": {
+        "setup": "fixtures/onboarding-setup.json",
+        "roster": "fixtures/provider-roster.csv",
+        "enrollments": "fixtures/payer-enrollments.csv",
+        "charges": "fixtures/charges-last-month.csv",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "not_contains": [
+          "Pemberton",
+          "Achterberg",
+          "SMI553209981",
+          "1966-12-01"
+        ]
+      }
+    },
+    {
+      "id": "plan-in-spanish",
+      "tool": "golive_write_plan",
+      "args": {
+        "setup": "fixtures/onboarding-setup.json",
+        "roster": "fixtures/provider-roster.csv",
+        "enrollments": "fixtures/payer-enrollments.csv",
+        "fees": "fixtures/fee-schedule.csv",
+        "charges": "fixtures/charges-last-month.csv",
+        "as_of": "2026-02-15",
+        "language": "es",
+        "out_dir": "remedy-out/eval-golive"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.lang": "es"
+        }
+      }
+    },
+    {
+      "id": "go-live-refused",
+      "tool": "go_live_switch",
+      "args": {},
+      "expect": {
+        "status": "blocked",
+        "decision": "block"
+      }
+    },
+    {
+      "id": "recall-empty-memory",
+      "tool": "golive_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty",
+          "payer_lead_days"
+        ]
+      }
+    },
+    {
+      "id": "payer-in-charges-not-enrolled",
+      "tool": "golive_check",
+      "args": {
+        "setup": "fixtures/onboarding-setup.json",
+        "roster": "fixtures/provider-roster.csv",
+        "enrollments": "fixtures/payer-enrollments.csv",
+        "charges": "fixtures/charges-last-month.csv",
+        "as_of": "2026-02-15",
+        "area": "payers"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "go to Sample Vision Plan, which has no enrollment row",
+          "No clearinghouse payer ID: claims cannot be routed."
+        ]
+      }
+    },
+    {
+      "id": "credentialed-after-go-live",
+      "tool": "golive_check",
+      "args": {
+        "setup": "fixtures/onboarding-setup.json",
+        "roster": "fixtures/provider-roster.csv",
+        "enrollments": "fixtures/payer-enrollments.csv",
+        "as_of": "2026-02-15",
+        "area": "enrollment",
+        "severity": "error"
+      },
+      "expect": {
+        "contains": [
+          "credentialing effective 2026-03-15, after go-live on 2026-03-02; claims for visits before that date may deny.",
+          "credentialing not on file for this payer"
+        ],
+        "not_contains": [
+          "\"severity\":\"warning\""
+        ]
+      }
+    },
+    {
+      "id": "no-eft-means-paper-checks",
+      "tool": "golive_check",
+      "args": {
+        "setup": "fixtures/onboarding-setup.json",
+        "roster": "fixtures/provider-roster.csv",
+        "enrollments": "fixtures/payer-enrollments.csv",
+        "as_of": "2026-02-15",
+        "area": "enrollment",
+        "severity": "warning"
+      },
+      "expect": {
+        "contains": [
+          "EFT enrollment not started: payments will come as paper checks.",
+          "Felix Brandt DO (fictional): credentialing pending since 2026-01-20"
+        ]
+      }
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "golive_check",
+      "args": {
+        "setup": "fixtures/onboarding-setup.json",
+        "roster": "../../outside-root.csv",
+        "enrollments": "fixtures/payer-enrollments.csv",
+        "fees": "fixtures/fee-schedule.csv",
+        "charges": "fixtures/charges-last-month.csv",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside the allowed root"
+        ]
+      }
+    },
+    {
+      "id": "missing-file-named",
+      "tool": "golive_check",
+      "args": {
+        "setup": "fixtures/onboarding-setup.json",
+        "roster": "fixtures/missing-export.csv",
+        "enrollments": "fixtures/payer-enrollments.csv",
+        "fees": "fixtures/fee-schedule.csv",
+        "charges": "fixtures/charges-last-month.csv",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "not found",
+          "missing-export.csv"
+        ]
+      }
+    }
+  ]
+}

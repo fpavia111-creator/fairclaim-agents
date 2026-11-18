@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairclaim-payer-scorecards": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fairclaim-payer-scorecards@0.2.0",
+        "mcp"
+      ]
+    }
+  }
+}

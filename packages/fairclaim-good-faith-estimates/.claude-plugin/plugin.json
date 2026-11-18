@@ -1,0 +1,22 @@
+{
+  "name": "fairclaim-good-faith-estimates",
+  "version": "0.2.0",
+  "description": "Keeps good faith estimates for self-pay and uninsured patients on time: counts business days from scheduling or request to each estimate's due date, finds missing and late estimates, compares final bills with estimates per provider against the 400-dollar dispute threshold, and drafts an estimate for a person to send. Patient identifiers are masked before results reach the model.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairclaim-agents/tree/main/packages/fairclaim-good-faith-estimates#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "good-faith-estimate",
+    "no-surprises-act",
+    "self-pay",
+    "price-estimate"
+  ]
+}

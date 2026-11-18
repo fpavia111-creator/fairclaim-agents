@@ -1,0 +1,59 @@
+{
+  "name": "fairclaim-patient-registration",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/fairclaim-patient-registration",
+  "description": "Checks patient registration and insurance records before the visit: member id shape per payer and Medicare MBI format, missing or impossible birth dates, subscriber and guarantor gaps, ended coverage, the same plan entered twice, and likely duplicate charts. Patient identifiers are masked before results reach the model.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "fairclaim-patient-registration": "bin/fairclaim-patient-registration.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "server.json"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/fairclaim-patient-registration.js demo",
+    "eval": "node bin/fairclaim-patient-registration.js eval"
+  },
+  "dependencies": {
+    "fairclaim-core": "^0.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairclaim-agents.git",
+    "directory": "packages/fairclaim-patient-registration"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairclaim-agents/tree/main/packages/fairclaim-patient-registration#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairclaim-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "registration",
+    "demographics",
+    "mbi",
+    "duplicates"
+  ]
+}

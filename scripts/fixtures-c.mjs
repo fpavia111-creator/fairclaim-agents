@@ -3,8 +3,8 @@ export default function (section, { W, buildX12, writer, readme }) {
   const P = (id) => W.patient(id);
   const us = (d) => (d ? `${d.slice(5, 7)}/${d.slice(8, 10)}/${d.slice(0, 4)}` : '');
 
-  section('lavender-of-credentialing', () => {
-    const w = writer('lavender-of-credentialing');
+  section('fairclaim-provider-credentialing', () => {
+    const w = writer('fairclaim-provider-credentialing');
     const pr = (id) => W.PROVIDERS.find((p) => p.id === id);
     const row = (id, o) => ({ Provider: pr(id).name, NPI: o.npi ?? pr(id).npi, Taxonomy: pr(id).taxonomy, 'License State': 'AK', 'License Expiration': us(o.lic), 'DEA Expiration': us(o.dea), 'Board Certification Expiration': us(o.board), 'Malpractice Expiration': us(o.mal), 'CAQH Attestation Date': us(o.caqh) });
     w('provider-roster.csv', W.csv([
@@ -26,7 +26,7 @@ export default function (section, { W, buildX12, writer, readme }) {
     w('credentialing-config.json', { warn_days: 90, caqh_days: 120, pending_followup_days: 30, required_docs: ['license_expires', 'malpractice_expires'] });
     w('credentialing-config-typo.json', { required_docs: ['license'] });
     w('payer-enrollments-statuses.csv', "Provider,NPI,Payer,Status,Date Submitted,Effective Date,Revalidation Due\nAlma Reyes MD (fictional),1990000014,Example Health Plan,Not submitted,,,\nAlma Reyes MD (fictional),1990000014,Sample Mutual Insurance,Terminated,01/10/2023,03/01/2023,\nFelix Brandt DO (fictional),1990000022,Demo Medicaid Plan,Not enrolled,,,\nFelix Brandt DO (fictional),1990000022,Test Medicare Contractor,In process,01/20/2026,,\n");
-    readme('lavender-of-credentialing', 'Lavender of Credentialing', [
+    readme('fairclaim-provider-credentialing', 'Fairclaim Provider Credentialing', [
       '`provider-roster.csv`: four fictional providers. Planted, as of 2026-02-15: a DEA registration 74 days from expiry (Reyes); a license expiring in 13 days and a CAQH attestation overdue (Brandt); no malpractice date (Moreau); an NPI with a wrong check digit (Vance).',
       '`payer-enrollments.csv`: seven enrollments: a Medicare revalidation in 74 days, one pending 62 days, one denied, one approved but not effective until 2026-03-01, one not started, and a Medicaid revalidation in 136 days that only a learned 150-day lead time flags.',
       '`credentialing-config.json`: warning and follow-up days. `credentialing-config-typo.json` names an unknown document.',
@@ -35,8 +35,8 @@ export default function (section, { W, buildX12, writer, readme }) {
     ], ['P1', 'P2', 'P3']);
   });
 
-  section('nettle-of-audits', () => {
-    const w = writer('nettle-of-audits');
+  section('fairclaim-coding-audits', () => {
+    const w = writer('fairclaim-coding-audits');
     const pr = (id) => W.PROVIDERS.find((p) => p.id === id).name;
     const name = (pid) => `${P(pid).last}, ${P(pid).first}`;
     const ins = (pid) => W.payer(P(pid).payer).name;
@@ -84,7 +84,7 @@ export default function (section, { W, buildX12, writer, readme }) {
     ]));
     w('audit-config.json', { accuracy_target: 90, min_lines: 10, probe_size: 10, per_provider: 5, focus_codes: ['99215'] });
     w('audit-config-typo.json', { accuracy_target: 190 });
-    readme('nettle-of-audits', 'Nettle of Audits', [
+    readme('fairclaim-coding-audits', 'Fairclaim Coding Audits', [
       '`charges-2026-q1.csv`: 32 fictional charge lines in January and February 2026 for three providers (14, 12 and 6 lines), in a charge export layout.',
       '`audit-results-2026-q1.csv`: a filled-in worksheet of 25 audited lines. Planted: Reyes 10 of 11 agree, one level 5 supported at level 4, one diagnosis added (accuracy 81.82%); Brandt 4 of 10 agree (40%), three E/M levels higher than supported (one unpaid), modifier 25 removed, a joint injection with no procedure note, a new-patient code for an established patient; Moreau 4 lines (too few to judge), one level lower than supported.',
       '`audit-config.json`: 90% target, 5 random lines per provider plus every 99215. `audit-config-typo.json` has a target over 100.',
@@ -92,8 +92,8 @@ export default function (section, { W, buildX12, writer, readme }) {
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8']);
   });
 
-  section('angelica-of-prices', () => {
-    const w = writer('angelica-of-prices');
+  section('fairclaim-price-transparency', () => {
+    const w = writer('fairclaim-price-transparency');
     const ATTEST3 = 'To the best of its knowledge and belief, this hospital has included all applicable standard charge information in accordance with the requirements of 45 CFR 180.50, and the information encoded is true, accurate, and complete as of the date in the file. This hospital has included all payer-specific negotiated charges in dollars that can be expressed as a dollar amount. For payer-specific negotiated charges that cannot be expressed as a dollar amount in the machine-readable file or not knowable in advance, the hospital attests that the payer-specific negotiated charge is based on a contractual algorithm, percentage or formula that precludes the provision of a dollar amount and has provided all necessary information available to the hospital for the public to be able to derive the dollar amount, including, but not limited to, the specific fee schedule or components referenced in such percentage, algorithm or formula.';
     const ATTEST2 = 'To the best of its knowledge and belief, the hospital has included all applicable standard charge information in accordance with the requirements of 45 CFR 180.50, and the information encoded is true, accurate, and complete as of the date indicated.';
     const q = (v) => (/[",\n]/.test(String(v)) ? `"${String(v).replace(/"/g, '""')}"` : String(v));
@@ -152,18 +152,18 @@ export default function (section, { W, buildX12, writer, readme }) {
     w('era-2025-2026.835', buildX12([eraEhp, eraSmi]));
     w('price-config.json', { max_age_days: 365, required_codes: [{ code: '70450', note: 'CMS shoppable: CT head' }, { code: '99213' }, { code: '74177', note: 'CMS shoppable: CT abdomen and pelvis with contrast' }], plans: [{ payer: 'Example Health Plan', plan_name: 'PPO' }, { payer: 'Sample Mutual Insurance', plan_name: 'HMO' }] });
     w('price-config-typo.json', { max_age_days: 900 });
-    readme('angelica-of-prices', 'Angelica of Prices', [
+    readme('fairclaim-price-transparency', 'Fairclaim Price Transparency', [
       '`standard-charges-v3.csv`: a CMS tall CSV, template v3.0, for a fictional hospital (13 data rows). Planted: a type 2 NPI with a bad check digit; a dollar amount written "$455.00"; an algorithm with methodology "other" and no note or count; an NDC with no drug unit or type; a setting "Outpatient surgery"; a dollar amount with no min or max; a duplicate row; a payer and plan named with no negotiated charge; a count written "1,204"; a code type "CPT4"; a cash price above the gross charge. It does not list 74177 from the required list.',
       '`standard-charges-v2.csv`: the same hospital on template v2.2, dated 2025-06-30, with license_number|[state] left as a placeholder.',
       '`chargemaster.csv`: ten items; 80053 is 60.00 (the file says 55.00) and 71046 is missing from the file.',
       '`era-2025-2026.835`: two 835 payments for the allowed-amount table: 14 paid 99213 lines for one payer (count 14, median 100, 10th 92, 90th 110), 4 for another (count "1 through 10"), three CT heads, one $0 denial, one reversal and one line before the period.',
       '`price-config.json`: required codes and plan names. `price-config-typo.json` has an age limit over 400 days.',
-      'The 835 patients are fictional; Angelica never needs them and they are masked anyway.',
+      'The 835 patients are fictional; Fairclaim Price Transparency never needs them and they are masked anyway.',
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8']);
   });
 
-  section('anise-of-dental', () => {
-    const w = writer('anise-of-dental');
+  section('fairclaim-dental-claims', () => {
+    const w = writer('fairclaim-dental-claims');
     const d8 = (iso) => iso.replace(/-/g, '');
     const DPAY = { name: 'EXAMPLE DENTAL PLAN', id: '99911' };
     // 837D (005010X224A2) body: SV3 for the procedure and oral cavity area, TOO for tooth and surfaces.
@@ -206,7 +206,7 @@ export default function (section, { W, buildX12, writer, readme }) {
     w('dental-config.json', { primary_tooth_age: 14 });
     w('dental-config-typo.json', { frequency: [{ codes: ['1110'], max: 2, per: 'patient' }] });
     w('exports/open-dental-procs-with-status.csv', "ClaimNum,Patient,Birthdate,ProcDate,ProcCode,ToothNum,Surf,ProcFee,ProcStatus\n7101,\"Pemberton, Harlow\",1958-03-14,2026-02-12,D2391,30,O,160.00,2\n7101,\"Pemberton, Harlow\",1958-03-14,2026-02-12,D2740,19,,1200.00,1\n7101,\"Pemberton, Harlow\",1958-03-14,2026-02-12,D0140,,,70.00,2\n7102,\"Pemberton, Harlow\",1958-03-14,2026-02-12,D7140,3,,190.00,6\n");
-    readme('anise-of-dental', 'Anise of Dental', [
+    readme('fairclaim-dental-claims', 'Fairclaim Dental Claims', [
       '`dental-claims-2026-02.837`: an 837D (005010X224A2) with six fictional claims. Planted: bitewings already taken this year; a 2-surface code for 3 surfaces; an anterior resin code on a molar; a crown 32 months after the last one on that tooth; an anterior root canal code on a molar; scaling and root planing with no quadrant, and with a cleaning the same day; a sealant billed twice; a posterior resin code with an occlusal surface on a front tooth; a filling on a tooth extracted in November. D5006 is clean.',
       '`dental-history.csv`: seven past procedures for those patients (exams, cleaning, bitewings, a crown, an extraction, root planing in another quadrant).',
       '`exports/open-dental-procs.csv`: two lines in an Open Dental user-query layout (database column names), with a lettered (primary) tooth on an adult.',
@@ -215,8 +215,8 @@ export default function (section, { W, buildX12, writer, readme }) {
     ], ['P1', 'P2', 'P5', 'P6', 'P7', 'P8']);
   });
 
-  section('cumin-of-dme', () => {
-    const w = writer('cumin-of-dme');
+  section('fairclaim-dme-claims', () => {
+    const w = writer('fairclaim-dme-claims');
     const months = (from, n) => Array.from({ length: n }, (_, i) => { const d = new Date(`${from}T00:00:00Z`); d.setUTCMonth(d.getUTCMonth() + i); return d.toISOString().slice(0, 10); });
     const H = (pid, dates, code, mods) => dates.map((d, i) => ({ Patient: `${P(pid).last}, ${P(pid).first}`, 'Member ID': P(pid).member, DOS: us(d), HCPCS: code, Modifiers: typeof mods === 'function' ? mods(i + 1) : mods }));
     const k = (m) => (m === 1 ? 'RR KH' : m <= 3 ? 'RR KI' : 'RR KJ');
@@ -243,15 +243,15 @@ export default function (section, { W, buildX12, writer, readme }) {
     ]));
     w('dme-config.json', { gap_days: 60, items: [{ code: 'E0143', label: 'Walker, folding, wheeled', category: 'purchase' }] });
     w('dme-config-typo.json', { items: [{ code: 'E0601', category: 'caped_rental' }] });
-    readme('cumin-of-dme', 'Cumin of DME', [
+    readme('fairclaim-dme-claims', 'Fairclaim DME Claims', [
       '`dme-claims-2026-02.csv`: eleven fictional DME claim lines for February 2026 with order and delivery dates. Planted: a hospital bed in rental month 14 (past the 13-month cap); a nebulizer in month 2 billed with KH; an oxygen concentrator in month 38; a knee orthosis with no RT or LT; a power wheelchair with no prior authorization and an order dated after delivery; test strips over the unit limit and billed twice; a wheelchair restarting after a gap. The CPAP in month 12 (KJ) and the crutches are clean.',
       '`rental-history.csv`: 67 earlier rental months for those patients.',
       '`dme-config.json`: one extra item (a walker) and the 60-day gap. `dme-config-typo.json` has a misspelled category.',
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8']);
   });
 
-  section('caraway-of-anesthesia', () => {
-    const w = writer('caraway-of-anesthesia');
+  section('fairclaim-anesthesia-claims', () => {
+    const w = writer('fairclaim-anesthesia-claims');
     const VANCE = 'Ruth Vance MD (fictional)'; const OKORO = 'Tobi Okoro CRNA (fictional)'; const ILVES = 'Sam Ilves CRNA (fictional)';
     const t = (d, hm) => `${us(d)} ${hm}`;
     const rows = [];
@@ -285,15 +285,15 @@ export default function (section, { W, buildX12, writer, readme }) {
       { name: 'Example Health Plan', conversion_factor: 58, rounding: 'nearest', ps_qc_units: true },
     ] });
     w('anesthesia-config-typo.json', { rounding: 'ceiling' });
-    readme('caraway-of-anesthesia', 'Caraway of Anesthesia', [
+    readme('fairclaim-anesthesia-claims', 'Fairclaim Anesthesia Claims', [
       '`anesthesia-claims-2026-02-03.csv`: one fictional operating day, 14 claims for 9 cases (an anesthesiologist and two CRNAs), with qualifying circumstance lines. Planted: QY billed while the anesthesiologist covered two rooms (twice); 99100 on a 13-year-old; reported minutes that do not match the times; AA while a CRNA billed the same case; a CRNA with two overlapping cases; a case with no physical status modifier and units billed above base plus time. Cases K1 and K2 (QK with QX, two rooms) and the case that crosses midnight are clean.',
       '`anesthesia-base-units-illustrative.csv`: base units for the codes used. Illustrative values for testing: load the CMS anesthesia base units file for your year.',
       '`anesthesia-config.json`: per-payer conversion factors (illustrative), rounding and whether physical status and qualifying units are paid. `anesthesia-config-typo.json` has a rounding value that does not exist.',
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8']);
   });
 
-  section('tarragon-of-labs', () => {
-    const w = writer('tarragon-of-labs');
+  section('fairclaim-lab-claims', () => {
+    const w = writer('fairclaim-lab-claims');
     const CLIA = '02D0999999';
     const L = (code, charge, o = {}) => ({ code, charge, units: o.units ?? 1, date: o.date || '2026-02-10', mods: o.mods || [] });
     const BMP = ['82310', '82374', '82435', '82565', '82947', '84132', '84295', '84520'];
@@ -312,14 +312,14 @@ export default function (section, { W, buildX12, writer, readme }) {
     w('lab-config.json', { ...base, certificate: 'compliance' });
     w('lab-config-waiver.json', { ...base, certificate: 'waiver' });
     w('lab-config-typo.json', { certificate: 'waived' });
-    readme('tarragon-of-labs', 'Tarragon of Labs', [
+    readme('fairclaim-lab-claims', 'Fairclaim Lab Claims', [
       '`lab-claims-2026-02.837`: an 837P with eight fictional lab claims. Planted: no CLIA and an HbA1c with only a screening diagnosis, two months after the last one; a waived strep test without QW and venipuncture billed twice; every basic metabolic panel component billed separately; a lipid panel with one of its components; a CBC twice with no 91; a malformed CLIA. L8001 and L8008 are clean.',
       '`lab-history.csv`: two earlier HbA1c tests.',
       '`lab-config.json`: CLIA, waived tests, one example diagnosis rule and one example frequency limit (for testing, not payer policy). `lab-config-waiver.json` is the same lab with a certificate of waiver. `lab-config-typo.json` has a certificate type that does not exist.',
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8']);
   });
-  section('lovage-of-telehealth', () => {
-    const w = writer('lovage-of-telehealth');
+  section('fairclaim-telehealth-claims', () => {
+    const w = writer('fairclaim-telehealth-claims');
     const pr = (id) => W.PROVIDERS.find((p) => p.id === id).name;
     const V = (id, pid, prov, code, mods, pos, o = {}) => ({ 'Claim ID': id, Patient: `${P(pid).last}, ${P(pid).first}`, DOB: us(P(pid).dob), 'Member ID': P(pid).member, Payer: W.payer(P(pid).payer).name, Provider: pr(prov), DOS: us(o.date || '2026-02-12'), CPT: code, Modifiers: mods, POS: pos, 'Patient State': o.state ?? 'AK', 'Patient Location': o.loc ?? 'Home', Modality: o.modality ?? 'Video', Consent: o.consent ?? 'Y', Charge: (o.charge ?? 120).toFixed(2) });
     w('telehealth-visits-2026-02.csv', W.csv([
@@ -350,13 +350,13 @@ export default function (section, { W, buildX12, writer, readme }) {
       ],
     });
     w('telehealth-config-typo.json', { default_rule: { modifier: '96' } });
-    readme('lovage-of-telehealth', 'Lovage of Telehealth', [
+    readme('fairclaim-telehealth-claims', 'Fairclaim Telehealth Claims', [
       '`telehealth-visits-2026-02.csv`: 13 fictional claim lines (12 telehealth, one in-person). Planted: place of service 02 for a patient at home; the deleted 99442 for a payer that does not cover audio-only; an audio-only visit without 93; 98005 for a payer that does not take the telemedicine codes; a provider not licensed in the patient\'s state; 98016 with no consent recorded; a telehealth visit and an in-person visit by the same provider on the same day; Q3014 for a patient at home; GT where the payer wants 95. T9001, T9012 and T9013 are clean.',
       '`telehealth-config.json`: example rules for three payers (for testing, not any payer\'s policy) and the states each provider is licensed in. Test Medicare Contractor is left out, so its lines use the built-in example rule. `telehealth-config-typo.json` has a modifier that does not exist.',
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8']);
   });
-  section('mallow-of-kpis', () => {
-    const w = writer('mallow-of-kpis');
+  section('fairclaim-revenue-kpis', () => {
+    const w = writer('fairclaim-revenue-kpis');
     const pr = (id) => W.PROVIDERS.find((p) => p.id === id).name;
     const add = (d, n) => new Date(Date.parse(`${d}T00:00:00Z`) + n * 86400000).toISOString().slice(0, 10);
     const FEE = { 99203: 210, 99213: 150, 99214: 220, 99215: 300 };
@@ -389,14 +389,14 @@ export default function (section, { W, buildX12, writer, readme }) {
     w('remits-2025-11-to-2026-02.835', buildX12([...sets.values()].sort((a, b) => a.date.localeCompare(b.date)).map((x) => W.body835({ trace: `EFT${String(++n).padStart(5, '0')}`, payer: x.payer, date: x.date, claims: x.claims }))));
     w('kpi-config.json', { as_of: '2026-02-15', period_days: 90, no_response_days: 30, targets: { denial_rate: 10, first_pass_rate: 85, net_collection_rate: 95, median_days_to_pay: 30, days_in_ar: 40 } });
     w('kpi-config-typo.json', { targets: { denial_rate: 140 } });
-    readme('mallow-of-kpis', 'Mallow of KPIs', [
+    readme('fairclaim-revenue-kpis', 'Fairclaim Revenue KPIs', [
       '`claims-2025-11-to-2026-01.csv`: 24 fictional claims from November 2025 to early February 2026 across four payers, with the date each was submitted.',
       '`remits-2025-11-to-2026-02.835`: the 835 payments for them. Planted: two prior authorization denials and a medical necessity denial; a claim denied for missing information and paid 30 days later; a slow payer (45 days); three claims with no remittance more than 30 days after they were sent; one remittance for a claim that is not in the claims file.',
       '`kpi-config.json`: an as-of date of 2026-02-15 and example targets for testing, not benchmarks. `kpi-config-typo.json` has a denial rate target above 100.',
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8']);
   });
-  section('vervain-of-onboarding', () => {
-    const w = writer('vervain-of-onboarding');
+  section('fairclaim-practice-go-live', () => {
+    const w = writer('fairclaim-practice-go-live');
     const pr = (id) => W.PROVIDERS.find((p) => p.id === id);
     w('onboarding-setup.json', {
       practice: { name: 'Example Family Medicine (fictional)', billing_npi: '2990000012', tax_id: '99-0000001', taxonomy: '207Q00000X', address: { street: 'PO Box 4410', city: 'Exampleton', state: 'AK', zip: '99501' }, pay_to_address: { street: 'PO Box 4410', city: 'Exampleton', state: 'AK', zip: '99501-4410' } },
@@ -429,7 +429,7 @@ export default function (section, { W, buildX12, writer, readme }) {
       C('V5001', 'P1', pr('reyes').name, '99213'), C('V5002', 'P2', pr('brandt').name, '99214'), C('V5003', 'P4', pr('reyes').name, '99215'),
       C('V5004', 'P6', 'Tobi Okoro CRNA (fictional)', '99213'), C('V5005', 'P7', pr('reyes').name, '92014', 'Sample Vision Plan'), C('V5006', 'P3', pr('moreau').name, '36415'),
     ]));
-    readme('vervain-of-onboarding', 'Vervain of Onboarding', [
+    readme('fairclaim-practice-go-live', 'Fairclaim Practice Go Live', [
       '`onboarding-setup.json`: a fictional practice going live on 2026-03-02. Planted: the billing provider address is a PO box with a five-digit ZIP. `onboarding-setup-typo.json` has a state that is not two letters.',
       '`provider-roster.csv`: three fictional providers. Planted: a taxonomy one character short; an NPI with a wrong check digit and no license state.',
       '`payer-enrollments.csv`: four payers. Planted: ERA pending and EFT not started; a provider still pending and one with no credentialing row; an EDI enrollment submitted 10 days before go-live and no payer ID; credentialing effective after go-live. Example Health Plan contracts at group level and is ready; Test Medicare Contractor is ready.',

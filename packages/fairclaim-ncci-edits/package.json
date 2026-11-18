@@ -1,0 +1,60 @@
+{
+  "name": "fairclaim-ncci-edits",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/fairclaim-ncci-edits",
+  "description": "Fairclaim NCCI Edits: checks claims against the CMS NCCI procedure-to-procedure edits and medically unlikely edits files you download, by date of service, with the modifier indicator, bypass modifiers and MUE adjudication indicator, plus payer pair edits your team adds.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "fairclaim-ncci-edits": "bin/fairclaim-ncci-edits.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "server.json"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/fairclaim-ncci-edits.js demo",
+    "eval": "node bin/fairclaim-ncci-edits.js eval"
+  },
+  "dependencies": {
+    "fairclaim-core": "^0.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairclaim-agents.git",
+    "directory": "packages/fairclaim-ncci-edits"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairclaim-agents/tree/main/packages/fairclaim-ncci-edits#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairclaim-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "ncci",
+    "mue",
+    "ptp",
+    "bundling",
+    "coding"
+  ]
+}

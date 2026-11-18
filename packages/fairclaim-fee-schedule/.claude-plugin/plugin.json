@@ -1,0 +1,23 @@
+{
+  "name": "fairclaim-fee-schedule",
+  "version": "0.2.0",
+  "description": "Prices each code on your fee schedule from the Medicare RVU and GPCI files (RVU x GPCI x conversion factor), finds fees below what payers would allow (money left on the table when payers pay the lesser of charge or allowed), below your target percent of Medicare, or with no Medicare price, and drafts a fee update for a person to approve.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairclaim-agents/tree/main/packages/fairclaim-fee-schedule#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "fee-schedule",
+    "chargemaster",
+    "rvu",
+    "gpci",
+    "pfs"
+  ]
+}

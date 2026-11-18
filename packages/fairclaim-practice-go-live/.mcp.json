@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairclaim-practice-go-live": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fairclaim-practice-go-live@0.2.0",
+        "mcp"
+      ]
+    }
+  }
+}

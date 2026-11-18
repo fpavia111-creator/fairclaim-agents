@@ -1,0 +1,302 @@
+{
+  "suite": "fairclaim-dme-claims",
+  "root": "..",
+  "data_note": "Fictional supplier and patients in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    {
+      "id": "check",
+      "tool": "dme_check",
+      "args": {
+        "claims": "fixtures/dme-claims-2026-02.csv",
+        "history": "fixtures/rental-history.csv",
+        "config": "fixtures/dme-config.json",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.claims": 11,
+          "result.errors": 5,
+          "result.warnings": 3,
+          "result.rentals": 7,
+          "result.items.0.claim_id": "M6002",
+          "result.items.0.rental_month": 14
+        }
+      }
+    },
+    {
+      "id": "month-modifier",
+      "tool": "dme_explain",
+      "args": {
+        "claims": "fixtures/dme-claims-2026-02.csv",
+        "history": "fixtures/rental-history.csv",
+        "ref": "M6003"
+      },
+      "expect": {
+        "contains": [
+          "rental month 2",
+          "it should be KI"
+        ]
+      }
+    },
+    {
+      "id": "power-wheelchair",
+      "tool": "dme_check",
+      "args": {
+        "claims": "fixtures/dme-claims-2026-02.csv",
+        "check": "prior_auth"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.code": "K0823"
+        },
+        "contains": [
+          "needs a prior authorization number",
+          "The order (2026-02-10) is dated after delivery (2026-02-03)."
+        ]
+      }
+    },
+    {
+      "id": "rentals-next-month",
+      "tool": "dme_rentals",
+      "args": {
+        "claims": "fixtures/dme-claims-2026-02.csv",
+        "history": "fixtures/rental-history.csv",
+        "as_of": "2026-02-15",
+        "status": "renting"
+      },
+      "expect": {
+        "contains": [
+          "\"next_modifiers\":\"RR KJ\"",
+          "\"next_date\":\"2026-03-01\""
+        ],
+        "equals": {
+          "result.items.3.status": "renting"
+        },
+        "not_contains": [
+          "\"capped_owned\""
+        ]
+      }
+    },
+    {
+      "id": "capped-owned",
+      "tool": "dme_rentals",
+      "args": {
+        "claims": "fixtures/dme-claims-2026-02.csv",
+        "history": "fixtures/rental-history.csv",
+        "as_of": "2026-02-15",
+        "status": "capped_owned"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.code": "E0260",
+          "result.items.0.months_billed": 14
+        }
+      }
+    },
+    {
+      "id": "without-history",
+      "tool": "dme_check",
+      "args": {
+        "claims": "fixtures/dme-claims-2026-02.csv",
+        "check": "rental_month"
+      },
+      "expect": {
+        "contains": [
+          "Rental month 1 is billed with KJ; it should be KH"
+        ]
+      }
+    },
+    {
+      "id": "bad-config-refused",
+      "tool": "dme_check",
+      "args": {
+        "claims": "fixtures/dme-claims-2026-02.csv",
+        "config": "fixtures/dme-config-typo.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "category"
+        ]
+      }
+    },
+    {
+      "id": "names-masked",
+      "tool": "dme_rentals",
+      "args": {
+        "claims": "fixtures/dme-claims-2026-02.csv",
+        "history": "fixtures/rental-history.csv"
+      },
+      "expect": {
+        "matches": [
+          "\"patient_name\":\"PT-[0-9a-f]{8}\""
+        ],
+        "not_contains": [
+          "Thibodeaux",
+          "TMC8XY4ZZ12",
+          "Ndiaye"
+        ]
+      }
+    },
+    {
+      "id": "report-in-chinese",
+      "tool": "dme_write_report",
+      "args": {
+        "claims": "fixtures/dme-claims-2026-02.csv",
+        "history": "fixtures/rental-history.csv",
+        "config": "fixtures/dme-config.json",
+        "as_of": "2026-02-15",
+        "language": "zh",
+        "out_dir": "remedy-out/eval-dme"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.lang": "zh"
+        }
+      }
+    },
+    {
+      "id": "order-sign-refused",
+      "tool": "order_sign",
+      "args": {},
+      "expect": {
+        "status": "blocked",
+        "decision": "block"
+      }
+    },
+    {
+      "id": "recall-empty-memory",
+      "tool": "dme_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty",
+          "dme_item_rule"
+        ]
+      }
+    },
+    {
+      "id": "oxygen-past-36-months",
+      "tool": "dme_explain",
+      "args": {
+        "claims": "fixtures/dme-claims-2026-02.csv",
+        "history": "fixtures/rental-history.csv",
+        "config": "fixtures/dme-config.json",
+        "as_of": "2026-02-15",
+        "ref": "M6004"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "Oxygen rental month 38",
+          "months 37 to 60 are not paid",
+          "must keep furnishing it"
+        ]
+      }
+    },
+    {
+      "id": "orthotic-without-side",
+      "tool": "dme_check",
+      "args": {
+        "claims": "fixtures/dme-claims-2026-02.csv",
+        "config": "fixtures/dme-config.json",
+        "as_of": "2026-02-15",
+        "check": "side"
+      },
+      "expect": {
+        "length": {
+          "result.items": 1
+        },
+        "equals": {
+          "result.items.0.claim_id": "M6005",
+          "result.items.0.code": "L1833"
+        },
+        "contains": [
+          "needs RT or LT"
+        ]
+      }
+    },
+    {
+      "id": "rental-restarts-after-gap",
+      "tool": "dme_check",
+      "args": {
+        "claims": "fixtures/dme-claims-2026-02.csv",
+        "history": "fixtures/rental-history.csv",
+        "config": "fixtures/dme-config.json",
+        "as_of": "2026-02-15",
+        "check": "gap"
+      },
+      "expect": {
+        "length": {
+          "result.items": 1
+        },
+        "equals": {
+          "result.items.0.claim_id": "M6010",
+          "result.items.0.rental_month": 1,
+          "result.items.0.status": "warning"
+        },
+        "contains": [
+          "123-day gap",
+          "document the break in need"
+        ]
+      }
+    },
+    {
+      "id": "supply-billed-twice-same-day",
+      "tool": "dme_check",
+      "args": {
+        "claims": "fixtures/dme-claims-2026-02.csv",
+        "config": "fixtures/dme-config.json",
+        "as_of": "2026-02-15",
+        "check": "duplicate"
+      },
+      "expect": {
+        "length": {
+          "result.items": 1
+        },
+        "equals": {
+          "result.items.0.claim_id": "M6008"
+        },
+        "contains": [
+          "A4253 is billed twice for 2026-02-02."
+        ]
+      }
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "dme_check",
+      "args": {
+        "claims": "../../outside-root.csv",
+        "history": "fixtures/rental-history.csv",
+        "config": "fixtures/dme-config.json",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside the allowed root"
+        ]
+      }
+    },
+    {
+      "id": "missing-file-named",
+      "tool": "dme_check",
+      "args": {
+        "claims": "fixtures/missing-export.csv",
+        "history": "fixtures/rental-history.csv",
+        "config": "fixtures/dme-config.json",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "not found",
+          "missing-export.csv"
+        ]
+      }
+    }
+  ]
+}

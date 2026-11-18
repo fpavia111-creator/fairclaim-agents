@@ -1,0 +1,58 @@
+{
+  "name": "fairclaim-dental-claims",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/fairclaim-dental-claims",
+  "description": "Dental claims that go out right: checks tooth numbers, surfaces against the restoration code, anterior and posterior codes, quadrants for scaling and root planing, frequency limits against the patient's history, extracted teeth, crown replacement windows and the attachments payers ask for, from an 837D or a practice export.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "fairclaim-dental-claims": "bin/fairclaim-dental-claims.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "server.json"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/fairclaim-dental-claims.js demo",
+    "eval": "node bin/fairclaim-dental-claims.js eval"
+  },
+  "dependencies": {
+    "fairclaim-core": "^0.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairclaim-agents.git",
+    "directory": "packages/fairclaim-dental-claims"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairclaim-agents/tree/main/packages/fairclaim-dental-claims#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairclaim-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "dental",
+    "cdt",
+    "837d"
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "name": "fairclaim-dme-claims",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/fairclaim-dme-claims",
+  "description": "DME claims and rentals kept straight: checks rental and purchase modifiers, the capped-rental month (KH, KI, KJ) and the 13-month cap, oxygen months, right and left on paired items, prior authorization, the order before delivery and units, and tracks every rental to its next modifier.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "fairclaim-dme-claims": "bin/fairclaim-dme-claims.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "server.json"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/fairclaim-dme-claims.js demo",
+    "eval": "node bin/fairclaim-dme-claims.js eval"
+  },
+  "dependencies": {
+    "fairclaim-core": "^0.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairclaim-agents.git",
+    "directory": "packages/fairclaim-dme-claims"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairclaim-agents/tree/main/packages/fairclaim-dme-claims#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairclaim-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "dme",
+    "dmepos",
+    "rentals",
+    "hcpcs"
+  ]
+}

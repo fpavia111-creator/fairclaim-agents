@@ -1,0 +1,21 @@
+{
+  "name": "fairclaim-charge-capture",
+  "version": "0.2.0",
+  "description": "Matches completed visits to charges: finds visits with no charge, charges with no visit or on a cancelled one, late charge entry, missing expected codes, and E/M level mix by provider against peers. Patient identifiers are masked before results reach the model.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairclaim-agents/tree/main/packages/fairclaim-charge-capture#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "charge-capture",
+    "charge-lag",
+    "em-levels"
+  ]
+}

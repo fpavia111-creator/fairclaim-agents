@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairclaim-denial-appeals": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fairclaim-denial-appeals@0.2.0",
+        "mcp"
+      ]
+    }
+  }
+}

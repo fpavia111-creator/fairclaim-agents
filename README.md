@@ -1,4 +1,4 @@
-# Remedy medical billing agents
+# Fairclaim medical billing agents
 
 Thirty small MCP agents for medical billing and the revenue cycle. Each one owns **one job**, such as scrubbing claims before they go out, sorting the denials in an 835, finding underpaid lines or working the credit balance report, and cannot act outside it. They read the files you already export from your practice management system, clearinghouse and payer portals (837, 835, 999, 277CA, 271 and 278 files or spreadsheets), mask patient identifiers before any result reaches the AI model, write worklists on your machine, and wait for a named person before anything is sent, refunded, posted or paid.
 
@@ -9,8 +9,8 @@ Also in: [Deutsch](README.de.md) · [Français](README.fr.md) · [Español](READ
 ## Try one
 
 ```bash
-npx -y sage-of-claims demo          # claim scrubber on fictional claims
-npx -y yarrow-of-denials demo       # denial worklist from a fictional 835
+npx -y fairclaim-claim-scrubber demo          # claim scrubber on fictional claims
+npx -y fairclaim-denial-worklist demo       # denial worklist from a fictional 835
 ```
 
 Every agent has a `demo` that runs on fictional files, an `eval` that checks it against its own test cases, and an MCP server (`npx -y <agent> mcp --root <folder>`) for Claude Desktop, Claude Code, Cursor and other MCP hosts. Each agent's README lists its tools, the columns it reads and the exports it recognises.
@@ -21,46 +21,46 @@ Every agent has a `demo` that runs on fictional files, an `eval` that checks it 
 
 | Agent | What it does | Never does |
 |---|---|---|
-| [`marjoram-of-registration`](packages/marjoram-of-registration) | Registration and insurance records before the visit: member ID and MBI shape, birth dates, subscriber gaps, ended coverage, likely duplicate charts | Merges or edits patient records |
-| [`basil-of-eligibility`](packages/basil-of-eligibility) | 271 eligibility responses against the appointment list: inactive, not found, plan ending, another payer primary, amounts to collect | Sends eligibility inquiries or cancels visits |
-| [`mint-of-authorizations`](packages/mint-of-authorizations) | Claims and scheduled services against the prior authorization log and 278 responses: missing, expired, used-up or mismatched authorizations | Submits authorization requests or logs in to payer portals |
-| [`borage-of-estimates`](packages/borage-of-estimates) | Good faith estimates for self-pay and uninsured patients: due dates in business days, late estimates, final bills past the $400 dispute threshold | Sends an estimate without a named person's click |
-| [`clover-of-charges`](packages/clover-of-charges) | Completed visits matched to charges: missed charges, charges with no visit, late charge entry, E/M level mix by provider | Posts charges or signs notes |
-| [`sage-of-claims`](packages/sage-of-claims) | Claim scrubber for 837s and claim exports: identifiers, diagnoses, pointers, dates, place of service, payer rules you learn | Submits or edits claims |
-| [`dill-of-modifiers`](packages/dill-of-modifiers) | Modifiers on each line: missing or misplaced 25 and 57, 59 with X modifiers, laterality, bilateral units, conflicting pairs | Appends modifiers or submits claims |
-| [`ginger-of-edits`](packages/ginger-of-edits) | Claims against the CMS NCCI PTP and MUE files you download, by date of service | Appends modifiers or submits claims |
-| [`anise-of-dental`](packages/anise-of-dental) | Dental claims: CDT codes, tooth numbers and surfaces, quadrants, frequency limits, extracted teeth, attachments payers ask for | Submits claims or updates the chart |
-| [`caraway-of-anesthesia`](packages/caraway-of-anesthesia) | Anesthesia units (base, time, physical status, qualifying circumstances), medical direction modifiers against concurrent cases | Submits claims or edits anesthesia times |
-| [`cumin-of-dme`](packages/cumin-of-dme) | DME claims and capped rentals: KH, KI and KJ by month, the 13-month cap, oxygen months, written order before delivery | Submits claims or signs orders |
-| [`tarragon-of-labs`](packages/tarragon-of-labs) | Lab claims: CLIA number and certificate, QW, panels billed as components, repeats, venipuncture, diagnosis and frequency rules | Submits claims or releases results |
-| [`lovage-of-telehealth`](packages/lovage-of-telehealth) | Telehealth lines: place of service 02 or 10, modifiers by payer, audio-only, the 98000-98015 codes, deleted 99441-99443, licensing in the patient's state | Submits claims or starts visits |
-| [`nettle-of-audits`](packages/nettle-of-audits) | Coding audits: draws a repeatable sample per provider, writes the worksheet, scores the results with accuracy and dollar impact | Corrects claims or sends refunds |
+| [`fairclaim-patient-registration`](packages/fairclaim-patient-registration) | Registration and insurance records before the visit: member ID and MBI shape, birth dates, subscriber gaps, ended coverage, likely duplicate charts | Merges or edits patient records |
+| [`fairclaim-eligibility-checks`](packages/fairclaim-eligibility-checks) | 271 eligibility responses against the appointment list: inactive, not found, plan ending, another payer primary, amounts to collect | Sends eligibility inquiries or cancels visits |
+| [`fairclaim-prior-authorizations`](packages/fairclaim-prior-authorizations) | Claims and scheduled services against the prior authorization log and 278 responses: missing, expired, used-up or mismatched authorizations | Submits authorization requests or logs in to payer portals |
+| [`fairclaim-good-faith-estimates`](packages/fairclaim-good-faith-estimates) | Good faith estimates for self-pay and uninsured patients: due dates in business days, late estimates, final bills past the $400 dispute threshold | Sends an estimate without a named person's click |
+| [`fairclaim-charge-capture`](packages/fairclaim-charge-capture) | Completed visits matched to charges: missed charges, charges with no visit, late charge entry, E/M level mix by provider | Posts charges or signs notes |
+| [`fairclaim-claim-scrubber`](packages/fairclaim-claim-scrubber) | Claim scrubber for 837s and claim exports: identifiers, diagnoses, pointers, dates, place of service, payer rules you learn | Submits or edits claims |
+| [`fairclaim-modifier-checks`](packages/fairclaim-modifier-checks) | Modifiers on each line: missing or misplaced 25 and 57, 59 with X modifiers, laterality, bilateral units, conflicting pairs | Appends modifiers or submits claims |
+| [`fairclaim-ncci-edits`](packages/fairclaim-ncci-edits) | Claims against the CMS NCCI PTP and MUE files you download, by date of service | Appends modifiers or submits claims |
+| [`fairclaim-dental-claims`](packages/fairclaim-dental-claims) | Dental claims: CDT codes, tooth numbers and surfaces, quadrants, frequency limits, extracted teeth, attachments payers ask for | Submits claims or updates the chart |
+| [`fairclaim-anesthesia-claims`](packages/fairclaim-anesthesia-claims) | Anesthesia units (base, time, physical status, qualifying circumstances), medical direction modifiers against concurrent cases | Submits claims or edits anesthesia times |
+| [`fairclaim-dme-claims`](packages/fairclaim-dme-claims) | DME claims and capped rentals: KH, KI and KJ by month, the 13-month cap, oxygen months, written order before delivery | Submits claims or signs orders |
+| [`fairclaim-lab-claims`](packages/fairclaim-lab-claims) | Lab claims: CLIA number and certificate, QW, panels billed as components, repeats, venipuncture, diagnosis and frequency rules | Submits claims or releases results |
+| [`fairclaim-telehealth-claims`](packages/fairclaim-telehealth-claims) | Telehealth lines: place of service 02 or 10, modifiers by payer, audio-only, the 98000-98015 codes, deleted 99441-99443, licensing in the patient's state | Submits claims or starts visits |
+| [`fairclaim-coding-audits`](packages/fairclaim-coding-audits) | Coding audits: draws a repeatable sample per provider, writes the worksheet, scores the results with accuracy and dollar impact | Corrects claims or sends refunds |
 
 **After the claim goes out**
 
 | Agent | What it does | Never does |
 |---|---|---|
-| [`verbena-of-rejects`](packages/verbena-of-rejects) | 999 and 277CA acknowledgements tied back to the claim and loop in the 837 you sent | Resubmits claims or logs in to the clearinghouse |
-| [`chamomile-of-ar`](packages/chamomile-of-ar) | Open insurance A/R by payer and bucket, timely-filing limits, claims with no response, what to work first | Posts write-offs or calls payers |
-| [`fennel-of-remits`](packages/fennel-of-remits) | 835 remittances matched to bank deposits; missing, short and unexplained payments | Posts payments or moves money |
-| [`yarrow-of-denials`](packages/yarrow-of-denials) | Denials sorted by reason code and root cause into a worklist with the team and next step | Resubmits, appeals or uses payer portals |
-| [`rosemary-of-appeals`](packages/rosemary-of-appeals) | Appeal drafts quoting the payer policy files you supply, with deadline and enclosures | Submits an appeal without a named person's click |
-| [`thyme-of-underpayments`](packages/thyme-of-underpayments) | 835 lines priced from your contract: underpaid and overpaid lines, reprocessing requests | Submits through payer portals or posts payments |
-| [`tansy-of-credits`](packages/tansy-of-credits) | The credit balance report: who is owed what, by when, refund drafts | Issues a refund without a named person's click |
-| [`aloe-of-statements`](packages/aloe-of-statements) | Patient statement cycles: who gets a first, second or final statement, who is held and why, a plain-language draft | Sends statements or assigns accounts to collections |
-| [`savory-of-plans`](packages/savory-of-plans) | Patient payment plans against your policy: missed installments, terms outside policy, options for a new balance | Charges cards or cancels plans |
+| [`fairclaim-claim-rejections`](packages/fairclaim-claim-rejections) | 999 and 277CA acknowledgements tied back to the claim and loop in the 837 you sent | Resubmits claims or logs in to the clearinghouse |
+| [`fairclaim-ar-aging`](packages/fairclaim-ar-aging) | Open insurance A/R by payer and bucket, timely-filing limits, claims with no response, what to work first | Posts write-offs or calls payers |
+| [`fairclaim-remit-deposits`](packages/fairclaim-remit-deposits) | 835 remittances matched to bank deposits; missing, short and unexplained payments | Posts payments or moves money |
+| [`fairclaim-denial-worklist`](packages/fairclaim-denial-worklist) | Denials sorted by reason code and root cause into a worklist with the team and next step | Resubmits, appeals or uses payer portals |
+| [`fairclaim-denial-appeals`](packages/fairclaim-denial-appeals) | Appeal drafts quoting the payer policy files you supply, with deadline and enclosures | Submits an appeal without a named person's click |
+| [`fairclaim-underpayments`](packages/fairclaim-underpayments) | 835 lines priced from your contract: underpaid and overpaid lines, reprocessing requests | Submits through payer portals or posts payments |
+| [`fairclaim-credit-balances`](packages/fairclaim-credit-balances) | The credit balance report: who is owed what, by when, refund drafts | Issues a refund without a named person's click |
+| [`fairclaim-patient-statements`](packages/fairclaim-patient-statements) | Patient statement cycles: who gets a first, second or final statement, who is held and why, a plain-language draft | Sends statements or assigns accounts to collections |
+| [`fairclaim-payment-plans`](packages/fairclaim-payment-plans) | Patient payment plans against your policy: missed installments, terms outside policy, options for a new balance | Charges cards or cancels plans |
 
 **Run the practice**
 
 | Agent | What it does | Never does |
 |---|---|---|
-| [`hyssop-of-fees`](packages/hyssop-of-fees) | Your fee schedule priced against the Medicare RVU and GPCI files: fees below Medicare or your floor | Publishes a fee schedule without a named person's click |
-| [`laurel-of-contracts`](packages/laurel-of-contracts) | Payer rates against Medicare and each other, weighted by volume; contract end dates and notice deadlines | Signs contracts or sends termination notices |
-| [`sorrel-of-payers`](packages/sorrel-of-payers) | Payer scorecards from your 835s and submissions: days to pay, denial rate and reasons, share of billed paid, monthly trend | Files complaints |
-| [`lavender-of-credentialing`](packages/lavender-of-credentialing) | Licences, DEA, board certification, CAQH attestation and payer enrollment dates | Submits enrollments or attests in CAQH |
-| [`angelica-of-prices`](packages/angelica-of-prices) | Hospital price transparency file against the CMS template and your chargemaster | Publishes the file or changes the chargemaster |
-| [`mallow-of-kpis`](packages/mallow-of-kpis) | Revenue cycle KPIs from your claims and 835s, against the targets you set; no built-in benchmarks | Sends reports or writes off balances |
-| [`vervain-of-onboarding`](packages/vervain-of-onboarding) | Go-live readiness for a new practice: billing NPI and address, roster, EDI, ERA, EFT and credentialing by payer, fees | Submits enrollments or switches a practice live |
+| [`fairclaim-fee-schedule`](packages/fairclaim-fee-schedule) | Your fee schedule priced against the Medicare RVU and GPCI files: fees below Medicare or your floor | Publishes a fee schedule without a named person's click |
+| [`fairclaim-payer-contract-rates`](packages/fairclaim-payer-contract-rates) | Payer rates against Medicare and each other, weighted by volume; contract end dates and notice deadlines | Signs contracts or sends termination notices |
+| [`fairclaim-payer-scorecards`](packages/fairclaim-payer-scorecards) | Payer scorecards from your 835s and submissions: days to pay, denial rate and reasons, share of billed paid, monthly trend | Files complaints |
+| [`fairclaim-provider-credentialing`](packages/fairclaim-provider-credentialing) | Licences, DEA, board certification, CAQH attestation and payer enrollment dates | Submits enrollments or attests in CAQH |
+| [`fairclaim-price-transparency`](packages/fairclaim-price-transparency) | Hospital price transparency file against the CMS template and your chargemaster | Publishes the file or changes the chargemaster |
+| [`fairclaim-revenue-kpis`](packages/fairclaim-revenue-kpis) | Revenue cycle KPIs from your claims and 835s, against the targets you set; no built-in benchmarks | Sends reports or writes off balances |
+| [`fairclaim-practice-go-live`](packages/fairclaim-practice-go-live) | Go-live readiness for a new practice: billing NPI and address, roster, EDI, ERA, EFT and credentialing by payer, fees | Submits enrollments or switches a practice live |
 
 ## Patient data
 
@@ -84,13 +84,13 @@ This repository is a Claude Code plugin marketplace (`remedy-medical-billing`). 
 
 ```text
 /plugin marketplace add <path or git URL of this repository>
-/plugin install sage-of-claims@remedy-medical-billing
+/plugin install fairclaim-claim-scrubber@remedy-medical-billing
 ```
 
 The plugins start `npx -y <agent>@<version>`, so they need that version on npm. Until then, add an agent from a local checkout:
 
 ```bash
-claude mcp add sage-of-claims -- node /path/to/remedy-agents/packages/sage-of-claims/bin/sage-of-claims.js mcp --root .
+claude mcp add fairclaim-claim-scrubber -- node /path/to/fairclaim-agents/packages/fairclaim-claim-scrubber/bin/fairclaim-claim-scrubber.js mcp --root .
 ```
 
 ## Develop

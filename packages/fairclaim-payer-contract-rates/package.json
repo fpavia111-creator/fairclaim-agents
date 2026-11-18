@@ -1,0 +1,59 @@
+{
+  "name": "fairclaim-payer-contract-rates",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/fairclaim-payer-contract-rates",
+  "description": "Compares what each payer pays per code against Medicare and each other, weighted by your volume, flags rates below your floor, keeps a calendar of contract end dates and notice deadlines (auto-renewal traps), and drafts a rate request for a person to send.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "fairclaim-payer-contract-rates": "bin/fairclaim-payer-contract-rates.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "server.json"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/fairclaim-payer-contract-rates.js demo",
+    "eval": "node bin/fairclaim-payer-contract-rates.js eval"
+  },
+  "dependencies": {
+    "fairclaim-core": "^0.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairclaim-agents.git",
+    "directory": "packages/fairclaim-payer-contract-rates"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairclaim-agents/tree/main/packages/fairclaim-payer-contract-rates#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairclaim-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "payer-contracts",
+    "rates",
+    "renegotiation",
+    "contract-renewal"
+  ]
+}

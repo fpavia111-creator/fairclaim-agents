@@ -1,0 +1,297 @@
+{
+  "suite": "fairclaim-fee-schedule",
+  "root": "..",
+  "data_note": "Made-up RVUs and GPCIs in the CMS layouts, and a fictional fee schedule, in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    {
+      "id": "review",
+      "tool": "fees_review",
+      "args": {
+        "fees": "fixtures/fee-schedule.csv",
+        "rvu": "fixtures/rvu-illustrative.csv",
+        "gpci": "fixtures/gpci-illustrative.csv",
+        "config": "fixtures/fee-config.json"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.codes": 10,
+          "result.locality": "ALASKA",
+          "result.conv_factor": 33.4009,
+          "result.by_status.below_medicare": 1,
+          "result.by_status.below_target": 2,
+          "result.by_status.no_medicare_price": 2,
+          "result.items.0.code": "99214",
+          "result.items.0.medicare": 159.99,
+          "result.items.0.gap_total": 5994,
+          "result.below_target_gap": 34902
+        }
+      }
+    },
+    {
+      "id": "price-one",
+      "tool": "fees_price",
+      "args": {
+        "rvu": "fixtures/rvu-illustrative.csv",
+        "gpci": "fixtures/gpci-illustrative.csv",
+        "config": "fixtures/fee-config.json",
+        "code": "99213"
+      },
+      "expect": {
+        "equals": {
+          "result.amount": 112.69,
+          "result.rvu.pe": 1.24
+        },
+        "contains": [
+          "(1.3 x 1.5 + 1.24 x 1.1 + 0.1 x 0.6) x 33.4009"
+        ]
+      }
+    },
+    {
+      "id": "price-facility",
+      "tool": "fees_price",
+      "args": {
+        "rvu": "fixtures/rvu-illustrative.csv",
+        "gpci": "fixtures/gpci-illustrative.csv",
+        "config": "fixtures/fee-config.json",
+        "code": "99213",
+        "setting": "facility"
+      },
+      "expect": {
+        "equals": {
+          "result.amount": 87.34,
+          "result.rvu.pe": 0.55
+        }
+      }
+    },
+    {
+      "id": "price-modifier-row",
+      "tool": "fees_price",
+      "args": {
+        "rvu": "fixtures/rvu-illustrative.csv",
+        "gpci": "fixtures/gpci-illustrative.csv",
+        "config": "fixtures/fee-config.json",
+        "code": "93000",
+        "modifier": "26"
+      },
+      "expect": {
+        "equals": {
+          "result.rvu.pe": 0.06
+        }
+      }
+    },
+    {
+      "id": "needs-locality",
+      "tool": "fees_price",
+      "args": {
+        "rvu": "fixtures/rvu-illustrative.csv",
+        "gpci": "fixtures/gpci-illustrative.csv",
+        "code": "99213"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "2 localities"
+        ]
+      }
+    },
+    {
+      "id": "needs-conversion-factor",
+      "tool": "fees_review",
+      "args": {
+        "fees": "fixtures/fee-schedule.csv",
+        "rvu": "fixtures/rvu-illustrative.csv",
+        "gpci": "fixtures/exports/pfs-localities.csv"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "no conversion factor"
+        ]
+      }
+    },
+    {
+      "id": "cms-api-layouts",
+      "tool": "fees_review",
+      "args": {
+        "fees": "fixtures/fee-schedule.csv",
+        "rvu": "fixtures/exports/pfs-indicators.csv",
+        "gpci": "fixtures/exports/pfs-localities.csv"
+      },
+      "expect": {
+        "equals": {
+          "result.locality": "ALASKA",
+          "result.conv_factor_source": "rvu_file",
+          "result.by_status.below_medicare": 1,
+          "result.by_status.no_rvu": 6
+        }
+      }
+    },
+    {
+      "id": "draft-needs-a-yes",
+      "tool": "fees_draft_fee_update",
+      "args": {
+        "fees": "fixtures/fee-schedule.csv",
+        "rvu": "fixtures/rvu-illustrative.csv",
+        "gpci": "fixtures/gpci-illustrative.csv",
+        "config": "fixtures/fee-config.json"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      }
+    },
+    {
+      "id": "bad-config-refused",
+      "tool": "fees_review",
+      "args": {
+        "fees": "fixtures/fee-schedule.csv",
+        "rvu": "fixtures/rvu-illustrative.csv",
+        "gpci": "fixtures/gpci-illustrative.csv",
+        "config": "fixtures/fee-config-typo.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "/setting"
+        ]
+      }
+    },
+    {
+      "id": "review-in-german",
+      "tool": "fees_write_report",
+      "args": {
+        "fees": "fixtures/fee-schedule.csv",
+        "rvu": "fixtures/rvu-illustrative.csv",
+        "gpci": "fixtures/gpci-illustrative.csv",
+        "config": "fixtures/fee-config.json",
+        "language": "de",
+        "out_dir": "remedy-out/eval-fees"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.lang": "de"
+        }
+      }
+    },
+    {
+      "id": "publish-refused",
+      "tool": "fee_schedule_publish",
+      "args": {},
+      "expect": {
+        "status": "blocked",
+        "decision": "block"
+      }
+    },
+    {
+      "id": "recall-empty-memory",
+      "tool": "fees_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty",
+          "fee_target"
+        ]
+      }
+    },
+    {
+      "id": "request-waits-for-a-named-click",
+      "tool": "fees_request_go_live",
+      "args": {
+        "draft": "fixtures/drafts/fee_update-example000001.md",
+        "draft_sha256": "a3660947f72e8747e2a644c24791d2beeba2b42c1c17c7cd62eb7cac75771b34",
+        "out_dir": "remedy-out/eval-fees-request"
+      },
+      "expect": {
+        "status": "needs_approval"
+      }
+    },
+    {
+      "id": "request-approved-records-nothing-sent",
+      "tool": "fees_request_go_live",
+      "approve": "Pat Example",
+      "args": {
+        "draft": "fixtures/drafts/fee_update-example000001.md",
+        "draft_sha256": "a3660947f72e8747e2a644c24791d2beeba2b42c1c17c7cd62eb7cac75771b34",
+        "out_dir": "remedy-out/eval-fees-request"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "approved and recorded",
+          "Nothing was sent"
+        ]
+      }
+    },
+    {
+      "id": "request-wrong-sha-refused",
+      "tool": "fees_request_go_live",
+      "approve": "Pat Example",
+      "args": {
+        "draft": "fixtures/drafts/fee_update-example000001.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "out_dir": "remedy-out/eval-fees-request"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "does not match"
+        ]
+      }
+    },
+    {
+      "id": "explain-one-code",
+      "tool": "fees_explain",
+      "args": {
+        "fees": "fixtures/fee-schedule.csv",
+        "rvu": "fixtures/rvu-illustrative.csv",
+        "gpci": "fixtures/gpci-illustrative.csv",
+        "config": "fixtures/fee-config.json",
+        "code": "99213"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.row.status": "below_target",
+          "result.row.medicare": 112.69,
+          "result.row.target_fee": 169.04
+        }
+      }
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "fees_review",
+      "args": {
+        "fees": "../../outside-root.csv",
+        "rvu": "fixtures/rvu-illustrative.csv",
+        "gpci": "fixtures/gpci-illustrative.csv",
+        "config": "fixtures/fee-config.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside the allowed root"
+        ]
+      }
+    },
+    {
+      "id": "missing-file-named",
+      "tool": "fees_review",
+      "args": {
+        "fees": "fixtures/missing-export.csv",
+        "rvu": "fixtures/rvu-illustrative.csv",
+        "gpci": "fixtures/gpci-illustrative.csv",
+        "config": "fixtures/fee-config.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "not found",
+          "missing-export.csv"
+        ]
+      }
+    }
+  ]
+}

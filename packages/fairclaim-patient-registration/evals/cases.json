@@ -1,0 +1,291 @@
+{
+  "suite": "fairclaim-patient-registration",
+  "root": "..",
+  "data_note": "Fictional practice, payers and patients in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    {
+      "id": "check-all",
+      "tool": "registration_check",
+      "args": {
+        "patients": "fixtures/registrations-2026-02.csv",
+        "config": "fixtures/registration-config.json",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.patients": 11,
+          "result.clean": 2,
+          "result.errors": 7,
+          "result.warnings": 8,
+          "result.duplicate_pairs": 1,
+          "result.by_check.mbi_format": 1,
+          "result.by_check.member_id_pattern": 1,
+          "result.items.0.severity": "error"
+        }
+      }
+    },
+    {
+      "id": "dob-masked-in-messages",
+      "tool": "registration_check",
+      "args": {
+        "patients": "fixtures/registrations-2026-02.csv",
+        "as_of": "2026-02-15",
+        "check": "dob_future"
+      },
+      "expect": {
+        "contains": [
+          "[DOB]"
+        ],
+        "not_contains": [
+          "2027-04-25",
+          "04/25/2027"
+        ]
+      }
+    },
+    {
+      "id": "duplicates",
+      "tool": "registration_check",
+      "args": {
+        "patients": "fixtures/registrations-2026-02.csv",
+        "as_of": "2026-02-15",
+        "check": "possible_duplicate"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.check": "possible_duplicate"
+        },
+        "matches": [
+          "Chart MRN-[0-9a-f]{8} has the same birth date"
+        ],
+        "not_contains": [
+          "Pembertin",
+          "M-1101"
+        ]
+      }
+    },
+    {
+      "id": "no-config-no-pattern-checks",
+      "tool": "registration_check",
+      "args": {
+        "patients": "fixtures/registrations-2026-02.csv",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "not_contains": [
+          "mbi_format",
+          "member_id_pattern"
+        ]
+      }
+    },
+    {
+      "id": "explain-by-pseudonym-or-raw",
+      "tool": "registration_explain",
+      "args": {
+        "patients": "fixtures/registrations-2026-02.csv",
+        "config": "fixtures/registration-config.json",
+        "as_of": "2026-02-15",
+        "mrn": "M-1006"
+      },
+      "expect": {
+        "equals": {
+          "result.issues.0.check": "coverage_ended",
+          "result.issues.1.check": "same_plan_twice"
+        }
+      }
+    },
+    {
+      "id": "minor-guarantor",
+      "tool": "registration_check",
+      "args": {
+        "patients": "fixtures/registrations-2026-02.csv",
+        "as_of": "2026-02-15",
+        "check": "minor_no_guarantor"
+      },
+      "expect": {
+        "contains": [
+          "Patient is 13"
+        ],
+        "not_contains": [
+          "Patient is -"
+        ]
+      }
+    },
+    {
+      "id": "bad-config-refused",
+      "tool": "registration_check",
+      "args": {
+        "patients": "fixtures/registrations-2026-02.csv",
+        "config": "fixtures/registration-config-typo.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "id_format"
+        ]
+      }
+    },
+    {
+      "id": "slow-pattern-refused",
+      "tool": "registration_check",
+      "args": {
+        "patients": "fixtures/registrations-2026-02.csv",
+        "config": "fixtures/registration-config-redos.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "may not repeat a group"
+        ]
+      }
+    },
+    {
+      "id": "names-masked",
+      "tool": "registration_check",
+      "args": {
+        "patients": "fixtures/registrations-2026-02.csv",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "matches": [
+          "\"patient_name\":\"PT-[0-9a-f]{8}\"",
+          "\"mrn\":\"MRN-[0-9a-f]{8}\""
+        ],
+        "not_contains": [
+          "Okafor",
+          "Lindqvist",
+          "907-555"
+        ]
+      }
+    },
+    {
+      "id": "list-in-chinese",
+      "tool": "registration_write_report",
+      "args": {
+        "patients": "fixtures/registrations-2026-02.csv",
+        "config": "fixtures/registration-config.json",
+        "as_of": "2026-02-15",
+        "language": "zh",
+        "out_dir": "remedy-out/eval-registration"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.lang": "zh"
+        }
+      }
+    },
+    {
+      "id": "merge-refused",
+      "tool": "patient_merge",
+      "args": {},
+      "expect": {
+        "status": "blocked",
+        "decision": "block"
+      }
+    },
+    {
+      "id": "recall-empty-memory",
+      "tool": "registration_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty",
+          "payer_member_id_pattern"
+        ]
+      }
+    },
+    {
+      "id": "medicare-needs-an-mbi",
+      "tool": "registration_check",
+      "args": {
+        "patients": "fixtures/registrations-2026-02.csv",
+        "config": "fixtures/registration-config.json",
+        "as_of": "2026-02-15",
+        "check": "mbi_format"
+      },
+      "expect": {
+        "status": "executed",
+        "length": {
+          "result.items": 1
+        },
+        "equals": {
+          "result.items.0.severity": "error",
+          "result.items.0.source": "config"
+        },
+        "contains": [
+          "is not a valid MBI (11 characters, letters except S, L, O, I, B, Z)",
+          "an old SSN-based number is rejected"
+        ]
+      }
+    },
+    {
+      "id": "zip-lost-its-leading-zero",
+      "tool": "registration_check",
+      "args": {
+        "patients": "fixtures/registrations-2026-02.csv",
+        "as_of": "2026-02-15",
+        "check": "zip_format"
+      },
+      "expect": {
+        "length": {
+          "result.items": 1
+        },
+        "contains": [
+          "it has probably lost its leading zero (spreadsheets drop it)"
+        ]
+      }
+    },
+    {
+      "id": "child-needs-subscriber-details",
+      "tool": "registration_check",
+      "args": {
+        "patients": "fixtures/registrations-2026-02.csv",
+        "as_of": "2026-02-15",
+        "severity": "error",
+        "check": "subscriber_missing"
+      },
+      "expect": {
+        "length": {
+          "result.items": 1
+        },
+        "contains": [
+          "Relationship is \\\"Child\\\" but the subscriber's birth date is missing.",
+          "enter the subscriber's name and birth date"
+        ]
+      }
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "registration_check",
+      "args": {
+        "patients": "../../outside-root.csv",
+        "config": "fixtures/registration-config.json",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside the allowed root"
+        ]
+      }
+    },
+    {
+      "id": "missing-file-named",
+      "tool": "registration_check",
+      "args": {
+        "patients": "fixtures/missing-export.csv",
+        "config": "fixtures/registration-config.json",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "not found",
+          "missing-export.csv"
+        ]
+      }
+    }
+  ]
+}

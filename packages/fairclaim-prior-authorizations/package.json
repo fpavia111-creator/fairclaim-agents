@@ -1,0 +1,58 @@
+{
+  "name": "fairclaim-prior-authorizations",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/fairclaim-prior-authorizations",
+  "description": "Fairclaim Prior Authorizations: matches claims or scheduled services to your prior-authorization log and 278 responses, and flags services with no authorization, expired or not-yet-valid dates, codes not on the authorization, units used up, pended or denied reviews, and authorizations about to run out.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "fairclaim-prior-authorizations": "bin/fairclaim-prior-authorizations.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "server.json"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/fairclaim-prior-authorizations.js demo",
+    "eval": "node bin/fairclaim-prior-authorizations.js eval"
+  },
+  "dependencies": {
+    "fairclaim-core": "^0.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairclaim-agents.git",
+    "directory": "packages/fairclaim-prior-authorizations"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairclaim-agents/tree/main/packages/fairclaim-prior-authorizations#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairclaim-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "prior-authorization",
+    "278",
+    "utilization-review"
+  ]
+}

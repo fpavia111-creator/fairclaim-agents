@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairclaim-eligibility-checks": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fairclaim-eligibility-checks@0.2.0",
+        "mcp"
+      ]
+    }
+  }
+}

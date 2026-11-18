@@ -1,0 +1,22 @@
+{
+  "name": "fairclaim-price-transparency",
+  "version": "0.2.0",
+  "description": "Hospital price transparency without the fines: checks a machine-readable file against the CMS v3.0 tall CSV template (headers, attestation, code pairs, the twelve conditional rules), compares it with the chargemaster, and computes the median, 10th and 90th percentile allowed amounts and counts from 835s the CMS way.",
+  "author": {
+    "name": "Kurt Francisco"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/fpavia111-creator/fairclaim-agents/tree/main/packages/fairclaim-price-transparency#readme",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "price-transparency",
+    "hospital",
+    "cms",
+    "mrf"
+  ]
+}

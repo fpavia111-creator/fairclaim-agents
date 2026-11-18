@@ -29,7 +29,7 @@ try {
 const root = fileURLToPath(new URL('..', import.meta.url));
 const only = process.argv.slice(2);
 const pk = join(root, 'packages');
-const agents = readdirSync(pk).filter((d) => d !== 'remedy-core' && (!only.length || only.includes(d)));
+const agents = readdirSync(pk).filter((d) => d !== 'fairclaim-core' && (!only.length || only.includes(d)));
 const NAME_RE = /^[A-Za-z0-9_.-]{1,128}$/;
 const report = [];
 

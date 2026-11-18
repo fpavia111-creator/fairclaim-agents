@@ -3,8 +3,8 @@ export default function (section, { W, buildX12, writer, readme }) {
   const P = (id) => W.patient(id);
   const prov = (id) => W.PROVIDERS.find((p) => p.id === id).name;
 
-  section('clover-of-charges', () => {
-    const w = writer('clover-of-charges');
+  section('fairclaim-charge-capture', () => {
+    const w = writer('fairclaim-charge-capture');
     const appts = []; const charges = [];
     const visit = (id, p, date, who, status, type, charge) => {
       appts.push({ 'Appt ID': id, Patient: W.fullName(P(p)), 'Appt Date': date, Provider: prov(who), Status: status, 'Visit Type': type });
@@ -27,13 +27,13 @@ export default function (section, { W, buildX12, writer, readme }) {
     w('exports/tebra-charges-2026-02.csv', W.csv(charges));
     w('charge-config.json', { lag_days: 3, em_gap_points: 25, expected: [{ visit_type: 'Injection', codes: ['20610', 'J*'], note: 'Injection visits bill the procedure and usually the drug.' }] });
     w('charge-config-typo.json', { lag_days: 'three' });
-    readme('clover-of-charges', 'Clover of Charges', [
+    readme('fairclaim-charge-capture', 'Fairclaim Charge Capture', [
       '`appointments-2026-02.csv`: twenty visits. `exports/tebra-charges-2026-02.csv`: the charges in a charge-detail export layout. Planted, as of 2026-02-12: an injection visit billed with only an E/M code (V102); a completed visit with no charge after 7 days (V103) and one from yesterday (V104, still pending); a no-show with a charge (V105); a charge billed 8 days after the visit (V106); a future visit (V107, skipped); a charge matched by patient and date because its encounter number differs (V108 / E-88); a charge with no visit (W900). Ten January visits give two providers different E/M level mixes.',
       '`charge-config.json`: charge lag target, comparison gap and the injection rule. `charge-config-typo.json` gives the lag as a word.',
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8']);
   });
-  section('marjoram-of-registration', () => {
-    const w = writer('marjoram-of-registration');
+  section('fairclaim-patient-registration', () => {
+    const w = writer('fairclaim-patient-registration');
     const us = (d) => (d ? `${d.slice(5, 7)}/${d.slice(8, 10)}/${d.slice(0, 4)}` : '');
     const row = (mrn, first, last, dob, o = {}) => ({ 'Chart #': mrn, 'Last Name': last, 'First Name': first, DOB: o.dobRaw ?? us(dob), Address: o.address || '12 Example Street', City: 'Exampleton', State: o.state || 'AK', Zip: o.zip || '99501', 'Home Phone': o.phone || '907-555-0100', 'Primary Insurance': o.payer || '', 'Member ID': o.member ?? '', Relationship: o.rel || 'Self', 'Subscriber Name': o.sub || '', 'Subscriber DOB': us(o.subDob), 'Termination Date': us(o.end), 'Secondary Insurance': o.sec || '', 'Secondary Member ID': o.secId || '', Guarantor: o.guar || '', 'Last Verified': us(o.verified || '2025-11-01') });
     const p = (id, o = {}) => { const x = P(id); return row(x.mrn, x.first, x.last, x.dob, { payer: W.payer(x.payer).name, member: x.member, address: x.address, zip: x.zip, phone: x.phone, ...o }); };
@@ -53,13 +53,13 @@ export default function (section, { W, buildX12, writer, readme }) {
     w('registration-config.json', { payers: [{ name: 'Example Health Plan', member_id_pattern: 'EHP\\d{9}' }, { name: 'Sample Mutual Insurance', member_id_pattern: 'SMI\\d{9}' }, { name: 'Demo Medicaid Plan', member_id_pattern: 'DMP\\d{9}' }, { name: 'Test Medicare Contractor', id_format: 'mbi' }], verify_days: 365, minor_age: 18 });
     w('registration-config-typo.json', { payers: [{ name: 'Test Medicare Contractor', id_format: 'MBI number' }] });
     w('registration-config-redos.json', { payers: [{ name: 'Example Health Plan', member_id_pattern: '(a+)+$' }] });
-    readme('marjoram-of-registration', 'Marjoram of Registration', [
+    readme('fairclaim-patient-registration', 'Fairclaim Patient Registration', [
       '`registrations-2026-02.csv`: eleven charts in a registration-export layout (US dates, first and last name in separate columns). Planted, as of 2026-02-15: a clean chart (M-1001); a member id one digit short (M-1002); no member id and a 4-digit ZIP (M-1003); a Medicare id that is not an MBI (M-1004); a minor with no guarantor and a subscriber with no birth date (M-1005); ended coverage and the same plan as secondary (M-1006); self as subscriber with another name, a short phone and an old verification (M-1007); a birth date in the future and a spelled-out state (M-1008); a likely duplicate of M-1001 (M-1101); a valid made-up MBI (M-1102); a self-pay patient (M-1103).',
       '`registration-config.json`: member id patterns and the MBI rule. `registration-config-typo.json` has an unknown id format; `registration-config-redos.json` a pattern that could run for a very long time (refused).',
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8']);
   });
-  section('dill-of-modifiers', () => {
-    const w = writer('dill-of-modifiers');
+  section('fairclaim-modifier-checks', () => {
+    const w = writer('fairclaim-modifier-checks');
     const L = (code, date, extra = {}) => ({ code, charge: extra.charge ?? 120, units: 1, date, ...extra });
     const tx = W.body837P([
       { id: 'D1001', patient: 'P1', dx: ['E11.9'], lines: [L('99213', '2026-02-02', { charge: 150 })] },
@@ -81,14 +81,14 @@ export default function (section, { W, buildX12, writer, readme }) {
       { 'Visit ID': 'D2001', Patient: W.fullName(P('P2')), 'Primary Carrier': 'Sample Mutual Insurance', 'Date of Service': '02/09/2026', 'Proc Code': '20610', 'Modifier 1': 'RT', 'Modifier 2': '', Units: '1', Charge: '120.00' },
       { 'Visit ID': 'D2002', Patient: W.fullName(P('P6')), 'Primary Carrier': 'Sample Mutual Insurance', 'Date of Service': '02/09/2026', 'Proc Code': '93000', 'Modifier 1': 'TC', 'Modifier 2': '26', Units: '1', Charge: '60.00' },
     ]));
-    readme('dill-of-modifiers', 'Dill of Modifiers', [
+    readme('fairclaim-modifier-checks', 'Fairclaim Modifier Checks', [
       '`batch-2026-02-06.837`: ten claims. D1001 and D1003 are clean. Planted: E/M with an injection and no 25, injection with no side (D1002); 59 with XS and LT with RT (D1004); 25 on a skin biopsy (D1005); 59 to a payer that does not take it (D1006); 91 with no first test (D1007); 50 with 2 units (D1008); 26 after RT (D1009); an unknown modifier (D1010).',
       '`modifier-config.json`: codes that need a side and one payer rule. `modifier-config-typo.json` has an unknown action.',
       '`exports/advancedmd-charges.csv`: two visits in a charge-detail export layout with modifier columns (E/M with an injection and no 25; 26 with TC).',
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8']);
   });
-  section('hyssop-of-fees', () => {
-    const w = writer('hyssop-of-fees');
+  section('fairclaim-fee-schedule', () => {
+    const w = writer('fairclaim-fee-schedule');
     const R = [
       ['99211', '', 'Office visit, established, minimal', 'A', 0.18, 0.55, 0.07, 0.01], ['99213', '', 'Office visit, established, low', 'A', 1.30, 1.24, 0.55, 0.10],
       ['99214', '', 'Office visit, established, moderate', 'A', 1.92, 1.66, 0.79, 0.14], ['99215', '', 'Office visit, established, high', 'A', 2.80, 2.15, 1.15, 0.20],
@@ -118,15 +118,15 @@ export default function (section, { W, buildX12, writer, readme }) {
     w('fee-config-typo.json', { conv_factor: 33.4009, setting: 'office' });
     w('exports/pfs-indicators.csv', W.csv(R.slice(0, 4).map((r) => ({ hcpc: r[0], modifier: r[1], proc_stat: r[3], sdesc: r[2], rvu_work: r[4], full_nfac_pe: r[5], full_fac_pe: r[6], rvu_mp: r[7], conv_fact: '33.4009' }))));
     w('exports/pfs-localities.csv', W.csv([{ mac: '02102', locality: '01', locality_name: 'ALASKA', gpci_work: '1.5', gpci_pe: '1.1', gpci_mp: '0.6' }]));
-    readme('hyssop-of-fees', 'Hyssop of Fees', [
+    readme('fairclaim-fee-schedule', 'Fairclaim Fee Schedule', [
       '`rvu-illustrative.csv` and `gpci-illustrative.csv`: made-up relative values and GPCIs in the layout of the CMS PPRRVU and GPCI files (title lines above the header). They are not the CMS numbers. `fee-config.json` uses the CY2026 non-qualifying-APM conversion factor 33.4009 from the CMS final rule; check the figure for the year you price.',
       '`fee-schedule.csv`: ten codes. Planted at the Alaska locality: 99214 below the Medicare amount; 99213 and 20610 below the 150% target; 93000 above the 400% ceiling; no fee for 99211; Medicare status X (36415) and N (99385); a code with no RVU (J3490).',
       '`exports/pfs-indicators.csv` and `exports/pfs-localities.csv`: four codes and one locality in the pfs.data.cms.gov layouts, with the conversion factor in the file.',
       'No patient data is used here; `phi-canaries.json` lists fictional patients anyway so the shared leak test runs.',
     ], ['P1', 'P2', 'P3']);
   });
-  section('laurel-of-contracts', () => {
-    const w = writer('laurel-of-contracts');
+  section('fairclaim-payer-contract-rates', () => {
+    const w = writer('fairclaim-payer-contract-rates');
     const mc = { 99213: 92, 99214: 130, 99215: 182, 20610: 66, 93000: 16.5, 97110: 30.5 };
     const pf = { 'Example Health Plan': 1.2, 'Sample Mutual Insurance': { 99213: 1.1, 99214: 1.05, 99215: 1.1, 20610: 0.9, 93000: 1.1, 97110: 1.1 }, 'Demo Medicaid Plan': 0.7 };
     const rows = [];
@@ -143,15 +143,15 @@ export default function (section, { W, buildX12, writer, readme }) {
     ]));
     w('contract-config.json', { floor_percent: 100, warn_days: 120, practice_name: W.PRACTICE.name, payers: [{ name: 'Sample Mutual Insurance', contact: 'Provider Contracting, Sample Mutual Insurance (fictional)' }] });
     w('contract-config-typo.json', { floor_percent: '100%' });
-    readme('laurel-of-contracts', 'Laurel of Contracts', [
+    readme('fairclaim-payer-contract-rates', 'Fairclaim Payer Contract Rates', [
       '`payer-fees-2026.csv`: three payers\' rates for six codes (made up). `medicare-2026-illustrative.csv`: made-up Medicare amounts. `volumes-2025.csv`: yearly units. Planted: one payer at 120% of Medicare, one at 105-110% with one code under 100% (20610), one at 70%, a code with no Medicare amount (T1015).',
       '`contracts.csv`: four contracts as of 2026-02-15: an auto-renewal whose notice deadline passed, one with 45 days left to give notice, an expired one, and one with no end date.',
       '`contract-config.json`: floor 100% of Medicare, 120-day warning. `contract-config-typo.json` gives the floor as text.',
       'No patient data is used here; `phi-canaries.json` lists fictional patients anyway so the shared leak test runs.',
     ], ['P1', 'P2', 'P3']);
   });
-  section('sorrel-of-payers', () => {
-    const w = writer('sorrel-of-payers');
+  section('fairclaim-payer-scorecards', () => {
+    const w = writer('fairclaim-payer-scorecards');
     const plan = {
       EHP: { n: 10, lag: [14, 15, 16, 17, 18, 19, 20, 15, 16, 21], deny: { 4: ['CO', '16', ['M51']] } },
       SMI: { n: 8, lag: [25, 32, 38, 40, 29, 35, 41, 33], deny: { 1: ['CO', '197'], 5: ['CO', '97', ['M15']] } },
@@ -181,13 +181,13 @@ export default function (section, { W, buildX12, writer, readme }) {
     w('claims-submitted.csv', W.csv(subs));
     w('payer-config.json', { targets: { days_to_pay: 30, denial_rate: 15, paid_percent: 55 }, payers: [{ name: 'Demo Medicaid Plan', days_to_pay: 45 }] });
     w('payer-config-typo.json', { targets: { days_to_pay: 'thirty' } });
-    readme('sorrel-of-payers', 'Sorrel of Payers', [
+    readme('fairclaim-payer-scorecards', 'Fairclaim Payer Scorecards', [
       '`era-2026-01.835` and `era-2026-02.835`: two months of payments from three payers (26 claims). `claims-submitted.csv`: the submission date of each claim. Planted: one payer pays in about two weeks with 10% denials; one in about five weeks with 25% denials and a reversal; one in about two months with 38% denials (enrollment, timely filing, medical necessity).',
       '`payer-config.json`: targets of 30 days, 15% denials and 55% of billed paid, with a looser 45-day target for the Medicaid plan. `payer-config-typo.json` gives days as a word.',
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8']);
   });
-  section('tansy-of-credits', () => {
-    const w = writer('tansy-of-credits');
+  section('fairclaim-credit-balances', () => {
+    const w = writer('fairclaim-credit-balances');
     const us = (d) => (d ? `${d.slice(5, 7)}/${d.slice(8, 10)}/${d.slice(0, 4)}` : '');
     const row = (p, claim, payer, source, amt, credit, identified, debit, reason) => ({ 'Account #': P(p).account, Patient: W.fullName(P(p)), 'Claim #': claim, Payer: payer, 'Payment Source': source, 'Credit Amount': amt, 'Credit Date': us(credit), 'Date Identified': us(identified), 'Open Debit': debit, Reason: reason });
     w('credit-balances-2026-02-15.csv', W.csv([
@@ -202,13 +202,13 @@ export default function (section, { W, buildX12, writer, readme }) {
     ]));
     w('credit-config.json', { payers: [{ name: 'Test Medicare Contractor', medicare: true }, { name: 'Example Health Plan', refund_days: 30 }, { name: 'Sample Mutual Insurance', refund_days: 60 }], warn_days: 14, small_credit: 5, escheat_days: 1095, practice_name: W.PRACTICE.name });
     w('credit-config-typo.json', { payers: [{ name: 'Example Health Plan', refund_days: 0 }] });
-    readme('tansy-of-credits', 'Tansy of Credits', [
+    readme('fairclaim-credit-balances', 'Fairclaim Credit Balances', [
       '`credit-balances-2026-02-15.csv`: eight credits in a credit-balance report layout (negative amounts, US dates). Planted, as of 2026-02-15: a Medicare overpayment past 60 days from identification (T1001); a payer credit 10 days from a 30-day deadline (T1002); a payer credit with time left (T1003); a patient credit with an open balance on the account (T1004); a patient credit almost three years old (T1005); a credit under the small-credit level (T1006); a plain patient refund (T1007); a payer with no refund rule (T1008).',
       '`credit-config.json`: refund days per payer, small-credit level and a 3-year unclaimed-property age. `credit-config-typo.json` has 0 refund days.',
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8']);
   });
-  section('borage-of-estimates', () => {
-    const w = writer('borage-of-estimates');
+  section('fairclaim-good-faith-estimates', () => {
+    const w = writer('fairclaim-good-faith-estimates');
     const us = (d) => (d ? `${d.slice(5, 7)}/${d.slice(8, 10)}/${d.slice(0, 4)}` : '');
     const row = (id, p, ins, sched, svc, req, issued, type, codes) => ({ 'Appt ID': id, Patient: W.fullName(P(p)), Insurance: ins, 'Date Scheduled': us(sched), 'Appointment Date': us(svc), 'Estimate Requested': us(req), 'GFE Issued': us(issued), 'Visit Type': type, 'Planned Codes': codes });
     w('self-pay-schedule.csv', W.csv([
@@ -234,14 +234,14 @@ export default function (section, { W, buildX12, writer, readme }) {
     ]));
     w('estimate-config.json', { holidays: ['2026-02-16'], threshold: 400, practice_name: W.PRACTICE.name });
     w('estimate-config-typo.json', { holidays: ['Presidents Day'] });
-    readme('borage-of-estimates', 'Borage of Estimates', [
+    readme('fairclaim-good-faith-estimates', 'Fairclaim Good Faith Estimates', [
       '`self-pay-schedule.csv`: seven self-pay visits and requests (US dates). Planted, as of 2026-02-17 with 2026-02-16 as an office holiday: on time (G1); missing past its 3-business-day due date (G2); due with one business day of notice (G3); booked too close to need one (G4); insured (G5); issued late (G6); a price request with no visit (G7).',
       '`estimates-vs-bills.csv`: one estimate billed 450 over for one provider (dispute threshold reached), 350 over for another, and one within the estimate. `self-pay-prices.csv`: five self-pay prices.',
       '`estimate-config.json`: one office holiday and the 400-dollar threshold. `estimate-config-typo.json` gives a holiday as a name.',
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8']);
   });
-  section('aloe-of-statements', () => {
-    const w = writer('aloe-of-statements');
+  section('fairclaim-patient-statements', () => {
+    const w = writer('fairclaim-patient-statements');
     const us = (d) => (d ? `${d.slice(5, 7)}/${d.slice(8, 10)}/${d.slice(0, 4)}` : '');
     const row = (p, bal, o = {}) => ({ 'Acct #': P(p).account, Guarantor: W.fullName(P(p)), 'Patient Balance': bal, 'Insurance Pending': o.ins || '0.00', 'Statements Sent': String(o.sent ?? 0), 'Last Statement': us(o.last), 'Last Payment': us(o.paid), 'Payment Plan': o.plan || 'No', 'Address Status': o.addr || 'OK', Flags: o.flags || '', 'Oldest DOS': us(o.dos || '2025-12-01') });
     const extra = (acct, name, bal, o = {}) => ({ ...row('P1', bal, o), 'Acct #': acct, Guarantor: name });
@@ -262,13 +262,13 @@ export default function (section, { W, buildX12, writer, readme }) {
     ]));
     w('statement-config.json', { min_balance: 5, cycle_days: 28, recent_payment_days: 14, collections_days: 30, practice_name: W.PRACTICE.name, pay_by: 'Pay online at the patient portal (fictional), call 907-555-0100, or mail a check to 1 Example Plaza, Exampleton AK 99501.', assistance_text: 'If paying is hard, ask us about financial assistance and payment plans. (Fictional practice text.)' });
     w('statement-config-typo.json', { cycle_days: 2 });
-    readme('aloe-of-statements', 'Aloe of Statements', [
+    readme('fairclaim-patient-statements', 'Fairclaim Patient Statements', [
       '`patient-balances-2026-02-20.csv`: thirteen accounts (US dates; guarantor names are fictional). Planted, for a run on 2026-02-20: a first statement (P1), a second (P2), a final notice (P3), collections review after a final notice 49 days ago (P4); holds for insurance still pending (P5), a payment plan (P6), returned mail (P7), a 3-dollar balance (P8), an estate (A-2001), a dispute (A-2002), a payment 8 days ago (A-2003), a statement 10 days ago (A-2004); and an auto accident (PIP) flag that only a learned hold word catches (A-2005). Workers compensation is a built-in hold.',
       '`statement-config.json`: run rules, how to pay and the assistance sentence. `statement-config-typo.json` sets a 2-day cycle (refused).',
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8']);
   });
-  section('savory-of-plans', () => {
-    const w = writer('savory-of-plans');
+  section('fairclaim-payment-plans', () => {
+    const w = writer('fairclaim-payment-plans');
     const us = (d) => `${d.slice(5, 7)}/${d.slice(8, 10)}/${d.slice(0, 4)}`;
     const plan = (id, p, start, orig, monthly, day) => ({ 'Plan ID': id, Account: P(p).account, Guarantor: W.fullName(P(p)), 'Start Date': us(start), 'Original Balance': orig, 'Monthly Payment': monthly, 'Due Day': String(day), Autopay: 'No' });
     w('payment-plans.csv', W.csv([
@@ -289,7 +289,7 @@ export default function (section, { W, buildX12, writer, readme }) {
     w('plan-payments.csv', W.csv(pay));
     w('plan-config.json', { grace_days: 10, default_after_missed: 2, min_payment: 25, tiers: [{ up_to: 500, max_months: 6 }, { up_to: 2000, max_months: 12 }, { up_to: 5000, max_months: 24 }], practice_name: W.PRACTICE.name });
     w('plan-config-typo.json', { tiers: [{ up_to: 500 }] });
-    readme('savory-of-plans', 'Savory of Plans', [
+    readme('fairclaim-payment-plans', 'Fairclaim Payment Plans', [
       '`payment-plans.csv` and `plan-payments.csv`: six plans and their payments (US dates). Planted, as of 2026-02-20 with a 10-day grace period: current (PL1); one missed (PL2); four missed, for default review (PL3); paid off (PL4); 20 a month on 2400, below the minimum and over the 24-month limit (PL5); ahead by one payment (PL6).',
       '`plan-config.json`: grace days, default rule, minimum payment and term tiers. `plan-config-typo.json` has a tier with no term.',
     ], ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8']);

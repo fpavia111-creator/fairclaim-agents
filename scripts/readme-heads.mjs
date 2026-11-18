@@ -7,10 +7,10 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const PK = join(dirname(fileURLToPath(import.meta.url)), '..', 'packages');
-const UP = { ar: 'A/R', dme: 'DME', kpis: 'KPIs', edi: 'EDI' };
-export const titleOf = (n) => n.split('-').map((w, i) => UP[w] || (i === 1 ? 'of' : w[0].toUpperCase() + w.slice(1))).join(' ');
+const ACR = {ar: 'AR', dme: 'DME', ncci: 'NCCI', kpis: 'KPIs', edi: 'EDI', rfp: 'RFP', ltl: 'LTL', pms: 'PMS', hoa: 'HOA', cam: 'CAM', pbj: 'PBJ', mco: 'MCO', aba: 'ABA', evv: 'EVV', apcm: 'APCM', propco: 'PropCo'}; const SMALL = new Set(['and', 'of', 'to', 'or', 'for']);
+export const titleOf = (n) => n.split('-').map((w, i) => ACR[w] || (i && SMALL.has(w) ? w : w[0].toUpperCase() + w.slice(1))).join(' ');
 
-for (const n of readdirSync(PK).filter((x) => /-of-/.test(x)).sort()) {
+for (const n of readdirSync(PK).filter((x) => /^fair[a-z]+-(?!core$)/.test(x)).sort()) {
   const f = join(PK, n, 'README.md'); if (existsSync(f)) continue;
   const { manifest: m } = await import(pathToFileURL(join(PK, n, 'src', 'index.js')).href);
   const refused = m.tools.filter((t) => (m.policy.rules.find((r) => r.tool === t.name) || {}).decision === 'block').map((t) => t.description.replace(/^Listed so agents can see it is refused\.\s*/, ''));
@@ -19,7 +19,7 @@ for (const n of readdirSync(PK).filter((x) => /-of-/.test(x)).sort()) {
 
 ${m.description}${never}
 
-MIT · Node 20 or newer · local files only · patient identifiers masked before results reach the model · built on [\`remedy-core\`](../remedy-core)
+MIT · Node 20 or newer · local files only · patient identifiers masked before results reach the model · built on [\`fairclaim-core\`](../fairclaim-core)
 
 \`\`\`bash
 npx -y ${n} demo

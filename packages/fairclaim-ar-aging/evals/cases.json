@@ -1,0 +1,292 @@
+{
+  "suite": "fairclaim-ar-aging",
+  "root": "..",
+  "data_note": "Fictional practice, payers and patients in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    {
+      "id": "aging-summary",
+      "tool": "ar_age",
+      "args": {
+        "ar": "fixtures/open-ar-2026-02-15.csv",
+        "config": "fixtures/ar-config.json",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.claims_open": 9,
+          "result.insurance_balance": 1690,
+          "result.patient_balance": 40,
+          "result.at_risk_balance": 610,
+          "result.over_90_percent": 36.09,
+          "result.items.0.claim_id": "A1002",
+          "result.items.0.flag": "file_now",
+          "result.items.0.filing_days_left": 8,
+          "result.payers_without_limit.0": "Sample Auto Insurance (fictional)"
+        }
+      }
+    },
+    {
+      "id": "aging-grid",
+      "tool": "ar_age",
+      "args": {
+        "ar": "fixtures/open-ar-2026-02-15.csv",
+        "config": "fixtures/ar-config.json",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "equals": {
+          "result.aging_by_payer.Sample Mutual Insurance.61-90": 320,
+          "result.aging_by_payer.Sample Mutual Insurance.120+": 200,
+          "result.aging_by_payer.Example Health Plan.total": 410
+        }
+      }
+    },
+    {
+      "id": "past-limit",
+      "tool": "ar_age",
+      "args": {
+        "ar": "fixtures/open-ar-2026-02-15.csv",
+        "config": "fixtures/ar-config.json",
+        "as_of": "2026-02-15",
+        "flag": "past_filing_limit"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.claim_id": "A1003",
+          "result.items.0.filing_days_left": -28
+        }
+      }
+    },
+    {
+      "id": "filed-late",
+      "tool": "ar_explain",
+      "args": {
+        "ar": "fixtures/open-ar-2026-02-15.csv",
+        "config": "fixtures/ar-config.json",
+        "as_of": "2026-02-15",
+        "claim_id": "A1004"
+      },
+      "expect": {
+        "equals": {
+          "result.claim.flag": "filed_late"
+        },
+        "contains": [
+          "105 days after service"
+        ]
+      }
+    },
+    {
+      "id": "worked-recently-waits",
+      "tool": "ar_explain",
+      "args": {
+        "ar": "fixtures/open-ar-2026-02-15.csv",
+        "config": "fixtures/ar-config.json",
+        "as_of": "2026-02-15",
+        "claim_id": "A1006"
+      },
+      "expect": {
+        "equals": {
+          "result.claim.flag": "waiting",
+          "result.claim.bucket": "120+"
+        }
+      }
+    },
+    {
+      "id": "athena-layout",
+      "tool": "ar_age",
+      "args": {
+        "ar": "fixtures/exports/athena-claims.csv",
+        "config": "fixtures/ar-config.json",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "equals": {
+          "result.claims_open": 2,
+          "result.by_flag.file_now": 1,
+          "result.by_flag.follow_up": 1
+        }
+      }
+    },
+    {
+      "id": "limit-source",
+      "tool": "ar_filing_limit",
+      "args": {
+        "payer": "demo medicaid plan",
+        "config": "fixtures/ar-config.json"
+      },
+      "expect": {
+        "equals": {
+          "result.limit.days": 90,
+          "result.limit.source": "config"
+        }
+      }
+    },
+    {
+      "id": "bad-config-refused",
+      "tool": "ar_age",
+      "args": {
+        "ar": "fixtures/open-ar-2026-02-15.csv",
+        "config": "fixtures/ar-config-typo.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "timely_days"
+        ]
+      }
+    },
+    {
+      "id": "names-masked",
+      "tool": "ar_age",
+      "args": {
+        "ar": "fixtures/open-ar-2026-02-15.csv",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "matches": [
+          "\"patient_name\":\"PT-[0-9a-f]{8}\""
+        ],
+        "not_contains": [
+          "Okafor",
+          "Castellano",
+          "SMI553200417"
+        ]
+      }
+    },
+    {
+      "id": "queue-in-japanese",
+      "tool": "ar_write_report",
+      "args": {
+        "ar": "fixtures/open-ar-2026-02-15.csv",
+        "config": "fixtures/ar-config.json",
+        "as_of": "2026-02-15",
+        "language": "ja",
+        "out_dir": "remedy-out/eval-ar"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.lang": "ja"
+        }
+      }
+    },
+    {
+      "id": "write-off-refused",
+      "tool": "write_off_post",
+      "args": {},
+      "expect": {
+        "status": "blocked",
+        "decision": "block"
+      }
+    },
+    {
+      "id": "recall-empty-memory",
+      "tool": "ar_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty",
+          "timely_filing"
+        ]
+      }
+    },
+    {
+      "id": "file-now-before-the-limit",
+      "tool": "ar_age",
+      "args": {
+        "ar": "fixtures/open-ar-2026-02-15.csv",
+        "config": "fixtures/ar-config.json",
+        "as_of": "2026-02-15",
+        "flag": "file_now"
+      },
+      "expect": {
+        "status": "executed",
+        "length": {
+          "result.items": 1
+        },
+        "equals": {
+          "result.items.0.claim_id": "A1002",
+          "result.items.0.filing_days_left": 8
+        },
+        "contains": [
+          "Not billed and 8 day(s) left to file: send it now."
+        ]
+      }
+    },
+    {
+      "id": "payer-without-a-limit-named",
+      "tool": "ar_age",
+      "args": {
+        "ar": "fixtures/open-ar-2026-02-15.csv",
+        "config": "fixtures/ar-config.json",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "equals": {
+          "result.payers_without_limit": [
+            "Sample Auto Insurance (fictional)"
+          ]
+        },
+        "contains": [
+          "No filing limit set for: Sample Auto Insurance (fictional)."
+        ]
+      }
+    },
+    {
+      "id": "patient-balance-goes-to-statements",
+      "tool": "ar_age",
+      "args": {
+        "ar": "fixtures/open-ar-2026-02-15.csv",
+        "config": "fixtures/ar-config.json",
+        "as_of": "2026-02-15",
+        "flag": "patient_balance"
+      },
+      "expect": {
+        "length": {
+          "result.items": 1
+        },
+        "equals": {
+          "result.items.0.claim_id": "A1007",
+          "result.items.0.balance": 40,
+          "result.items.0.responsible": "patient"
+        },
+        "contains": [
+          "fairclaim-patient-statements, fairclaim-payment-plans"
+        ]
+      }
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "ar_age",
+      "args": {
+        "ar": "../../outside-root.csv",
+        "config": "fixtures/ar-config.json",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside the allowed root"
+        ]
+      }
+    },
+    {
+      "id": "missing-file-named",
+      "tool": "ar_age",
+      "args": {
+        "ar": "fixtures/missing-export.csv",
+        "config": "fixtures/ar-config.json",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "not found",
+          "missing-export.csv"
+        ]
+      }
+    }
+  ]
+}

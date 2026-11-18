@@ -8,7 +8,7 @@ import { join } from 'node:path';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const check = process.argv.includes('--check');
-const pkgs = readdirSync(join(root, 'packages')).filter((n) => n !== 'remedy-core' && existsSync(join(root, 'packages', n, 'package.json'))).sort();
+const pkgs = readdirSync(join(root, 'packages')).filter((n) => n !== 'fairclaim-core' && existsSync(join(root, 'packages', n, 'package.json'))).sort();
 const want = new Map();
 const plugins = [];
 for (const n of pkgs) {
@@ -18,7 +18,7 @@ for (const n of pkgs) {
   want.set(join('packages', n, '.mcp.json'), { mcpServers: { [n]: { command: 'npx', args: ['-y', `${n}@${p.version}`, 'mcp'] } } });
   plugins.push({ name: n, source: `./packages/${n}`, description: desc, version: p.version, category: 'medical-billing', keywords: [...new Set(p.keywords.filter((k) => !['mcp', 'mcp-server', 'remedy'].includes(k)))] });
 }
-want.set(join('.claude-plugin', 'marketplace.json'), { name: 'remedy-medical-billing', owner: { name: 'Remedy' }, metadata: { description: 'Thirty medical billing agents. Each reads your exported files (835, 837, 999, 277CA, 271, 278 or spreadsheets), masks patient identifiers before results reach the model, writes worklists locally and waits for a named person before anything is sent, refunded or paid.' }, plugins });
+want.set(join('.claude-plugin', 'marketplace.json'), { name: 'remedy-medical-billing', owner: { name: 'Fairclaim' }, metadata: { description: 'Thirty medical billing agents. Each reads your exported files (835, 837, 999, 277CA, 271, 278 or spreadsheets), masks patient identifiers before results reach the model, writes worklists locally and waits for a named person before anything is sent, refunded or paid.' }, plugins });
 let stale = 0;
 for (const [rel, obj] of want) {
   const f = join(root, rel); const text = JSON.stringify(obj, null, 2) + '\n';

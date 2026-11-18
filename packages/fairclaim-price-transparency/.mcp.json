@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairclaim-price-transparency": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fairclaim-price-transparency@0.2.0",
+        "mcp"
+      ]
+    }
+  }
+}

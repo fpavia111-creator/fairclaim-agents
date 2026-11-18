@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fairclaim-fee-schedule": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fairclaim-fee-schedule@0.2.0",
+        "mcp"
+      ]
+    }
+  }
+}

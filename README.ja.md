@@ -1,4 +1,4 @@
-# Remedy 医療請求エージェント
+# Fairclaim 医療請求エージェント
 
 *Claude による翻訳です。ネイティブスピーカーによる確認は未了です。英語の [README](README.md) が正本です。*
 
@@ -9,19 +9,19 @@ MIT ライセンス · Node 20 以降 · ローカルファイルのみ · 認�
 ## 試してみる
 
 ```bash
-npx -y sage-of-claims demo          # 架空データで請求チェック
-npx -y yarrow-of-denials demo       # 架空の 835 から支払拒否の作業リスト
+npx -y fairclaim-claim-scrubber demo          # 架空データで請求チェック
+npx -y fairclaim-denial-worklist demo       # 架空の 835 から支払拒否の作業リスト
 ```
 
 各エージェントには、架空ファイルで動く `demo`、独自のテストケースで確認する `eval`、そして Claude Desktop、Claude Code、Cursor などの MCP ホスト向けの MCP サーバー（`npx -y <agent> mcp --root <フォルダー>`）があります。列名は日本語でも認識され、HTML レポートは `--lang ja` で日本語になります。
 
 ## エージェント一覧
 
-**請求を送る前：** `marjoram-of-registration`（患者登録と保険情報）、`basil-of-eligibility`（271 資格確認応答）、`mint-of-authorizations`（事前承認と 278）、`borage-of-estimates`（無保険患者向けの誠実見積り）、`clover-of-charges`（請求漏れの診療）、`sage-of-claims`（請求チェック）、`dill-of-modifiers`（修飾子）、`ginger-of-edits`（CMS 公開の NCCI エディット）、`anise-of-dental`（歯科）、`caraway-of-anesthesia`（麻酔単位）、`cumin-of-dme`（医療機器とレンタル）、`tarragon-of-labs`（検査、CLIA）、`lovage-of-telehealth`（遠隔診療）、`nettle-of-audits`（コーディング監査）。
+**請求を送る前：** `fairclaim-patient-registration`（患者登録と保険情報）、`fairclaim-eligibility-checks`（271 資格確認応答）、`fairclaim-prior-authorizations`（事前承認と 278）、`fairclaim-good-faith-estimates`（無保険患者向けの誠実見積り）、`fairclaim-charge-capture`（請求漏れの診療）、`fairclaim-claim-scrubber`（請求チェック）、`fairclaim-modifier-checks`（修飾子）、`fairclaim-ncci-edits`（CMS 公開の NCCI エディット）、`fairclaim-dental-claims`（歯科）、`fairclaim-anesthesia-claims`（麻酔単位）、`fairclaim-dme-claims`（医療機器とレンタル）、`fairclaim-lab-claims`（検査、CLIA）、`fairclaim-telehealth-claims`（遠隔診療）、`fairclaim-coding-audits`（コーディング監査）。
 
-**請求を送った後：** `verbena-of-rejects`（999 と 277CA の差し戻し）、`chamomile-of-ar`（未収金と提出期限）、`fennel-of-remits`（835 と銀行入金の照合）、`yarrow-of-denials`（原因別の支払拒否）、`rosemary-of-appeals`（不服申立ての下書き）、`thyme-of-underpayments`（契約に対する過少支払い）、`tansy-of-credits`（過払い残高と返金）、`aloe-of-statements`（患者向け請求書）、`savory-of-plans`（分割払い計画）。
+**請求を送った後：** `fairclaim-claim-rejections`（999 と 277CA の差し戻し）、`fairclaim-ar-aging`（未収金と提出期限）、`fairclaim-remit-deposits`（835 と銀行入金の照合）、`fairclaim-denial-worklist`（原因別の支払拒否）、`fairclaim-denial-appeals`（不服申立ての下書き）、`fairclaim-underpayments`（契約に対する過少支払い）、`fairclaim-credit-balances`（過払い残高と返金）、`fairclaim-patient-statements`（患者向け請求書）、`fairclaim-payment-plans`（分割払い計画）。
 
-**診療所の運営：** `hyssop-of-fees`（料金表と Medicare の比較）、`laurel-of-contracts`（支払者との契約）、`sorrel-of-payers`（支払者別スコアカード）、`lavender-of-credentialing`（資格認定と期限）、`angelica-of-prices`（病院の価格透明性ファイル）、`mallow-of-kpis`（自院の目標に対する指標）、`vervain-of-onboarding`（新規診療所の稼働準備）。
+**診療所の運営：** `fairclaim-fee-schedule`（料金表と Medicare の比較）、`fairclaim-payer-contract-rates`（支払者との契約）、`fairclaim-payer-scorecards`（支払者別スコアカード）、`fairclaim-provider-credentialing`（資格認定と期限）、`fairclaim-price-transparency`（病院の価格透明性ファイル）、`fairclaim-revenue-kpis`（自院の目標に対する指標）、`fairclaim-practice-go-live`（新規診療所の稼働準備）。
 
 ## 患者データ
 

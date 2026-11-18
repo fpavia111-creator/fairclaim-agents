@@ -1,0 +1,302 @@
+{
+  "suite": "fairclaim-anesthesia-claims",
+  "root": "..",
+  "data_note": "Fictional anesthesia group, patients and illustrative base units in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    {
+      "id": "check",
+      "tool": "anesthesia_check",
+      "args": {
+        "cases": "fixtures/anesthesia-claims-2026-02-03.csv",
+        "base_units": "fixtures/anesthesia-base-units-illustrative.csv",
+        "config": "fixtures/anesthesia-config.json"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.claims": 14,
+          "result.errors": 6,
+          "result.warnings": 1,
+          "result.by_check.concurrency": 2,
+          "result.by_check.overlap": 2
+        }
+      }
+    },
+    {
+      "id": "qy-two-rooms",
+      "tool": "anesthesia_check",
+      "args": {
+        "cases": "fixtures/anesthesia-claims-2026-02-03.csv",
+        "base_units": "fixtures/anesthesia-base-units-illustrative.csv",
+        "check": "concurrency"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.claim_id": "A7005",
+          "result.items.0.concurrency": 2
+        },
+        "contains": [
+          "use QK"
+        ]
+      }
+    },
+    {
+      "id": "unit-arithmetic",
+      "tool": "anesthesia_explain",
+      "args": {
+        "cases": "fixtures/anesthesia-claims-2026-02-03.csv",
+        "base_units": "fixtures/anesthesia-base-units-illustrative.csv",
+        "config": "fixtures/anesthesia-config.json",
+        "ref": "A7001"
+      },
+      "expect": {
+        "equals": {
+          "result.claim.units": 14,
+          "result.claim.expected_allowed": 140
+        },
+        "contains": [
+          "base 7 + time 7 = 14"
+        ]
+      }
+    },
+    {
+      "id": "midnight-case",
+      "tool": "anesthesia_explain",
+      "args": {
+        "cases": "fixtures/anesthesia-claims-2026-02-03.csv",
+        "base_units": "fixtures/anesthesia-base-units-illustrative.csv",
+        "ref": "A7014"
+      },
+      "expect": {
+        "equals": {
+          "result.claim.minutes": 75,
+          "result.claim.status": "ok"
+        }
+      }
+    },
+    {
+      "id": "child-99100",
+      "tool": "anesthesia_explain",
+      "args": {
+        "cases": "fixtures/anesthesia-claims-2026-02-03.csv",
+        "base_units": "fixtures/anesthesia-base-units-illustrative.csv",
+        "config": "fixtures/anesthesia-config.json",
+        "ref": "A7009"
+      },
+      "expect": {
+        "contains": [
+          "this patient is 13",
+          "Reported 40 minutes, but 13:00 to 13:45 is 45."
+        ]
+      }
+    },
+    {
+      "id": "units-over",
+      "tool": "anesthesia_check",
+      "args": {
+        "cases": "fixtures/anesthesia-claims-2026-02-03.csv",
+        "base_units": "fixtures/anesthesia-base-units-illustrative.csv",
+        "config": "fixtures/anesthesia-config.json",
+        "status": "warning"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.claim_id": "A7013",
+          "result.items.0.units": 6
+        },
+        "contains": [
+          "Billed 8 unit(s); base 3 + time 3 = 6."
+        ]
+      }
+    },
+    {
+      "id": "bad-config-refused",
+      "tool": "anesthesia_check",
+      "args": {
+        "cases": "fixtures/anesthesia-claims-2026-02-03.csv",
+        "base_units": "fixtures/anesthesia-base-units-illustrative.csv",
+        "config": "fixtures/anesthesia-config-typo.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "rounding"
+        ]
+      }
+    },
+    {
+      "id": "names-masked",
+      "tool": "anesthesia_check",
+      "args": {
+        "cases": "fixtures/anesthesia-claims-2026-02-03.csv",
+        "base_units": "fixtures/anesthesia-base-units-illustrative.csv"
+      },
+      "expect": {
+        "matches": [
+          "\"patient_name\":\"PT-[0-9a-f]{8}\""
+        ],
+        "not_contains": [
+          "Lindqvist",
+          "2012-05-09",
+          "Achterberg"
+        ]
+      }
+    },
+    {
+      "id": "report-in-italian",
+      "tool": "anesthesia_write_report",
+      "args": {
+        "cases": "fixtures/anesthesia-claims-2026-02-03.csv",
+        "base_units": "fixtures/anesthesia-base-units-illustrative.csv",
+        "config": "fixtures/anesthesia-config.json",
+        "language": "it",
+        "out_dir": "remedy-out/eval-anesthesia"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.lang": "it"
+        }
+      }
+    },
+    {
+      "id": "record-edit-refused",
+      "tool": "record_edit",
+      "args": {},
+      "expect": {
+        "status": "blocked",
+        "decision": "block"
+      }
+    },
+    {
+      "id": "recall-empty-memory",
+      "tool": "anesthesia_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty",
+          "payer_ps_required"
+        ]
+      }
+    },
+    {
+      "id": "crna-overlap",
+      "tool": "anesthesia_check",
+      "args": {
+        "cases": "fixtures/anesthesia-claims-2026-02-03.csv",
+        "base_units": "fixtures/anesthesia-base-units-illustrative.csv",
+        "check": "overlap"
+      },
+      "expect": {
+        "status": "executed",
+        "length": {
+          "result.items": 2
+        },
+        "equals": {
+          "result.items.0.claim_id": "A7011",
+          "result.items.1.claim_id": "A7012"
+        },
+        "contains": [
+          "A CRNA bills one case at a time"
+        ]
+      }
+    },
+    {
+      "id": "qy-paid-at-half",
+      "tool": "anesthesia_explain",
+      "args": {
+        "cases": "fixtures/anesthesia-claims-2026-02-03.csv",
+        "base_units": "fixtures/anesthesia-base-units-illustrative.csv",
+        "config": "fixtures/anesthesia-config.json",
+        "ref": "A7005"
+      },
+      "expect": {
+        "equals": {
+          "result.claim.units": 16,
+          "result.claim.expected_allowed": 520,
+          "result.claim.concurrency": 2
+        },
+        "contains": [
+          "use QK"
+        ]
+      }
+    },
+    {
+      "id": "aa-with-crna-on-same-case",
+      "tool": "anesthesia_check",
+      "args": {
+        "cases": "fixtures/anesthesia-claims-2026-02-03.csv",
+        "base_units": "fixtures/anesthesia-base-units-illustrative.csv",
+        "config": "fixtures/anesthesia-config.json",
+        "check": "pairing"
+      },
+      "expect": {
+        "length": {
+          "result.items": 1
+        },
+        "equals": {
+          "result.items.0.claim_id": "A7010",
+          "result.items.0.expected_allowed": 715
+        },
+        "contains": [
+          "AA (personally performed) but a CRNA billed the same case"
+        ]
+      }
+    },
+    {
+      "id": "warnings-only",
+      "tool": "anesthesia_check",
+      "args": {
+        "cases": "fixtures/anesthesia-claims-2026-02-03.csv",
+        "base_units": "fixtures/anesthesia-base-units-illustrative.csv",
+        "config": "fixtures/anesthesia-config.json",
+        "status": "warning"
+      },
+      "expect": {
+        "length": {
+          "result.items": 1
+        },
+        "equals": {
+          "result.items.0.claim_id": "A7013",
+          "result.items.0.units": 6,
+          "result.items.0.units_billed": 8
+        },
+        "contains": [
+          "No physical status modifier (P1-P6)."
+        ]
+      }
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "anesthesia_check",
+      "args": {
+        "cases": "../../outside-root.csv",
+        "base_units": "fixtures/anesthesia-base-units-illustrative.csv",
+        "config": "fixtures/anesthesia-config.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside the allowed root"
+        ]
+      }
+    },
+    {
+      "id": "missing-file-named",
+      "tool": "anesthesia_check",
+      "args": {
+        "cases": "fixtures/missing-export.csv",
+        "base_units": "fixtures/anesthesia-base-units-illustrative.csv",
+        "config": "fixtures/anesthesia-config.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "not found",
+          "missing-export.csv"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,291 @@
+{
+  "suite": "fairclaim-payer-contract-rates",
+  "root": "..",
+  "data_note": "Made-up payer rates, Medicare amounts, volumes and contracts in ../fixtures. Deterministic checks; no model is called.",
+  "cases": [
+    {
+      "id": "rates",
+      "tool": "contracts_rates",
+      "args": {
+        "payer_fees": "fixtures/payer-fees-2026.csv",
+        "medicare": "fixtures/medicare-2026-illustrative.csv",
+        "volumes": "fixtures/volumes-2025.csv",
+        "config": "fixtures/contract-config.json"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.payers.0.payer": "Example Health Plan",
+          "result.payers.0.percent_of_medicare": 120,
+          "result.payers.1.percent_of_medicare": 107.82,
+          "result.payers.2.below_floor": 5,
+          "result.below_floor": 6,
+          "result.gap_to_floor": 91773,
+          "result.no_medicare.0": "T1015",
+          "result.codes.0.code": "99213",
+          "result.codes.0.spread": 46
+        }
+      }
+    },
+    {
+      "id": "below-floor-one-code",
+      "tool": "contracts_rates",
+      "args": {
+        "payer_fees": "fixtures/payer-fees-2026.csv",
+        "medicare": "fixtures/medicare-2026-illustrative.csv",
+        "volumes": "fixtures/volumes-2025.csv",
+        "config": "fixtures/contract-config.json",
+        "below_floor_only": true
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.payer": "Demo Medicaid Plan",
+          "result.items.0.code": "99213"
+        }
+      }
+    },
+    {
+      "id": "no-floor-no-flags",
+      "tool": "contracts_rates",
+      "args": {
+        "payer_fees": "fixtures/payer-fees-2026.csv",
+        "medicare": "fixtures/medicare-2026-illustrative.csv"
+      },
+      "expect": {
+        "equals": {
+          "result.below_floor": 0,
+          "result.payers.0.percent_of_medicare": null
+        }
+      }
+    },
+    {
+      "id": "calendar",
+      "tool": "contracts_calendar",
+      "args": {
+        "contracts": "fixtures/contracts.csv",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "equals": {
+          "result.contracts.0.payer": "Sample Mutual Insurance",
+          "result.contracts.0.status": "notice_window",
+          "result.contracts.0.days_to_deadline": 45,
+          "result.by_status.renews_automatically": 1,
+          "result.by_status.expired": 1
+        },
+        "contains": [
+          "renews 2026-04-01 on the same terms"
+        ]
+      }
+    },
+    {
+      "id": "draft-needs-a-yes",
+      "tool": "contracts_draft_rate_request",
+      "args": {
+        "payer_fees": "fixtures/payer-fees-2026.csv",
+        "medicare": "fixtures/medicare-2026-illustrative.csv",
+        "config": "fixtures/contract-config.json",
+        "payer": "Sample Mutual Insurance"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      }
+    },
+    {
+      "id": "bad-config-refused",
+      "tool": "contracts_rates",
+      "args": {
+        "payer_fees": "fixtures/payer-fees-2026.csv",
+        "medicare": "fixtures/medicare-2026-illustrative.csv",
+        "config": "fixtures/contract-config-typo.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "/floor_percent"
+        ]
+      }
+    },
+    {
+      "id": "report-with-calendar",
+      "tool": "contracts_write_report",
+      "args": {
+        "payer_fees": "fixtures/payer-fees-2026.csv",
+        "medicare": "fixtures/medicare-2026-illustrative.csv",
+        "volumes": "fixtures/volumes-2025.csv",
+        "config": "fixtures/contract-config.json",
+        "contracts": "fixtures/contracts.csv",
+        "as_of": "2026-02-15",
+        "language": "it",
+        "out_dir": "remedy-out/eval-contracts"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.lang": "it"
+        }
+      }
+    },
+    {
+      "id": "sign-refused",
+      "tool": "contract_sign",
+      "args": {},
+      "expect": {
+        "status": "blocked",
+        "decision": "block"
+      }
+    },
+    {
+      "id": "recall-empty-memory",
+      "tool": "contracts_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty",
+          "payer_rate_floor"
+        ]
+      }
+    },
+    {
+      "id": "request-waits-for-a-named-click",
+      "tool": "contracts_request_send",
+      "args": {
+        "draft": "fixtures/drafts/rate_request-example000001.md",
+        "draft_sha256": "5f8d0d2fea92e0680b2d447b7a0768b28f68b63bcf587cf5ab78d9371b58d4c7",
+        "out_dir": "remedy-out/eval-contracts-request"
+      },
+      "expect": {
+        "status": "needs_approval"
+      }
+    },
+    {
+      "id": "request-approved-records-nothing-sent",
+      "tool": "contracts_request_send",
+      "approve": "Pat Example",
+      "args": {
+        "draft": "fixtures/drafts/rate_request-example000001.md",
+        "draft_sha256": "5f8d0d2fea92e0680b2d447b7a0768b28f68b63bcf587cf5ab78d9371b58d4c7",
+        "out_dir": "remedy-out/eval-contracts-request"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "approved and recorded",
+          "Nothing was sent"
+        ]
+      }
+    },
+    {
+      "id": "request-wrong-sha-refused",
+      "tool": "contracts_request_send",
+      "approve": "Pat Example",
+      "args": {
+        "draft": "fixtures/drafts/rate_request-example000001.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "out_dir": "remedy-out/eval-contracts-request"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "does not match"
+        ]
+      }
+    },
+    {
+      "id": "expired-without-renewal",
+      "tool": "contracts_calendar",
+      "args": {
+        "contracts": "fixtures/contracts.csv",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.contracts.1.payer": "Demo Medicaid Plan",
+          "result.contracts.1.status": "expired",
+          "result.contracts.1.notice_deadline": "2025-11-01"
+        },
+        "contains": [
+          "does not renew by itself: check whether you are still in network and at what rates."
+        ]
+      }
+    },
+    {
+      "id": "missed-notice-renews-same-terms",
+      "tool": "contracts_calendar",
+      "args": {
+        "contracts": "fixtures/contracts.csv",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "equals": {
+          "result.contracts.2.payer": "Example Health Plan",
+          "result.contracts.2.status": "renews_automatically",
+          "result.contracts.2.days_to_deadline": -46
+        },
+        "contains": [
+          "it renews 2026-04-01 on the same terms. Mark the next deadline now."
+        ]
+      }
+    },
+    {
+      "id": "code-without-medicare-amount",
+      "tool": "contracts_rates",
+      "args": {
+        "payer_fees": "fixtures/payer-fees-2026.csv",
+        "medicare": "fixtures/medicare-2026-illustrative.csv",
+        "volumes": "fixtures/volumes-2025.csv",
+        "config": "fixtures/contract-config.json",
+        "below_floor_only": true
+      },
+      "expect": {
+        "equals": {
+          "result.no_medicare": [
+            "T1015"
+          ],
+          "result.below_floor": 6,
+          "result.gap_to_floor": 91773,
+          "result.payers.2.below_floor": 5
+        },
+        "contains": [
+          "No Medicare amount for: T1015."
+        ]
+      }
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "contracts_rates",
+      "args": {
+        "payer_fees": "../../outside-root.csv",
+        "medicare": "fixtures/medicare-2026-illustrative.csv",
+        "volumes": "fixtures/volumes-2025.csv",
+        "config": "fixtures/contract-config.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside the allowed root"
+        ]
+      }
+    },
+    {
+      "id": "missing-file-named",
+      "tool": "contracts_rates",
+      "args": {
+        "payer_fees": "fixtures/missing-export.csv",
+        "medicare": "fixtures/medicare-2026-illustrative.csv",
+        "volumes": "fixtures/volumes-2025.csv",
+        "config": "fixtures/contract-config.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "not found",
+          "missing-export.csv"
+        ]
+      }
+    }
+  ]
+}

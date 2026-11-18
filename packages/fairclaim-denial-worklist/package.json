@@ -1,0 +1,60 @@
+{
+  "name": "fairclaim-denial-worklist",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/fairclaim-denial-worklist",
+  "description": "Fairclaim Denial Worklist: sorts 835 denials by reason code and root cause into a worklist with the team and next step for each, learns payer-specific code meanings a person accepts, and never resubmits or appeals on its own.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "fairclaim-denial-worklist": "bin/fairclaim-denial-worklist.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "server.json"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/fairclaim-denial-worklist.js demo",
+    "eval": "node bin/fairclaim-denial-worklist.js eval"
+  },
+  "dependencies": {
+    "fairclaim-core": "^0.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairclaim-agents.git",
+    "directory": "packages/fairclaim-denial-worklist"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairclaim-agents/tree/main/packages/fairclaim-denial-worklist#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairclaim-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "denials",
+    "835",
+    "era",
+    "carc",
+    "rarc"
+  ]
+}

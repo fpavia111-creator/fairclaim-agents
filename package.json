@@ -1,10 +1,10 @@
 {
-  "name": "remedy-agents",
+  "name": "fairclaim-agents",
   "private": true,
-  "description": "Remedy medical billing agents monorepo.",
+  "description": "Fairclaim medical billing agents monorepo.",
   "license": "MIT",
   "workspaces": [
-    "packages/remedy-core",
+    "packages/fairclaim-core",
     "packages/*"
   ],
   "scripts": {

@@ -1,0 +1,58 @@
+{
+  "name": "fairclaim-coding-audits",
+  "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/fairclaim-coding-audits",
+  "description": "Coding audits without the spreadsheet: draws a reproducible random sample of charges per provider, gives the auditor a worksheet, then scores the results (agree, upcoded, downcoded, wrong code, modifier or diagnosis error, not supported) with accuracy and dollar impact by provider.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Kurt Francisco",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "fairclaim-coding-audits": "bin/fairclaim-coding-audits.js"
+  },
+  "files": [
+    "src",
+    "bin",
+    "fixtures",
+    "evals",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "server.json"
+  ],
+  "scripts": {
+    "test": "node scripts/run-tests.cjs",
+    "demo": "node bin/fairclaim-coding-audits.js demo",
+    "eval": "node bin/fairclaim-coding-audits.js eval"
+  },
+  "dependencies": {
+    "fairclaim-core": "^0.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fpavia111-creator/fairclaim-agents.git",
+    "directory": "packages/fairclaim-coding-audits"
+  },
+  "homepage": "https://github.com/fpavia111-creator/fairclaim-agents/tree/main/packages/fairclaim-coding-audits#readme",
+  "bugs": {
+    "url": "https://github.com/fpavia111-creator/fairclaim-agents/issues"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "medical-billing",
+    "revenue-cycle",
+    "healthcare",
+    "remedy",
+    "coding-audit",
+    "compliance",
+    "e-m"
+  ]
+}
