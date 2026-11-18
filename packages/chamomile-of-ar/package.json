@@ -1,6 +1,7 @@
 {
   "name": "chamomile-of-ar",
   "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/chamomile-of-ar",
   "description": "Chamomile of A/R: ages open insurance balances by payer and bucket, warns before timely-filing limits pass, finds claims filed late or with no payer response, and builds the follow-up call queue by dollars and age.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

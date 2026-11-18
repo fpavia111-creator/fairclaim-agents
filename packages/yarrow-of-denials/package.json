@@ -1,6 +1,7 @@
 {
   "name": "yarrow-of-denials",
   "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/yarrow-of-denials",
   "description": "Yarrow of Denials: sorts 835 denials by reason code and root cause into a worklist with the team and next step for each, learns payer-specific code meanings a person accepts, and never resubmits or appeals on its own.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

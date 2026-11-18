@@ -1,6 +1,7 @@
 {
   "name": "basil-of-eligibility",
   "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/basil-of-eligibility",
   "description": "Basil of Eligibility: reads 271 eligibility responses against the appointment list and flags visits with inactive coverage, member not found, plan ending before the visit, another payer primary or no response, with copay and deductible to collect.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

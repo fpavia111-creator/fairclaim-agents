@@ -1,6 +1,7 @@
 {
   "name": "caraway-of-anesthesia",
   "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/caraway-of-anesthesia",
   "description": "Anesthesia claims priced and paired right: computes base, time, physical-status and qualifying-circumstance units, checks start and stop times, AA, QK, QY, QX, QZ and AD against how many rooms the anesthesiologist covered at once, pairs each CRNA claim with its medical direction, and flags overlaps.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

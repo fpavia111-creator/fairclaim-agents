@@ -1,6 +1,7 @@
 {
   "name": "sage-of-claims",
   "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/sage-of-claims",
   "description": "Sage of Claims: scrubs 837 claims (or claim exports) before they go out, catching the errors payers reject on: NPIs, payer and member ids, dates, totals, codes, modifiers, diagnosis pointers, place of service, corrected-claim references and prior authorizations.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

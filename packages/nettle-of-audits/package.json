@@ -1,6 +1,7 @@
 {
   "name": "nettle-of-audits",
   "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/nettle-of-audits",
   "description": "Coding audits without the spreadsheet: draws a reproducible random sample of charges per provider, gives the auditor a worksheet, then scores the results (agree, upcoded, downcoded, wrong code, modifier or diagnosis error, not supported) with accuracy and dollar impact by provider.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

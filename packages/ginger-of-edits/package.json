@@ -1,6 +1,7 @@
 {
   "name": "ginger-of-edits",
   "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/ginger-of-edits",
   "description": "Ginger of Edits: checks claims against the CMS NCCI procedure-to-procedure edits and medically unlikely edits files you download, by date of service, with the modifier indicator, bypass modifiers and MUE adjudication indicator, plus payer pair edits your team adds.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

@@ -1,6 +1,7 @@
 {
   "name": "rosemary-of-appeals",
   "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/rosemary-of-appeals",
   "description": "Rosemary of Appeals: drafts a first-level appeal for a denied claim with quotes from the payer policies you supply (file and line), tracks every appeal against its filing deadline and the payer's response time, and never sends anything itself.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",

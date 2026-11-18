@@ -1,6 +1,7 @@
 {
   "name": "vervain-of-onboarding",
   "version": "0.2.0",
+  "mcpName": "io.github.fpavia111-creator/vervain-of-onboarding",
   "description": "Go-live readiness for a new practice: checks the billing NPI, tax ID and billing address, the provider roster, every payer's EDI, ERA, EFT and credentialing enrollment, payer IDs and the fee schedule against the charges you will bill, and lists the blockers before go-live.",
   "type": "module",
   "license": "MIT",
@@ -23,7 +24,8 @@
     "evals",
     "README.md",
     "CHANGELOG.md",
-    "LICENSE"
+    "LICENSE",
+    "server.json"
   ],
   "scripts": {
     "test": "node scripts/run-tests.cjs",
