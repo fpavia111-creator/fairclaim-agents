@@ -3,19 +3,255 @@
   "root": "..",
   "data_note": "Fictional practice, payers and patients in ../fixtures. Deterministic checks; no model is called.",
   "cases": [
-    {"id": "batch-totals", "tool": "sage_scrub", "args": {"claims": "fixtures/batch-2026-01-20.837", "config": "fixtures/scrub-config.json", "as_of": "2026-01-20"}, "expect": {"status": "executed", "equals": {"result.claims_checked": 10, "result.ready_to_send": 3, "result.need_fixing": 7, "result.errors": 15, "result.warnings": 4, "result.clean_claim_rate": 10, "result.source": "837"}}},
-    {"id": "every-planted-check", "tool": "sage_scrub", "args": {"claims": "fixtures/batch-2026-01-20.837", "config": "fixtures/scrub-config.json", "as_of": "2026-01-20"}, "expect": {"contains": ["\"rendering_npi\"", "\"member_id_pattern\"", "\"diagnosis_format\"", "\"pointer_range\"", "\"frequency_ref\"", "\"future_service\"", "\"prior_auth\"", "\"em_modifier_25\"", "\"total_mismatch\"", "\"modifier_conflict\"", "\"duplicate_line\"", "\"duplicate_claim\"", "\"late_to_file\"", "\"code_format\""]}},
-    {"id": "clean-claim-has-no-findings", "tool": "sage_explain", "args": {"claims": "fixtures/batch-2026-01-20.837", "config": "fixtures/scrub-config.json", "as_of": "2026-01-20", "claim_id": "C4001"}, "expect": {"equals": {"result.findings": []}}},
-    {"id": "corrected-claim-needs-original", "tool": "sage_explain", "args": {"claims": "fixtures/batch-2026-01-20.837", "as_of": "2026-01-20", "claim_id": "C4004"}, "expect": {"equals": {"result.findings.0.check": "frequency_ref", "result.findings.1.check": "future_service", "result.findings.1.line": 1}}},
-    {"id": "without-config-no-payer-rules", "tool": "sage_explain", "args": {"claims": "fixtures/batch-2026-01-20.837", "as_of": "2026-01-20", "claim_id": "C4005"}, "expect": {"equals": {"result.findings.0.check": "em_modifier_25"}, "not_contains": ["\"check\":\"prior_auth\""]}},
-    {"id": "identifiers-masked", "tool": "sage_scrub", "args": {"claims": "fixtures/batch-2026-01-20.837", "limit": 3}, "expect": {"matches": ["\"patient_name\":\"PT-[0-9a-f]{8}\""], "not_contains": ["PEMBERTON", "EHP100200301", "1958-03-14"]}},
-    {"id": "charge-export", "tool": "sage_scrub", "args": {"claims": "fixtures/exports/tebra-charges.csv", "as_of": "2026-01-20"}, "expect": {"equals": {"result.source": "table", "result.claims_checked": 2, "result.by_check.pointer_missing": 1}}},
-    {"id": "only-errors", "tool": "sage_scrub", "args": {"claims": "fixtures/batch-2026-01-20.837", "config": "fixtures/scrub-config.json", "as_of": "2026-01-20", "only_errors": true}, "expect": {"equals": {"result.items.0.claim_id": "C4008", "result.items.0.errors": 4}}},
-    {"id": "bad-config-refused", "tool": "sage_scrub", "args": {"claims": "fixtures/batch-2026-01-20.837", "config": "fixtures/scrub-config-typo.json"}, "expect": {"status": "error", "contains": ["required_fields"]}},
-    {"id": "report-in-korean", "tool": "sage_write_report", "args": {"claims": "fixtures/batch-2026-01-20.837", "config": "fixtures/scrub-config.json", "as_of": "2026-01-20", "language": "ko", "out_dir": "remedy-out/eval-sage"}, "expect": {"status": "executed", "equals": {"result.lang": "ko"}, "contains": ["sage-scrub.csv"]}},
-    {"id": "learning-waits-for-a-person", "tool": "sage_accept_learning", "mode": "auto", "args": {"id": "MEM-000000000000", "decision": "accept"}, "expect": {"status": "needs_approval", "decision": "ask"}},
-    {"id": "submit-refused", "tool": "claim_submit", "args": {}, "expect": {"status": "blocked", "decision": "block"}},
-    {"id":"recall-empty-memory","tool":"sage_recall","args":{},"expect":{"status":"executed","contains":["memory is empty","payer_required_field"]}},
-    {"id":"list-checks","tool":"sage_checks","args":{},"expect":{"status":"executed"}}
+    {
+      "id": "batch-totals",
+      "tool": "sage_scrub",
+      "args": {
+        "claims": "fixtures/batch-2026-01-20.837",
+        "config": "fixtures/scrub-config.json",
+        "as_of": "2026-01-20"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.claims_checked": 10,
+          "result.ready_to_send": 3,
+          "result.need_fixing": 7,
+          "result.errors": 15,
+          "result.warnings": 4,
+          "result.clean_claim_rate": 10,
+          "result.source": "837"
+        }
+      }
+    },
+    {
+      "id": "every-planted-check",
+      "tool": "sage_scrub",
+      "args": {
+        "claims": "fixtures/batch-2026-01-20.837",
+        "config": "fixtures/scrub-config.json",
+        "as_of": "2026-01-20"
+      },
+      "expect": {
+        "contains": [
+          "\"rendering_npi\"",
+          "\"member_id_pattern\"",
+          "\"diagnosis_format\"",
+          "\"pointer_range\"",
+          "\"frequency_ref\"",
+          "\"future_service\"",
+          "\"prior_auth\"",
+          "\"em_modifier_25\"",
+          "\"total_mismatch\"",
+          "\"modifier_conflict\"",
+          "\"duplicate_line\"",
+          "\"duplicate_claim\"",
+          "\"late_to_file\"",
+          "\"code_format\""
+        ]
+      }
+    },
+    {
+      "id": "clean-claim-has-no-findings",
+      "tool": "sage_explain",
+      "args": {
+        "claims": "fixtures/batch-2026-01-20.837",
+        "config": "fixtures/scrub-config.json",
+        "as_of": "2026-01-20",
+        "claim_id": "C4001"
+      },
+      "expect": {
+        "equals": {
+          "result.findings": []
+        }
+      }
+    },
+    {
+      "id": "corrected-claim-needs-original",
+      "tool": "sage_explain",
+      "args": {
+        "claims": "fixtures/batch-2026-01-20.837",
+        "as_of": "2026-01-20",
+        "claim_id": "C4004"
+      },
+      "expect": {
+        "equals": {
+          "result.findings.0.check": "frequency_ref",
+          "result.findings.1.check": "future_service",
+          "result.findings.1.line": 1
+        }
+      }
+    },
+    {
+      "id": "without-config-no-payer-rules",
+      "tool": "sage_explain",
+      "args": {
+        "claims": "fixtures/batch-2026-01-20.837",
+        "as_of": "2026-01-20",
+        "claim_id": "C4005"
+      },
+      "expect": {
+        "equals": {
+          "result.findings.0.check": "em_modifier_25"
+        },
+        "not_contains": [
+          "\"check\":\"prior_auth\""
+        ]
+      }
+    },
+    {
+      "id": "identifiers-masked",
+      "tool": "sage_scrub",
+      "args": {
+        "claims": "fixtures/batch-2026-01-20.837",
+        "limit": 3
+      },
+      "expect": {
+        "matches": [
+          "\"patient_name\":\"PT-[0-9a-f]{8}\""
+        ],
+        "not_contains": [
+          "PEMBERTON",
+          "EHP100200301",
+          "1958-03-14"
+        ]
+      }
+    },
+    {
+      "id": "charge-export",
+      "tool": "sage_scrub",
+      "args": {
+        "claims": "fixtures/exports/tebra-charges.csv",
+        "as_of": "2026-01-20"
+      },
+      "expect": {
+        "equals": {
+          "result.source": "table",
+          "result.claims_checked": 2,
+          "result.by_check.pointer_missing": 1
+        }
+      }
+    },
+    {
+      "id": "only-errors",
+      "tool": "sage_scrub",
+      "args": {
+        "claims": "fixtures/batch-2026-01-20.837",
+        "config": "fixtures/scrub-config.json",
+        "as_of": "2026-01-20",
+        "only_errors": true
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.claim_id": "C4008",
+          "result.items.0.errors": 4
+        }
+      }
+    },
+    {
+      "id": "bad-config-refused",
+      "tool": "sage_scrub",
+      "args": {
+        "claims": "fixtures/batch-2026-01-20.837",
+        "config": "fixtures/scrub-config-typo.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "required_fields"
+        ]
+      }
+    },
+    {
+      "id": "report-in-korean",
+      "tool": "sage_write_report",
+      "args": {
+        "claims": "fixtures/batch-2026-01-20.837",
+        "config": "fixtures/scrub-config.json",
+        "as_of": "2026-01-20",
+        "language": "ko",
+        "out_dir": "remedy-out/eval-sage"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.lang": "ko"
+        },
+        "contains": [
+          "sage-scrub.csv"
+        ]
+      }
+    },
+    {
+      "id": "learning-waits-for-a-person",
+      "tool": "sage_accept_learning",
+      "mode": "auto",
+      "args": {
+        "id": "MEM-000000000000",
+        "decision": "accept"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      }
+    },
+    {
+      "id": "submit-refused",
+      "tool": "claim_submit",
+      "args": {},
+      "expect": {
+        "status": "blocked",
+        "decision": "block"
+      }
+    },
+    {
+      "id": "recall-empty-memory",
+      "tool": "sage_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty",
+          "payer_required_field"
+        ]
+      }
+    },
+    {
+      "id": "list-checks",
+      "tool": "sage_checks",
+      "args": {},
+      "expect": {
+        "status": "executed"
+      }
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "sage_scrub",
+      "args": {
+        "claims": "../../outside-root.csv",
+        "as_of": "2026-01-20"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside the allowed root"
+        ]
+      }
+    },
+    {
+      "id": "missing-file-named",
+      "tool": "sage_scrub",
+      "args": {
+        "claims": "fixtures/missing-export.csv",
+        "as_of": "2026-01-20"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "not found",
+          "missing-export.csv"
+        ]
+      }
+    }
   ]
 }

@@ -3,20 +3,271 @@
   "root": "..",
   "data_note": "Fictional lab, patients and example rules in ../fixtures. Deterministic checks; no model is called.",
   "cases": [
-    {"id": "check", "tool": "tarragon_check", "args": {"claims": "fixtures/lab-claims-2026-02.837", "history": "fixtures/lab-history.csv", "config": "fixtures/lab-config.json"}, "expect": {"status": "executed", "equals": {"result.claims": 8, "result.errors": 6, "result.by_check.clia": 2, "result.by_check.unbundled_panel": 1, "result.items.0.claim_id": "L8002"}}},
-    {"id": "bmp-unbundled", "tool": "tarragon_explain", "args": {"claims": "fixtures/lab-claims-2026-02.837", "ref": "L8004"}, "expect": {"contains": ["Every component of 80048", "bill 80048"]}},
-    {"id": "qw-and-venipuncture", "tool": "tarragon_explain", "args": {"claims": "fixtures/lab-claims-2026-02.837", "config": "fixtures/lab-config.json", "ref": "L8003"}, "expect": {"contains": ["87880 is a waived test: add QW.", "36415 is billed 2 times"]}},
-    {"id": "hba1c-frequency-and-dx", "tool": "tarragon_check", "args": {"claims": "fixtures/lab-claims-2026-02.837", "history": "fixtures/lab-history.csv", "config": "fixtures/lab-config.json", "check": "frequency"}, "expect": {"equals": {"result.items.0.claim_id": "L8002", "result.items.0.diagnoses": "Z00.00"}, "contains": ["83036 was also done on 2025-12-10", "get an ABN before the test"]}},
-    {"id": "waiver-certificate", "tool": "tarragon_check", "args": {"claims": "fixtures/lab-claims-2026-02.837", "config": "fixtures/lab-config-waiver.json", "check": "certificate"}, "expect": {"contains": ["80053, 84443 are not on your waived list"], "not_contains": ["L8008"]}},
-    {"id": "panels-listed", "tool": "tarragon_panels", "args": {}, "expect": {"contains": ["80048, 80053, 80061, 80076"]}},
-    {"id": "bad-config-refused", "tool": "tarragon_check", "args": {"claims": "fixtures/lab-claims-2026-02.837", "config": "fixtures/lab-config-typo.json"}, "expect": {"status": "error", "contains": ["certificate"]}},
-    {"id": "names-masked", "tool": "tarragon_check", "args": {"claims": "fixtures/lab-claims-2026-02.837"}, "expect": {"matches": ["\"patient_name\":\"PT-[0-9a-f]{8}\""], "not_contains": ["Halvorsen", "DMP000799001", "1995-04-25"]}},
-    {"id": "report-in-portuguese", "tool": "tarragon_write_report", "args": {"claims": "fixtures/lab-claims-2026-02.837", "config": "fixtures/lab-config.json", "language": "pt", "out_dir": "remedy-out/eval-tarragon"}, "expect": {"status": "executed", "equals": {"result.lang": "pt"}}},
-    {"id": "result-release-refused", "tool": "result_release", "args": {}, "expect": {"status": "blocked", "decision": "block"}},
-    {"id": "recall-empty-memory", "tool": "tarragon_recall", "args": {}, "expect": {"status": "executed", "contains": ["memory is empty", "lab_dx_rule"]}},
-    {"id": "lipid-component-with-panel", "tool": "tarragon_check", "args": {"claims": "fixtures/lab-claims-2026-02.837", "config": "fixtures/lab-config.json", "check": "panel_component"}, "expect": {"status": "executed", "length": {"result.items": 1}, "equals": {"result.items.0.claim_id": "L8005"}, "contains": ["82465 is part of 80061 (Lipid panel), billed the same day."]}},
-    {"id": "same-day-repeat-needs-91", "tool": "tarragon_explain", "args": {"claims": "fixtures/lab-claims-2026-02.837", "config": "fixtures/lab-config.json", "ref": "L8006"}, "expect": {"contains": ["85025 is billed more than once on 2026-02-10", "add 91 when a test is repeated"]}},
-    {"id": "clia-missing-and-malformed", "tool": "tarragon_check", "args": {"claims": "fixtures/lab-claims-2026-02.837", "check": "clia"}, "expect": {"length": {"result.items": 2}, "contains": ["loop 2300 REF*X4", "CLIA \\\"2D12345\\\" is not two digits, D, and seven digits."]}},
-    {"id": "clean-claims-pass", "tool": "tarragon_check", "args": {"claims": "fixtures/lab-claims-2026-02.837", "history": "fixtures/lab-history.csv", "config": "fixtures/lab-config.json", "status": "ok"}, "expect": {"length": {"result.items": 2}, "equals": {"result.items.0.claim_id": "L8001", "result.items.1.claim_id": "L8008"}}}
+    {
+      "id": "check",
+      "tool": "tarragon_check",
+      "args": {
+        "claims": "fixtures/lab-claims-2026-02.837",
+        "history": "fixtures/lab-history.csv",
+        "config": "fixtures/lab-config.json"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.claims": 8,
+          "result.errors": 6,
+          "result.by_check.clia": 2,
+          "result.by_check.unbundled_panel": 1,
+          "result.items.0.claim_id": "L8002"
+        }
+      }
+    },
+    {
+      "id": "bmp-unbundled",
+      "tool": "tarragon_explain",
+      "args": {
+        "claims": "fixtures/lab-claims-2026-02.837",
+        "ref": "L8004"
+      },
+      "expect": {
+        "contains": [
+          "Every component of 80048",
+          "bill 80048"
+        ]
+      }
+    },
+    {
+      "id": "qw-and-venipuncture",
+      "tool": "tarragon_explain",
+      "args": {
+        "claims": "fixtures/lab-claims-2026-02.837",
+        "config": "fixtures/lab-config.json",
+        "ref": "L8003"
+      },
+      "expect": {
+        "contains": [
+          "87880 is a waived test: add QW.",
+          "36415 is billed 2 times"
+        ]
+      }
+    },
+    {
+      "id": "hba1c-frequency-and-dx",
+      "tool": "tarragon_check",
+      "args": {
+        "claims": "fixtures/lab-claims-2026-02.837",
+        "history": "fixtures/lab-history.csv",
+        "config": "fixtures/lab-config.json",
+        "check": "frequency"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.claim_id": "L8002",
+          "result.items.0.diagnoses": "Z00.00"
+        },
+        "contains": [
+          "83036 was also done on 2025-12-10",
+          "get an ABN before the test"
+        ]
+      }
+    },
+    {
+      "id": "waiver-certificate",
+      "tool": "tarragon_check",
+      "args": {
+        "claims": "fixtures/lab-claims-2026-02.837",
+        "config": "fixtures/lab-config-waiver.json",
+        "check": "certificate"
+      },
+      "expect": {
+        "contains": [
+          "80053, 84443 are not on your waived list"
+        ],
+        "not_contains": [
+          "L8008"
+        ]
+      }
+    },
+    {
+      "id": "panels-listed",
+      "tool": "tarragon_panels",
+      "args": {},
+      "expect": {
+        "contains": [
+          "80048, 80053, 80061, 80076"
+        ]
+      }
+    },
+    {
+      "id": "bad-config-refused",
+      "tool": "tarragon_check",
+      "args": {
+        "claims": "fixtures/lab-claims-2026-02.837",
+        "config": "fixtures/lab-config-typo.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "certificate"
+        ]
+      }
+    },
+    {
+      "id": "names-masked",
+      "tool": "tarragon_check",
+      "args": {
+        "claims": "fixtures/lab-claims-2026-02.837"
+      },
+      "expect": {
+        "matches": [
+          "\"patient_name\":\"PT-[0-9a-f]{8}\""
+        ],
+        "not_contains": [
+          "Halvorsen",
+          "DMP000799001",
+          "1995-04-25"
+        ]
+      }
+    },
+    {
+      "id": "report-in-portuguese",
+      "tool": "tarragon_write_report",
+      "args": {
+        "claims": "fixtures/lab-claims-2026-02.837",
+        "config": "fixtures/lab-config.json",
+        "language": "pt",
+        "out_dir": "remedy-out/eval-tarragon"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.lang": "pt"
+        }
+      }
+    },
+    {
+      "id": "result-release-refused",
+      "tool": "result_release",
+      "args": {},
+      "expect": {
+        "status": "blocked",
+        "decision": "block"
+      }
+    },
+    {
+      "id": "recall-empty-memory",
+      "tool": "tarragon_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty",
+          "lab_dx_rule"
+        ]
+      }
+    },
+    {
+      "id": "lipid-component-with-panel",
+      "tool": "tarragon_check",
+      "args": {
+        "claims": "fixtures/lab-claims-2026-02.837",
+        "config": "fixtures/lab-config.json",
+        "check": "panel_component"
+      },
+      "expect": {
+        "status": "executed",
+        "length": {
+          "result.items": 1
+        },
+        "equals": {
+          "result.items.0.claim_id": "L8005"
+        },
+        "contains": [
+          "82465 is part of 80061 (Lipid panel), billed the same day."
+        ]
+      }
+    },
+    {
+      "id": "same-day-repeat-needs-91",
+      "tool": "tarragon_explain",
+      "args": {
+        "claims": "fixtures/lab-claims-2026-02.837",
+        "config": "fixtures/lab-config.json",
+        "ref": "L8006"
+      },
+      "expect": {
+        "contains": [
+          "85025 is billed more than once on 2026-02-10",
+          "add 91 when a test is repeated"
+        ]
+      }
+    },
+    {
+      "id": "clia-missing-and-malformed",
+      "tool": "tarragon_check",
+      "args": {
+        "claims": "fixtures/lab-claims-2026-02.837",
+        "check": "clia"
+      },
+      "expect": {
+        "length": {
+          "result.items": 2
+        },
+        "contains": [
+          "loop 2300 REF*X4",
+          "CLIA \\\"2D12345\\\" is not two digits, D, and seven digits."
+        ]
+      }
+    },
+    {
+      "id": "clean-claims-pass",
+      "tool": "tarragon_check",
+      "args": {
+        "claims": "fixtures/lab-claims-2026-02.837",
+        "history": "fixtures/lab-history.csv",
+        "config": "fixtures/lab-config.json",
+        "status": "ok"
+      },
+      "expect": {
+        "length": {
+          "result.items": 2
+        },
+        "equals": {
+          "result.items.0.claim_id": "L8001",
+          "result.items.1.claim_id": "L8008"
+        }
+      }
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "tarragon_check",
+      "args": {
+        "claims": "fixtures/lab-claims-2026-02.837",
+        "history": "../../outside-root.csv",
+        "config": "fixtures/lab-config.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside the allowed root"
+        ]
+      }
+    },
+    {
+      "id": "missing-file-named",
+      "tool": "tarragon_check",
+      "args": {
+        "claims": "fixtures/lab-claims-2026-02.837",
+        "history": "fixtures/missing-export.csv",
+        "config": "fixtures/lab-config.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "not found",
+          "missing-export.csv"
+        ]
+      }
+    }
   ]
 }

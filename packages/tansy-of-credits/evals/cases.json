@@ -3,20 +3,271 @@
   "root": "..",
   "data_note": "Fictional practice, payers and patients in ../fixtures. Deterministic checks; no model is called.",
   "cases": [
-    {"id": "review", "tool": "tansy_review", "args": {"credits": "fixtures/credit-balances-2026-02-15.csv", "config": "fixtures/credit-config.json", "as_of": "2026-02-15"}, "expect": {"status": "executed", "equals": {"result.credits": 8, "result.total": 523.5, "result.payer_total": 355, "result.overdue_total": 85, "result.items.0.action": "refund_overdue", "result.items.0.refund_deadline": "2026-02-08", "result.items.0.rule_source": "medicare_rule", "result.items.1.action": "refund_now", "result.items.1.days_left": 9}}},
-    {"id": "medicare-by-name-without-config", "tool": "tansy_review", "args": {"credits": "fixtures/credit-balances-2026-02-15.csv", "as_of": "2026-02-15", "action": "refund_overdue"}, "expect": {"equals": {"result.items.0.payer": "Test Medicare Contractor"}}},
-    {"id": "apply-first", "tool": "tansy_review", "args": {"credits": "fixtures/credit-balances-2026-02-15.csv", "config": "fixtures/credit-config.json", "as_of": "2026-02-15", "action": "apply_to_balance"}, "expect": {"equals": {"result.items.0.open_debit": 25, "result.items.0.kind": "patient_credit"}}},
-    {"id": "escheat", "tool": "tansy_review", "args": {"credits": "fixtures/credit-balances-2026-02-15.csv", "config": "fixtures/credit-config.json", "as_of": "2026-02-15", "action": "escheat_risk"}, "expect": {"equals": {"result.items.0.age_days": 1021}}},
-    {"id": "draft-needs-a-yes", "tool": "tansy_draft_refund", "args": {"credits": "fixtures/credit-balances-2026-02-15.csv", "config": "fixtures/credit-config.json", "as_of": "2026-02-15", "account": "A-1005"}, "expect": {"status": "needs_approval", "decision": "ask"}},
-    {"id": "bad-config-refused", "tool": "tansy_review", "args": {"credits": "fixtures/credit-balances-2026-02-15.csv", "config": "fixtures/credit-config-typo.json"}, "expect": {"status": "error", "contains": ["refund_days"]}},
-    {"id": "names-masked", "tool": "tansy_review", "args": {"credits": "fixtures/credit-balances-2026-02-15.csv", "as_of": "2026-02-15"}, "expect": {"matches": ["\"patient_name\":\"PT-[0-9a-f]{8}\"", "\"account\":\"ACCT-[0-9a-f]{8}\""], "not_contains": ["Thibodeaux", "A-1004"]}},
-    {"id": "list-in-portuguese", "tool": "tansy_write_report", "args": {"credits": "fixtures/credit-balances-2026-02-15.csv", "config": "fixtures/credit-config.json", "as_of": "2026-02-15", "language": "pt", "out_dir": "remedy-out/eval-tansy"}, "expect": {"status": "executed", "equals": {"result.lang": "pt"}}},
-    {"id": "refund-issue-refused", "tool": "refund_issue", "args": {}, "expect": {"status": "blocked", "decision": "block"}},
-    {"id": "recall-empty-memory", "tool": "tansy_recall", "args": {}, "expect": {"status": "executed", "contains": ["memory is empty", "payer_refund_rule"]}},
-    {"id": "request-waits-for-a-named-click", "tool": "tansy_request_refund", "args": {"draft": "fixtures/drafts/refund-example000001.md", "draft_sha256": "e1c0274076ad26c656a7e8f7f4c0d644b25e61d93cbe449a0aa69c750ce7c4af", "out_dir": "remedy-out/eval-tansy-request"}, "expect": {"status": "needs_approval"}},
-    {"id": "request-approved-records-nothing-sent", "tool": "tansy_request_refund", "approve": "Pat Example", "args": {"draft": "fixtures/drafts/refund-example000001.md", "draft_sha256": "e1c0274076ad26c656a7e8f7f4c0d644b25e61d93cbe449a0aa69c750ce7c4af", "out_dir": "remedy-out/eval-tansy-request"}, "expect": {"status": "executed", "contains": ["approved and recorded", "Nothing was sent"]}},
-    {"id": "request-wrong-sha-refused", "tool": "tansy_request_refund", "approve": "Pat Example", "args": {"draft": "fixtures/drafts/refund-example000001.md", "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000", "out_dir": "remedy-out/eval-tansy-request"}, "expect": {"status": "error", "contains": ["does not match"]}},
-    {"id": "medicaid-gets-the-60-day-rule", "tool": "tansy_review", "args": {"credits": "fixtures/credit-balances-2026-02-15.csv", "as_of": "2026-02-15", "action": "refund"}, "expect": {"status": "executed", "contains": ["\"payer\":\"Demo Medicaid Plan\",\"refund_to\":\"Demo Medicaid Plan\"", "\"refund_deadline\":\"2026-04-11\""]}},
-    {"id": "tiny-credit-follows-policy", "tool": "tansy_review", "args": {"credits": "fixtures/credit-balances-2026-02-15.csv", "config": "fixtures/credit-config.json", "as_of": "2026-02-15", "action": "small_credit"}, "expect": {"length": {"result.items": 1}, "equals": {"result.items.0.amount": 3.5, "result.items.0.refund_to": "patient"}, "contains": ["Under your small-credit level (5)"]}}
+    {
+      "id": "review",
+      "tool": "tansy_review",
+      "args": {
+        "credits": "fixtures/credit-balances-2026-02-15.csv",
+        "config": "fixtures/credit-config.json",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.credits": 8,
+          "result.total": 523.5,
+          "result.payer_total": 355,
+          "result.overdue_total": 85,
+          "result.items.0.action": "refund_overdue",
+          "result.items.0.refund_deadline": "2026-02-08",
+          "result.items.0.rule_source": "medicare_rule",
+          "result.items.1.action": "refund_now",
+          "result.items.1.days_left": 9
+        }
+      }
+    },
+    {
+      "id": "medicare-by-name-without-config",
+      "tool": "tansy_review",
+      "args": {
+        "credits": "fixtures/credit-balances-2026-02-15.csv",
+        "as_of": "2026-02-15",
+        "action": "refund_overdue"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.payer": "Test Medicare Contractor"
+        }
+      }
+    },
+    {
+      "id": "apply-first",
+      "tool": "tansy_review",
+      "args": {
+        "credits": "fixtures/credit-balances-2026-02-15.csv",
+        "config": "fixtures/credit-config.json",
+        "as_of": "2026-02-15",
+        "action": "apply_to_balance"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.open_debit": 25,
+          "result.items.0.kind": "patient_credit"
+        }
+      }
+    },
+    {
+      "id": "escheat",
+      "tool": "tansy_review",
+      "args": {
+        "credits": "fixtures/credit-balances-2026-02-15.csv",
+        "config": "fixtures/credit-config.json",
+        "as_of": "2026-02-15",
+        "action": "escheat_risk"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.age_days": 1021
+        }
+      }
+    },
+    {
+      "id": "draft-needs-a-yes",
+      "tool": "tansy_draft_refund",
+      "args": {
+        "credits": "fixtures/credit-balances-2026-02-15.csv",
+        "config": "fixtures/credit-config.json",
+        "as_of": "2026-02-15",
+        "account": "A-1005"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      }
+    },
+    {
+      "id": "bad-config-refused",
+      "tool": "tansy_review",
+      "args": {
+        "credits": "fixtures/credit-balances-2026-02-15.csv",
+        "config": "fixtures/credit-config-typo.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "refund_days"
+        ]
+      }
+    },
+    {
+      "id": "names-masked",
+      "tool": "tansy_review",
+      "args": {
+        "credits": "fixtures/credit-balances-2026-02-15.csv",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "matches": [
+          "\"patient_name\":\"PT-[0-9a-f]{8}\"",
+          "\"account\":\"ACCT-[0-9a-f]{8}\""
+        ],
+        "not_contains": [
+          "Thibodeaux",
+          "A-1004"
+        ]
+      }
+    },
+    {
+      "id": "list-in-portuguese",
+      "tool": "tansy_write_report",
+      "args": {
+        "credits": "fixtures/credit-balances-2026-02-15.csv",
+        "config": "fixtures/credit-config.json",
+        "as_of": "2026-02-15",
+        "language": "pt",
+        "out_dir": "remedy-out/eval-tansy"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.lang": "pt"
+        }
+      }
+    },
+    {
+      "id": "refund-issue-refused",
+      "tool": "refund_issue",
+      "args": {},
+      "expect": {
+        "status": "blocked",
+        "decision": "block"
+      }
+    },
+    {
+      "id": "recall-empty-memory",
+      "tool": "tansy_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty",
+          "payer_refund_rule"
+        ]
+      }
+    },
+    {
+      "id": "request-waits-for-a-named-click",
+      "tool": "tansy_request_refund",
+      "args": {
+        "draft": "fixtures/drafts/refund-example000001.md",
+        "draft_sha256": "e1c0274076ad26c656a7e8f7f4c0d644b25e61d93cbe449a0aa69c750ce7c4af",
+        "out_dir": "remedy-out/eval-tansy-request"
+      },
+      "expect": {
+        "status": "needs_approval"
+      }
+    },
+    {
+      "id": "request-approved-records-nothing-sent",
+      "tool": "tansy_request_refund",
+      "approve": "Pat Example",
+      "args": {
+        "draft": "fixtures/drafts/refund-example000001.md",
+        "draft_sha256": "e1c0274076ad26c656a7e8f7f4c0d644b25e61d93cbe449a0aa69c750ce7c4af",
+        "out_dir": "remedy-out/eval-tansy-request"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "approved and recorded",
+          "Nothing was sent"
+        ]
+      }
+    },
+    {
+      "id": "request-wrong-sha-refused",
+      "tool": "tansy_request_refund",
+      "approve": "Pat Example",
+      "args": {
+        "draft": "fixtures/drafts/refund-example000001.md",
+        "draft_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "out_dir": "remedy-out/eval-tansy-request"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "does not match"
+        ]
+      }
+    },
+    {
+      "id": "medicaid-gets-the-60-day-rule",
+      "tool": "tansy_review",
+      "args": {
+        "credits": "fixtures/credit-balances-2026-02-15.csv",
+        "as_of": "2026-02-15",
+        "action": "refund"
+      },
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "\"payer\":\"Demo Medicaid Plan\",\"refund_to\":\"Demo Medicaid Plan\"",
+          "\"refund_deadline\":\"2026-04-11\""
+        ]
+      }
+    },
+    {
+      "id": "tiny-credit-follows-policy",
+      "tool": "tansy_review",
+      "args": {
+        "credits": "fixtures/credit-balances-2026-02-15.csv",
+        "config": "fixtures/credit-config.json",
+        "as_of": "2026-02-15",
+        "action": "small_credit"
+      },
+      "expect": {
+        "length": {
+          "result.items": 1
+        },
+        "equals": {
+          "result.items.0.amount": 3.5,
+          "result.items.0.refund_to": "patient"
+        },
+        "contains": [
+          "Under your small-credit level (5)"
+        ]
+      }
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "tansy_review",
+      "args": {
+        "credits": "../../outside-root.csv",
+        "config": "fixtures/credit-config.json",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside the allowed root"
+        ]
+      }
+    },
+    {
+      "id": "missing-file-named",
+      "tool": "tansy_review",
+      "args": {
+        "credits": "fixtures/missing-export.csv",
+        "config": "fixtures/credit-config.json",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "not found",
+          "missing-export.csv"
+        ]
+      }
+    }
   ]
 }

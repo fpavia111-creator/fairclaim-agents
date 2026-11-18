@@ -3,19 +3,248 @@
   "root": "..",
   "data_note": "Fictional dental practice and patients in ../fixtures. Deterministic checks; no model is called.",
   "cases": [
-    {"id": "check-837d", "tool": "anise_check", "args": {"claims": "fixtures/dental-claims-2026-02.837", "history": "fixtures/dental-history.csv", "config": "fixtures/dental-config.json"}, "expect": {"status": "executed", "equals": {"result.claims": 6, "result.lines": 19, "result.errors": 7, "result.warnings": 3, "result.by_check.tooth_type": 3, "result.by_check.extracted": 1}}},
-    {"id": "surfaces-and-code", "tool": "anise_check", "args": {"claims": "fixtures/dental-claims-2026-02.837", "check": "surfaces"}, "expect": {"contains": ["D2392 is a 2-surface code but MOD is 3 surface(s): bill D2393.", "Occlusal (O) on anterior tooth 8"]}},
-    {"id": "endo-tooth-type", "tool": "anise_explain", "args": {"claims": "fixtures/dental-claims-2026-02.837", "history": "fixtures/dental-history.csv", "ref": "D5002"}, "expect": {"contains": ["bill D3330", "use D2392", "Crown replacement: 1 per 60 months per tooth; already D2750 2023-06-20"]}},
-    {"id": "history-matters", "tool": "anise_check", "args": {"claims": "fixtures/dental-claims-2026-02.837", "status": "warning"}, "expect": {"equals": {"result.warnings": 1, "result.items.0.code": "D4341"}}},
-    {"id": "open-dental-export", "tool": "anise_check", "args": {"claims": "fixtures/exports/open-dental-procs.csv"}, "expect": {"equals": {"result.warnings": 1}, "contains": ["Primary tooth A on a patient aged 67"]}},
-    {"id": "rules-shown", "tool": "anise_frequency_rules", "args": {}, "expect": {"contains": ["built-in common limits (not any plan's rules)", "Bitewing x-rays"]}},
-    {"id": "bad-config-refused", "tool": "anise_check", "args": {"claims": "fixtures/dental-claims-2026-02.837", "config": "fixtures/dental-config-typo.json"}, "expect": {"status": "error", "contains": ["frequency"]}},
-    {"id": "names-masked", "tool": "anise_check", "args": {"claims": "fixtures/dental-claims-2026-02.837", "history": "fixtures/dental-history.csv"}, "expect": {"matches": ["\"patient_name\":\"PT-[0-9a-f]{8}\""], "not_contains": ["Okafor", "SMI553200417", "1990-07-22"]}},
-    {"id": "report-in-korean", "tool": "anise_write_report", "args": {"claims": "fixtures/dental-claims-2026-02.837", "history": "fixtures/dental-history.csv", "language": "ko", "out_dir": "remedy-out/eval-anise"}, "expect": {"status": "executed", "equals": {"result.lang": "ko"}}},
-    {"id": "submit-refused", "tool": "claim_submit", "args": {}, "expect": {"status": "blocked", "decision": "block"}},
-    {"id": "recall-empty-memory", "tool": "anise_recall", "args": {}, "expect": {"status": "executed", "contains": ["memory is empty", "payer_frequency"]}},
-    {"id": "open-dental-completed-only", "tool": "anise_check", "args": {"claims": "fixtures/exports/open-dental-procs-with-status.csv"}, "expect": {"status": "executed", "equals": {"result.claims": 1, "result.lines": 2, "result.items.0.code": "D2391", "result.items.1.code": "D0140"}}},
-    {"id": "extracted-tooth", "tool": "anise_check", "args": {"claims": "fixtures/dental-claims-2026-02.837", "history": "fixtures/dental-history.csv", "check": "extracted"}, "expect": {"equals": {"result.items.0.claim_id": "D5005", "result.items.0.code": "D2392"}, "contains": ["Tooth 16 was extracted on 2025-11-03"]}},
-    {"id": "crown-replacement-frequency", "tool": "anise_check", "args": {"claims": "fixtures/dental-claims-2026-02.837", "history": "fixtures/dental-history.csv", "check": "frequency"}, "expect": {"equals": {"result.items.0.claim_id": "D5001", "result.items.1.claim_id": "D5002"}, "contains": ["1 per 60 months per tooth; already D2750 2023-06-20", "1 per calendar year"]}}
+    {
+      "id": "check-837d",
+      "tool": "anise_check",
+      "args": {
+        "claims": "fixtures/dental-claims-2026-02.837",
+        "history": "fixtures/dental-history.csv",
+        "config": "fixtures/dental-config.json"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.claims": 6,
+          "result.lines": 19,
+          "result.errors": 7,
+          "result.warnings": 3,
+          "result.by_check.tooth_type": 3,
+          "result.by_check.extracted": 1
+        }
+      }
+    },
+    {
+      "id": "surfaces-and-code",
+      "tool": "anise_check",
+      "args": {
+        "claims": "fixtures/dental-claims-2026-02.837",
+        "check": "surfaces"
+      },
+      "expect": {
+        "contains": [
+          "D2392 is a 2-surface code but MOD is 3 surface(s): bill D2393.",
+          "Occlusal (O) on anterior tooth 8"
+        ]
+      }
+    },
+    {
+      "id": "endo-tooth-type",
+      "tool": "anise_explain",
+      "args": {
+        "claims": "fixtures/dental-claims-2026-02.837",
+        "history": "fixtures/dental-history.csv",
+        "ref": "D5002"
+      },
+      "expect": {
+        "contains": [
+          "bill D3330",
+          "use D2392",
+          "Crown replacement: 1 per 60 months per tooth; already D2750 2023-06-20"
+        ]
+      }
+    },
+    {
+      "id": "history-matters",
+      "tool": "anise_check",
+      "args": {
+        "claims": "fixtures/dental-claims-2026-02.837",
+        "status": "warning"
+      },
+      "expect": {
+        "equals": {
+          "result.warnings": 1,
+          "result.items.0.code": "D4341"
+        }
+      }
+    },
+    {
+      "id": "open-dental-export",
+      "tool": "anise_check",
+      "args": {
+        "claims": "fixtures/exports/open-dental-procs.csv"
+      },
+      "expect": {
+        "equals": {
+          "result.warnings": 1
+        },
+        "contains": [
+          "Primary tooth A on a patient aged 67"
+        ]
+      }
+    },
+    {
+      "id": "rules-shown",
+      "tool": "anise_frequency_rules",
+      "args": {},
+      "expect": {
+        "contains": [
+          "built-in common limits (not any plan's rules)",
+          "Bitewing x-rays"
+        ]
+      }
+    },
+    {
+      "id": "bad-config-refused",
+      "tool": "anise_check",
+      "args": {
+        "claims": "fixtures/dental-claims-2026-02.837",
+        "config": "fixtures/dental-config-typo.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "frequency"
+        ]
+      }
+    },
+    {
+      "id": "names-masked",
+      "tool": "anise_check",
+      "args": {
+        "claims": "fixtures/dental-claims-2026-02.837",
+        "history": "fixtures/dental-history.csv"
+      },
+      "expect": {
+        "matches": [
+          "\"patient_name\":\"PT-[0-9a-f]{8}\""
+        ],
+        "not_contains": [
+          "Okafor",
+          "SMI553200417",
+          "1990-07-22"
+        ]
+      }
+    },
+    {
+      "id": "report-in-korean",
+      "tool": "anise_write_report",
+      "args": {
+        "claims": "fixtures/dental-claims-2026-02.837",
+        "history": "fixtures/dental-history.csv",
+        "language": "ko",
+        "out_dir": "remedy-out/eval-anise"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.lang": "ko"
+        }
+      }
+    },
+    {
+      "id": "submit-refused",
+      "tool": "claim_submit",
+      "args": {},
+      "expect": {
+        "status": "blocked",
+        "decision": "block"
+      }
+    },
+    {
+      "id": "recall-empty-memory",
+      "tool": "anise_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty",
+          "payer_frequency"
+        ]
+      }
+    },
+    {
+      "id": "open-dental-completed-only",
+      "tool": "anise_check",
+      "args": {
+        "claims": "fixtures/exports/open-dental-procs-with-status.csv"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.claims": 1,
+          "result.lines": 2,
+          "result.items.0.code": "D2391",
+          "result.items.1.code": "D0140"
+        }
+      }
+    },
+    {
+      "id": "extracted-tooth",
+      "tool": "anise_check",
+      "args": {
+        "claims": "fixtures/dental-claims-2026-02.837",
+        "history": "fixtures/dental-history.csv",
+        "check": "extracted"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.claim_id": "D5005",
+          "result.items.0.code": "D2392"
+        },
+        "contains": [
+          "Tooth 16 was extracted on 2025-11-03"
+        ]
+      }
+    },
+    {
+      "id": "crown-replacement-frequency",
+      "tool": "anise_check",
+      "args": {
+        "claims": "fixtures/dental-claims-2026-02.837",
+        "history": "fixtures/dental-history.csv",
+        "check": "frequency"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.claim_id": "D5001",
+          "result.items.1.claim_id": "D5002"
+        },
+        "contains": [
+          "1 per 60 months per tooth; already D2750 2023-06-20",
+          "1 per calendar year"
+        ]
+      }
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "anise_check",
+      "args": {
+        "claims": "fixtures/dental-claims-2026-02.837",
+        "history": "../../outside-root.csv",
+        "config": "fixtures/dental-config.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside the allowed root"
+        ]
+      }
+    },
+    {
+      "id": "missing-file-named",
+      "tool": "anise_check",
+      "args": {
+        "claims": "fixtures/dental-claims-2026-02.837",
+        "history": "fixtures/missing-export.csv",
+        "config": "fixtures/dental-config.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "not found",
+          "missing-export.csv"
+        ]
+      }
+    }
   ]
 }

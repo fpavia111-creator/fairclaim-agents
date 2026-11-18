@@ -3,20 +3,300 @@
   "root": "..",
   "data_note": "Fictional practice, patients, claims and 835 payments in ../fixtures; targets are examples for testing, not benchmarks. Deterministic; no model is called.",
   "cases": [
-    {"id": "kpis", "tool": "mallow_kpis", "args": {"claims": "fixtures/claims-2025-11-to-2026-01.csv", "remits": "fixtures/remits-2025-11-to-2026-02.835", "config": "fixtures/kpi-config.json"}, "expect": {"status": "executed", "equals": {"result.as_of": "2026-02-15", "result.claims": 24, "result.adjudicated": 20, "result.paid": 1968, "result.denial_rate": 20, "result.first_pass_rate": 80, "result.net_collection_rate": 72.94, "result.median_days_to_pay": 16, "result.days_in_ar": 37.5, "result.no_response_rate": 14.29}}},
-    {"id": "targets-judged", "tool": "mallow_kpis", "args": {"claims": "fixtures/claims-2025-11-to-2026-01.csv", "remits": "fixtures/remits-2025-11-to-2026-02.835", "config": "fixtures/kpi-config.json"}, "expect": {"equals": {"result.kpis.denial_rate.met": false, "result.kpis.days_in_ar.met": true, "result.kpis.denied_amount_rate.met": null, "result.top_denials.0.category": "authorization"}, "contains": ["denial rate is 20%; your target is at most 10%.", "3 claim(s) worth 650.00 have no remittance", "match no claim in the claims file (K9999)"]}},
-    {"id": "no-targets-no-verdict", "tool": "mallow_kpis", "args": {"claims": "fixtures/claims-2025-11-to-2026-01.csv", "remits": "fixtures/remits-2025-11-to-2026-02.835", "as_of": "2026-02-15"}, "expect": {"equals": {"result.kpis.denial_rate.met": null, "result.alerts.0.kpi": "no_response"}, "contains": ["No targets in your config"]}},
-    {"id": "by-payer", "tool": "mallow_breakdown", "args": {"claims": "fixtures/claims-2025-11-to-2026-01.csv", "remits": "fixtures/remits-2025-11-to-2026-02.835", "config": "fixtures/kpi-config.json"}, "expect": {"equals": {"result.items.1.group": "Sample Mutual Insurance", "result.items.1.denial_rate": 33.33, "result.items.2.median_days_to_pay": 45}}},
-    {"id": "by-month", "tool": "mallow_breakdown", "args": {"claims": "fixtures/claims-2025-11-to-2026-01.csv", "remits": "fixtures/remits-2025-11-to-2026-02.835", "config": "fixtures/kpi-config.json", "group": "month"}, "expect": {"equals": {"result.items.0.group": "2025-11", "result.items.0.days_in_ar": null}}},
-    {"id": "open-claims", "tool": "mallow_open_claims", "args": {"claims": "fixtures/claims-2025-11-to-2026-01.csv", "remits": "fixtures/remits-2025-11-to-2026-02.835", "config": "fixtures/kpi-config.json", "min_days": 31}, "expect": {"equals": {"result.items.0.claim_id": "K3003", "result.items.0.days_open": 77, "result.items.0.bucket": "61-90"}, "contains": ["3 open claim(s) worth 650.00"]}},
-    {"id": "earlier-as-of", "tool": "mallow_kpis", "args": {"claims": "fixtures/claims-2025-11-to-2026-01.csv", "remits": "fixtures/remits-2025-11-to-2026-02.835", "as_of": "2025-12-31"}, "expect": {"equals": {"result.as_of": "2025-12-31", "result.claims": 16}}},
-    {"id": "bad-config-refused", "tool": "mallow_kpis", "args": {"claims": "fixtures/claims-2025-11-to-2026-01.csv", "remits": "fixtures/remits-2025-11-to-2026-02.835", "config": "fixtures/kpi-config-typo.json"}, "expect": {"status": "error", "contains": ["denial_rate"]}},
-    {"id": "names-masked", "tool": "mallow_open_claims", "args": {"claims": "fixtures/claims-2025-11-to-2026-01.csv", "remits": "fixtures/remits-2025-11-to-2026-02.835"}, "expect": {"matches": ["\"patient_name\":\"PT-[0-9a-f]{8}\""], "not_contains": ["Castellano", "DMP000781234", "1975-11-02", "Ndiaye"]}},
-    {"id": "report-in-korean", "tool": "mallow_write_report", "args": {"claims": "fixtures/claims-2025-11-to-2026-01.csv", "remits": "fixtures/remits-2025-11-to-2026-02.835", "config": "fixtures/kpi-config.json", "language": "ko", "out_dir": "remedy-out/eval-mallow"}, "expect": {"status": "executed", "equals": {"result.lang": "ko"}}},
-    {"id": "write-off-refused", "tool": "balance_write_off", "args": {}, "expect": {"status": "blocked", "decision": "block"}},
-    {"id": "recall-empty-memory", "tool": "mallow_recall", "args": {}, "expect": {"status": "executed", "contains": ["memory is empty", "payer_kpi_watch"]}},
-    {"id": "by-provider", "tool": "mallow_breakdown", "args": {"claims": "fixtures/claims-2025-11-to-2026-01.csv", "remits": "fixtures/remits-2025-11-to-2026-02.835", "config": "fixtures/kpi-config.json", "group": "provider"}, "expect": {"status": "executed", "length": {"result.items": 3}, "equals": {"result.group": "provider", "result.items.2.group": "Felix Brandt DO (fictional)", "result.items.2.denial_rate": 33.33, "result.items.2.first_pass_rate": 66.67, "result.items.1.median_days_to_pay": 45}}},
-    {"id": "top-denials-routed-to-teams", "tool": "mallow_kpis", "args": {"claims": "fixtures/claims-2025-11-to-2026-01.csv", "remits": "fixtures/remits-2025-11-to-2026-02.835", "config": "fixtures/kpi-config.json"}, "expect": {"equals": {"result.top_denials.0.team": "authorization team", "result.top_denials.0.amount": 430, "result.top_denials.1.category": "medical_necessity"}, "contains": ["ask about a retro-authorization or appeal"]}},
-    {"id": "unmatched-remit-left-out", "tool": "mallow_kpis", "args": {"claims": "fixtures/claims-2025-11-to-2026-01.csv", "remits": "fixtures/remits-2025-11-to-2026-02.835", "config": "fixtures/kpi-config.json"}, "expect": {"equals": {"result.data_notes": ["1 remittance claim(s) match no claim in the claims file (K9999); they are left out."]}, "contains": ["Payer share only; patient payments are not in these files."]}}
+    {
+      "id": "kpis",
+      "tool": "mallow_kpis",
+      "args": {
+        "claims": "fixtures/claims-2025-11-to-2026-01.csv",
+        "remits": "fixtures/remits-2025-11-to-2026-02.835",
+        "config": "fixtures/kpi-config.json"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.as_of": "2026-02-15",
+          "result.claims": 24,
+          "result.adjudicated": 20,
+          "result.paid": 1968,
+          "result.denial_rate": 20,
+          "result.first_pass_rate": 80,
+          "result.net_collection_rate": 72.94,
+          "result.median_days_to_pay": 16,
+          "result.days_in_ar": 37.5,
+          "result.no_response_rate": 14.29
+        }
+      }
+    },
+    {
+      "id": "targets-judged",
+      "tool": "mallow_kpis",
+      "args": {
+        "claims": "fixtures/claims-2025-11-to-2026-01.csv",
+        "remits": "fixtures/remits-2025-11-to-2026-02.835",
+        "config": "fixtures/kpi-config.json"
+      },
+      "expect": {
+        "equals": {
+          "result.kpis.denial_rate.met": false,
+          "result.kpis.days_in_ar.met": true,
+          "result.kpis.denied_amount_rate.met": null,
+          "result.top_denials.0.category": "authorization"
+        },
+        "contains": [
+          "denial rate is 20%; your target is at most 10%.",
+          "3 claim(s) worth 650.00 have no remittance",
+          "match no claim in the claims file (K9999)"
+        ]
+      }
+    },
+    {
+      "id": "no-targets-no-verdict",
+      "tool": "mallow_kpis",
+      "args": {
+        "claims": "fixtures/claims-2025-11-to-2026-01.csv",
+        "remits": "fixtures/remits-2025-11-to-2026-02.835",
+        "as_of": "2026-02-15"
+      },
+      "expect": {
+        "equals": {
+          "result.kpis.denial_rate.met": null,
+          "result.alerts.0.kpi": "no_response"
+        },
+        "contains": [
+          "No targets in your config"
+        ]
+      }
+    },
+    {
+      "id": "by-payer",
+      "tool": "mallow_breakdown",
+      "args": {
+        "claims": "fixtures/claims-2025-11-to-2026-01.csv",
+        "remits": "fixtures/remits-2025-11-to-2026-02.835",
+        "config": "fixtures/kpi-config.json"
+      },
+      "expect": {
+        "equals": {
+          "result.items.1.group": "Sample Mutual Insurance",
+          "result.items.1.denial_rate": 33.33,
+          "result.items.2.median_days_to_pay": 45
+        }
+      }
+    },
+    {
+      "id": "by-month",
+      "tool": "mallow_breakdown",
+      "args": {
+        "claims": "fixtures/claims-2025-11-to-2026-01.csv",
+        "remits": "fixtures/remits-2025-11-to-2026-02.835",
+        "config": "fixtures/kpi-config.json",
+        "group": "month"
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.group": "2025-11",
+          "result.items.0.days_in_ar": null
+        }
+      }
+    },
+    {
+      "id": "open-claims",
+      "tool": "mallow_open_claims",
+      "args": {
+        "claims": "fixtures/claims-2025-11-to-2026-01.csv",
+        "remits": "fixtures/remits-2025-11-to-2026-02.835",
+        "config": "fixtures/kpi-config.json",
+        "min_days": 31
+      },
+      "expect": {
+        "equals": {
+          "result.items.0.claim_id": "K3003",
+          "result.items.0.days_open": 77,
+          "result.items.0.bucket": "61-90"
+        },
+        "contains": [
+          "3 open claim(s) worth 650.00"
+        ]
+      }
+    },
+    {
+      "id": "earlier-as-of",
+      "tool": "mallow_kpis",
+      "args": {
+        "claims": "fixtures/claims-2025-11-to-2026-01.csv",
+        "remits": "fixtures/remits-2025-11-to-2026-02.835",
+        "as_of": "2025-12-31"
+      },
+      "expect": {
+        "equals": {
+          "result.as_of": "2025-12-31",
+          "result.claims": 16
+        }
+      }
+    },
+    {
+      "id": "bad-config-refused",
+      "tool": "mallow_kpis",
+      "args": {
+        "claims": "fixtures/claims-2025-11-to-2026-01.csv",
+        "remits": "fixtures/remits-2025-11-to-2026-02.835",
+        "config": "fixtures/kpi-config-typo.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "denial_rate"
+        ]
+      }
+    },
+    {
+      "id": "names-masked",
+      "tool": "mallow_open_claims",
+      "args": {
+        "claims": "fixtures/claims-2025-11-to-2026-01.csv",
+        "remits": "fixtures/remits-2025-11-to-2026-02.835"
+      },
+      "expect": {
+        "matches": [
+          "\"patient_name\":\"PT-[0-9a-f]{8}\""
+        ],
+        "not_contains": [
+          "Castellano",
+          "DMP000781234",
+          "1975-11-02",
+          "Ndiaye"
+        ]
+      }
+    },
+    {
+      "id": "report-in-korean",
+      "tool": "mallow_write_report",
+      "args": {
+        "claims": "fixtures/claims-2025-11-to-2026-01.csv",
+        "remits": "fixtures/remits-2025-11-to-2026-02.835",
+        "config": "fixtures/kpi-config.json",
+        "language": "ko",
+        "out_dir": "remedy-out/eval-mallow"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.lang": "ko"
+        }
+      }
+    },
+    {
+      "id": "write-off-refused",
+      "tool": "balance_write_off",
+      "args": {},
+      "expect": {
+        "status": "blocked",
+        "decision": "block"
+      }
+    },
+    {
+      "id": "recall-empty-memory",
+      "tool": "mallow_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty",
+          "payer_kpi_watch"
+        ]
+      }
+    },
+    {
+      "id": "by-provider",
+      "tool": "mallow_breakdown",
+      "args": {
+        "claims": "fixtures/claims-2025-11-to-2026-01.csv",
+        "remits": "fixtures/remits-2025-11-to-2026-02.835",
+        "config": "fixtures/kpi-config.json",
+        "group": "provider"
+      },
+      "expect": {
+        "status": "executed",
+        "length": {
+          "result.items": 3
+        },
+        "equals": {
+          "result.group": "provider",
+          "result.items.2.group": "Felix Brandt DO (fictional)",
+          "result.items.2.denial_rate": 33.33,
+          "result.items.2.first_pass_rate": 66.67,
+          "result.items.1.median_days_to_pay": 45
+        }
+      }
+    },
+    {
+      "id": "top-denials-routed-to-teams",
+      "tool": "mallow_kpis",
+      "args": {
+        "claims": "fixtures/claims-2025-11-to-2026-01.csv",
+        "remits": "fixtures/remits-2025-11-to-2026-02.835",
+        "config": "fixtures/kpi-config.json"
+      },
+      "expect": {
+        "equals": {
+          "result.top_denials.0.team": "authorization team",
+          "result.top_denials.0.amount": 430,
+          "result.top_denials.1.category": "medical_necessity"
+        },
+        "contains": [
+          "ask about a retro-authorization or appeal"
+        ]
+      }
+    },
+    {
+      "id": "unmatched-remit-left-out",
+      "tool": "mallow_kpis",
+      "args": {
+        "claims": "fixtures/claims-2025-11-to-2026-01.csv",
+        "remits": "fixtures/remits-2025-11-to-2026-02.835",
+        "config": "fixtures/kpi-config.json"
+      },
+      "expect": {
+        "equals": {
+          "result.data_notes": [
+            "1 remittance claim(s) match no claim in the claims file (K9999); they are left out."
+          ]
+        },
+        "contains": [
+          "Payer share only; patient payments are not in these files."
+        ]
+      }
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "mallow_kpis",
+      "args": {
+        "claims": "../../outside-root.csv",
+        "remits": "fixtures/remits-2025-11-to-2026-02.835",
+        "config": "fixtures/kpi-config.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside the allowed root"
+        ]
+      }
+    },
+    {
+      "id": "missing-file-named",
+      "tool": "mallow_kpis",
+      "args": {
+        "claims": "fixtures/missing-export.csv",
+        "remits": "fixtures/remits-2025-11-to-2026-02.835",
+        "config": "fixtures/kpi-config.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "not found",
+          "missing-export.csv"
+        ]
+      }
+    }
   ]
 }

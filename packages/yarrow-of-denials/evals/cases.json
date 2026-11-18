@@ -3,19 +3,261 @@
   "root": "..",
   "data_note": "Fictional practice, payers and patients in ../fixtures. Deterministic checks; no model is called.",
   "cases": [
-    {"id": "totals", "tool": "yarrow_sort", "args": {"remits": "fixtures/era-2026-01.835", "config": "fixtures/denial-config.json", "as_of": "2026-02-01"}, "expect": {"status": "executed", "equals": {"result.denials": 8, "result.claims_in_file": 8, "result.claims_with_denials": 7, "result.denied_amount": 1230, "result.by_category.authorization.amount": 200, "result.by_category.bundling.amount": 120, "result.by_category.provider_enrollment.amount": 90, "result.unknown_codes": ["CO-989"], "result.x12_problems": []}}},
-    {"id": "every-planted-category", "tool": "yarrow_sort", "args": {"remits": "fixtures/era-2026-01.835", "config": "fixtures/denial-config.json", "as_of": "2026-02-01"}, "expect": {"contains": ["\"authorization\"", "\"bundling\"", "\"provider_enrollment\"", "\"medical_necessity\"", "\"timely_filing\"", "\"unknown\"", "\"duplicate\"", "\"coordination_of_benefits\""], "not_contains": ["\"reason\":\"45\"", "\"reason\":\"2\""]}},
-    {"id": "config-maps-payer-code", "tool": "yarrow_explain", "args": {"remits": "fixtures/era-2026-01.835", "config": "fixtures/denial-config.json", "claim_id": "C2003"}, "expect": {"equals": {"result.denials.0.category": "provider_enrollment", "result.denials.0.remarks": ["N290"]}}},
-    {"id": "without-config-co16-is-documentation", "tool": "yarrow_explain", "args": {"remits": "fixtures/era-2026-01.835", "claim_id": "C2003"}, "expect": {"equals": {"result.denials.0.category": "documentation"}}},
-    {"id": "appeal-deadlines-per-payer", "tool": "yarrow_explain", "args": {"remits": "fixtures/era-2026-01.835", "config": "fixtures/denial-config.json", "as_of": "2026-02-01", "claim_id": "C2002"}, "expect": {"equals": {"result.denials.0.appeal_by": "2026-03-21", "result.denials.0.days_left": 48, "result.denials.1.category": "bundling"}}},
-    {"id": "patient-names-are-pseudonyms", "tool": "yarrow_sort", "args": {"remits": "fixtures/era-2026-01.835"}, "expect": {"matches": ["\"patient_name\":\"PT-[0-9a-f]{8}\"", "\"member_id\":\"MBR-[0-9a-f]{8}\""], "not_contains": ["OKAFOR", "SMI553200417"]}},
-    {"id": "era-export-csv", "tool": "yarrow_sort", "args": {"remits": "fixtures/exports/office-ally-era.csv", "as_of": "2026-02-01"}, "expect": {"equals": {"result.source": "table", "result.denials": 2, "result.denied_amount": 190, "result.by_category.coding.amount": 40}}},
-    {"id": "bad-config-refused", "tool": "yarrow_sort", "args": {"remits": "fixtures/era-2026-01.835", "config": "fixtures/denial-config-typo.json"}, "expect": {"status": "error", "contains": ["/payer_codes/0/category"]}},
-    {"id": "trends", "tool": "yarrow_trends", "args": {"remits": "fixtures/era-2026-01.835", "config": "fixtures/denial-config.json"}, "expect": {"equals": {"result.payer_by_category.Sample Mutual Insurance.authorization.amount": 200, "result.month_by_category.2026-01.duplicate.count": 1}}},
-    {"id": "report-in-japanese", "tool": "yarrow_write_report", "args": {"remits": "fixtures/era-2026-01.835", "config": "fixtures/denial-config.json", "as_of": "2026-02-01", "language": "ja", "out_dir": "remedy-out/eval-yarrow"}, "expect": {"status": "executed", "equals": {"result.lang": "ja"}, "contains": ["yarrow-denials.html"]}},
-    {"id": "learning-waits-for-a-person", "tool": "yarrow_accept_learning", "mode": "auto", "args": {"id": "MEM-000000000000", "decision": "accept"}, "expect": {"status": "needs_approval", "decision": "ask"}},
-    {"id": "cannot-learn-to-hide-a-denial", "tool": "yarrow_learn", "args": {"kind": "payer_code_category", "value": {"payer": "Example Health Plan", "code": "29", "category": "not_denial"}}, "expect": {"status": "error"}},
-    {"id": "resubmit-refused", "tool": "claim_resubmit", "args": {}, "expect": {"status": "blocked", "decision": "block"}},
-    {"id":"recall-empty-memory","tool":"yarrow_recall","args":{},"expect":{"status":"executed","contains":["memory is empty","payer_code_category"]}}
+    {
+      "id": "totals",
+      "tool": "yarrow_sort",
+      "args": {
+        "remits": "fixtures/era-2026-01.835",
+        "config": "fixtures/denial-config.json",
+        "as_of": "2026-02-01"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.denials": 8,
+          "result.claims_in_file": 8,
+          "result.claims_with_denials": 7,
+          "result.denied_amount": 1230,
+          "result.by_category.authorization.amount": 200,
+          "result.by_category.bundling.amount": 120,
+          "result.by_category.provider_enrollment.amount": 90,
+          "result.unknown_codes": [
+            "CO-989"
+          ],
+          "result.x12_problems": []
+        }
+      }
+    },
+    {
+      "id": "every-planted-category",
+      "tool": "yarrow_sort",
+      "args": {
+        "remits": "fixtures/era-2026-01.835",
+        "config": "fixtures/denial-config.json",
+        "as_of": "2026-02-01"
+      },
+      "expect": {
+        "contains": [
+          "\"authorization\"",
+          "\"bundling\"",
+          "\"provider_enrollment\"",
+          "\"medical_necessity\"",
+          "\"timely_filing\"",
+          "\"unknown\"",
+          "\"duplicate\"",
+          "\"coordination_of_benefits\""
+        ],
+        "not_contains": [
+          "\"reason\":\"45\"",
+          "\"reason\":\"2\""
+        ]
+      }
+    },
+    {
+      "id": "config-maps-payer-code",
+      "tool": "yarrow_explain",
+      "args": {
+        "remits": "fixtures/era-2026-01.835",
+        "config": "fixtures/denial-config.json",
+        "claim_id": "C2003"
+      },
+      "expect": {
+        "equals": {
+          "result.denials.0.category": "provider_enrollment",
+          "result.denials.0.remarks": [
+            "N290"
+          ]
+        }
+      }
+    },
+    {
+      "id": "without-config-co16-is-documentation",
+      "tool": "yarrow_explain",
+      "args": {
+        "remits": "fixtures/era-2026-01.835",
+        "claim_id": "C2003"
+      },
+      "expect": {
+        "equals": {
+          "result.denials.0.category": "documentation"
+        }
+      }
+    },
+    {
+      "id": "appeal-deadlines-per-payer",
+      "tool": "yarrow_explain",
+      "args": {
+        "remits": "fixtures/era-2026-01.835",
+        "config": "fixtures/denial-config.json",
+        "as_of": "2026-02-01",
+        "claim_id": "C2002"
+      },
+      "expect": {
+        "equals": {
+          "result.denials.0.appeal_by": "2026-03-21",
+          "result.denials.0.days_left": 48,
+          "result.denials.1.category": "bundling"
+        }
+      }
+    },
+    {
+      "id": "patient-names-are-pseudonyms",
+      "tool": "yarrow_sort",
+      "args": {
+        "remits": "fixtures/era-2026-01.835"
+      },
+      "expect": {
+        "matches": [
+          "\"patient_name\":\"PT-[0-9a-f]{8}\"",
+          "\"member_id\":\"MBR-[0-9a-f]{8}\""
+        ],
+        "not_contains": [
+          "OKAFOR",
+          "SMI553200417"
+        ]
+      }
+    },
+    {
+      "id": "era-export-csv",
+      "tool": "yarrow_sort",
+      "args": {
+        "remits": "fixtures/exports/office-ally-era.csv",
+        "as_of": "2026-02-01"
+      },
+      "expect": {
+        "equals": {
+          "result.source": "table",
+          "result.denials": 2,
+          "result.denied_amount": 190,
+          "result.by_category.coding.amount": 40
+        }
+      }
+    },
+    {
+      "id": "bad-config-refused",
+      "tool": "yarrow_sort",
+      "args": {
+        "remits": "fixtures/era-2026-01.835",
+        "config": "fixtures/denial-config-typo.json"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "/payer_codes/0/category"
+        ]
+      }
+    },
+    {
+      "id": "trends",
+      "tool": "yarrow_trends",
+      "args": {
+        "remits": "fixtures/era-2026-01.835",
+        "config": "fixtures/denial-config.json"
+      },
+      "expect": {
+        "equals": {
+          "result.payer_by_category.Sample Mutual Insurance.authorization.amount": 200,
+          "result.month_by_category.2026-01.duplicate.count": 1
+        }
+      }
+    },
+    {
+      "id": "report-in-japanese",
+      "tool": "yarrow_write_report",
+      "args": {
+        "remits": "fixtures/era-2026-01.835",
+        "config": "fixtures/denial-config.json",
+        "as_of": "2026-02-01",
+        "language": "ja",
+        "out_dir": "remedy-out/eval-yarrow"
+      },
+      "expect": {
+        "status": "executed",
+        "equals": {
+          "result.lang": "ja"
+        },
+        "contains": [
+          "yarrow-denials.html"
+        ]
+      }
+    },
+    {
+      "id": "learning-waits-for-a-person",
+      "tool": "yarrow_accept_learning",
+      "mode": "auto",
+      "args": {
+        "id": "MEM-000000000000",
+        "decision": "accept"
+      },
+      "expect": {
+        "status": "needs_approval",
+        "decision": "ask"
+      }
+    },
+    {
+      "id": "cannot-learn-to-hide-a-denial",
+      "tool": "yarrow_learn",
+      "args": {
+        "kind": "payer_code_category",
+        "value": {
+          "payer": "Example Health Plan",
+          "code": "29",
+          "category": "not_denial"
+        }
+      },
+      "expect": {
+        "status": "error"
+      }
+    },
+    {
+      "id": "resubmit-refused",
+      "tool": "claim_resubmit",
+      "args": {},
+      "expect": {
+        "status": "blocked",
+        "decision": "block"
+      }
+    },
+    {
+      "id": "recall-empty-memory",
+      "tool": "yarrow_recall",
+      "args": {},
+      "expect": {
+        "status": "executed",
+        "contains": [
+          "memory is empty",
+          "payer_code_category"
+        ]
+      }
+    },
+    {
+      "id": "file-outside-root-refused",
+      "tool": "yarrow_sort",
+      "args": {
+        "remits": "../../outside-root.csv",
+        "as_of": "2026-02-01"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "outside the allowed root"
+        ]
+      }
+    },
+    {
+      "id": "missing-file-named",
+      "tool": "yarrow_sort",
+      "args": {
+        "remits": "fixtures/missing-export.csv",
+        "as_of": "2026-02-01"
+      },
+      "expect": {
+        "status": "error",
+        "contains": [
+          "not found",
+          "missing-export.csv"
+        ]
+      }
+    }
   ]
 }
