@@ -18,7 +18,7 @@ npx -y fairclaim-ar-aging mcp --root ./billing-files
 `npx -y fairclaim-ar-aging demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim AR Aging demo (fictional practice, payers and patients) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-ar-aging-demo-6yXMkQ
+Fairclaim AR Aging demo (fictional practice, payers and patients) in <demo folder>
 
 ▶ Age open A/R and rank the follow-up queue
   status: executed  decision: allow

@@ -18,7 +18,7 @@ npx -y fairclaim-practice-go-live mcp --root ./billing-files
 `npx -y fairclaim-practice-go-live demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Practice Go Live demo (fictional practice going live on 2026-03-02) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-practice-go-live-demo-wNQ8tg
+Fairclaim Practice Go Live demo (fictional practice going live on 2026-03-02) in <demo folder>
 
 ▶ Check go-live readiness
   status: executed  decision: allow

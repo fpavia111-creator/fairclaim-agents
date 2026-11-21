@@ -18,7 +18,7 @@ npx -y fairclaim-good-faith-estimates mcp --root ./billing-files
 `npx -y fairclaim-good-faith-estimates demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Good Faith Estimates demo (fictional practice, patients and prices) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-good-faith-estimates-demo-H50vsG
+Fairclaim Good Faith Estimates demo (fictional practice, patients and prices) in <demo folder>
 
 ▶ Check good faith estimate timing (business days, one office holiday)
   status: executed  decision: allow

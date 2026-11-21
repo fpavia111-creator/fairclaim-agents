@@ -18,7 +18,7 @@ npx -y fairclaim-fee-schedule mcp --root ./billing-files
 `npx -y fairclaim-fee-schedule demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Fee Schedule demo (made-up RVUs and GPCIs, fictional fee schedule) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-fee-schedule-demo-cwYgyl
+Fairclaim Fee Schedule demo (made-up RVUs and GPCIs, fictional fee schedule) in <demo folder>
 
 ▶ Price the fee schedule against Medicare
   status: executed  decision: allow

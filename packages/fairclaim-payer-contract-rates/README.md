@@ -18,7 +18,7 @@ npx -y fairclaim-payer-contract-rates mcp --root ./billing-files
 `npx -y fairclaim-payer-contract-rates demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Payer Contract Rates demo (made-up payers, rates and contracts) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-payer-contract-rates-demo-asK6tU
+Fairclaim Payer Contract Rates demo (made-up payers, rates and contracts) in <demo folder>
 
 ▶ Rank payers against Medicare at your volume
   status: executed  decision: allow

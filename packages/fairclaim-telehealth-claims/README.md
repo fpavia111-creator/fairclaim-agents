@@ -18,7 +18,7 @@ npx -y fairclaim-telehealth-claims mcp --root ./billing-files
 `npx -y fairclaim-telehealth-claims demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Telehealth Claims demo (fictional practice, patients and example payer rules) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-telehealth-claims-demo-cpcr05
+Fairclaim Telehealth Claims demo (fictional practice, patients and example payer rules) in <demo folder>
 
 ▶ Check February telehealth lines
   status: executed  decision: allow

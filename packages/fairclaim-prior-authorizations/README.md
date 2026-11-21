@@ -18,7 +18,7 @@ npx -y fairclaim-prior-authorizations mcp --root ./billing-files
 `npx -y fairclaim-prior-authorizations demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Prior Authorizations demo (fictional practice, payers and patients) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-prior-authorizations-demo-dVwhiM
+Fairclaim Prior Authorizations demo (fictional practice, payers and patients) in <demo folder>
 
 ▶ Check eleven service lines against the authorization log and 278s
   status: executed  decision: allow

@@ -18,7 +18,7 @@ npx -y fairclaim-patient-registration mcp --root ./billing-files
 `npx -y fairclaim-patient-registration demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Patient Registration demo (fictional practice, payers and patients) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-patient-registration-demo-BI9CBb
+Fairclaim Patient Registration demo (fictional practice, payers and patients) in <demo folder>
 
 ▶ Check registrations before the visits
   status: executed  decision: allow

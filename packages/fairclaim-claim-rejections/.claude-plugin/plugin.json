@@ -1,7 +1,7 @@
 {
   "name": "fairclaim-claim-rejections",
   "version": "0.2.0",
-  "description": "Reads 999 and 277CA acknowledgements, ties each syntax error to the claim and segment in the 837 you sent, lists front-end rejections with what to fix, and flags claims that were never acknowledged.",
+  "description": "Fairclaim Claim Rejections: reads 999 and 277CA acknowledgements, ties each syntax error to the claim and segment in the 837 you sent, lists front-end rejections with what to fix, and flags claims that were never acknowledged.",
   "author": {
     "name": "Kurt Francisco"
   },

@@ -18,7 +18,7 @@ npx -y fairclaim-price-transparency mcp --root ./billing-files
 `npx -y fairclaim-price-transparency demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Price Transparency demo (fictional hospital) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-price-transparency-demo-qTpDf1
+Fairclaim Price Transparency demo (fictional hospital) in <demo folder>
 
 ▶ Check the v3.0 machine-readable file
   status: executed  decision: allow

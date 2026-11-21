@@ -18,7 +18,7 @@ npx -y fairclaim-coding-audits mcp --root ./billing-files
 `npx -y fairclaim-coding-audits demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Coding Audits demo (fictional practice and patients) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-coding-audits-demo-Atthln
+Fairclaim Coding Audits demo (fictional practice and patients) in <demo folder>
 
 ▶ Draw the Q1 sample (same seed, same lines)
   status: executed  decision: allow

@@ -18,7 +18,7 @@ npx -y fairclaim-modifier-checks mcp --root ./billing-files
 `npx -y fairclaim-modifier-checks demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Modifier Checks demo (fictional practice, payers and patients) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-modifier-checks-demo-t8Gmi8
+Fairclaim Modifier Checks demo (fictional practice, payers and patients) in <demo folder>
 
 ▶ Check modifiers on an 837 batch
   status: executed  decision: allow

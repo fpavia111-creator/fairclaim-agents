@@ -18,7 +18,7 @@ npx -y fairclaim-remit-deposits mcp --root ./billing-files
 `npx -y fairclaim-remit-deposits demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Remit Deposits demo (fictional practice, payers and bank lines) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-remit-deposits-demo-lx2Tpr
+Fairclaim Remit Deposits demo (fictional practice, payers and bank lines) in <demo folder>
 
 ▶ Match five remittances to the bank
   status: executed  decision: allow

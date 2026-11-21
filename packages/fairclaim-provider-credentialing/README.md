@@ -18,7 +18,7 @@ npx -y fairclaim-provider-credentialing mcp --root ./billing-files
 `npx -y fairclaim-provider-credentialing demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Provider Credentialing demo (fictional providers and payers) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-provider-credentialing-demo-ZOcU9g
+Fairclaim Provider Credentialing demo (fictional providers and payers) in <demo folder>
 
 ▶ Credentialing and enrollment tasks
   status: executed  decision: allow

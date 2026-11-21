@@ -18,7 +18,7 @@ npx -y fairclaim-charge-capture mcp --root ./billing-files
 `npx -y fairclaim-charge-capture demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Charge Capture demo (fictional practice, providers and patients) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-charge-capture-demo-cjYxBp
+Fairclaim Charge Capture demo (fictional practice, providers and patients) in <demo folder>
 
 ▶ Match completed visits to charges
   status: executed  decision: allow

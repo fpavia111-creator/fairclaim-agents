@@ -18,7 +18,7 @@ npx -y fairclaim-anesthesia-claims mcp --root ./billing-files
 `npx -y fairclaim-anesthesia-claims demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Anesthesia Claims demo (fictional group and patients; illustrative base units) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-anesthesia-claims-demo-npoAi4
+Fairclaim Anesthesia Claims demo (fictional group and patients; illustrative base units) in <demo folder>
 
 ▶ Check one operating day
   status: executed  decision: allow

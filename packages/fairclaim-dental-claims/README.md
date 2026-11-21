@@ -18,7 +18,7 @@ npx -y fairclaim-dental-claims mcp --root ./billing-files
 `npx -y fairclaim-dental-claims demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Dental Claims demo (fictional dental practice and patients) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-dental-claims-demo-0QOJ8G
+Fairclaim Dental Claims demo (fictional dental practice and patients) in <demo folder>
 
 ▶ Check the 837D against the patients' history
   status: executed  decision: allow

@@ -18,7 +18,7 @@ npx -y fairclaim-payment-plans mcp --root ./billing-files
 `npx -y fairclaim-payment-plans demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Payment Plans demo (fictional practice and guarantors) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-payment-plans-demo-ksyneV
+Fairclaim Payment Plans demo (fictional practice and guarantors) in <demo folder>
 
 ▶ Review payment plans
   status: executed  decision: allow

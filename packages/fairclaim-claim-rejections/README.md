@@ -18,7 +18,7 @@ npx -y fairclaim-claim-rejections mcp --root ./billing-files
 `npx -y fairclaim-claim-rejections demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Claim Rejections demo (fictional practice, payers and patients) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-claim-rejections-demo-qcwuXO
+Fairclaim Claim Rejections demo (fictional practice, payers and patients) in <demo folder>
 
 ▶ Read a 999 and a 277CA against the 837 sent
   status: executed  decision: allow

@@ -18,7 +18,7 @@ npx -y fairclaim-patient-statements mcp --root ./billing-files
 `npx -y fairclaim-patient-statements demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Patient Statements demo (fictional practice and guarantors) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-patient-statements-demo-rIugBb
+Fairclaim Patient Statements demo (fictional practice and guarantors) in <demo folder>
 
 ▶ Plan the statement run
   status: executed  decision: allow
