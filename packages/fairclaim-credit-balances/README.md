@@ -18,7 +18,7 @@ npx -y fairclaim-credit-balances mcp --root ./billing-files
 `npx -y fairclaim-credit-balances demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Credit Balances demo (fictional practice, payers and patients) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-credit-balances-demo-yo4fIS
+Fairclaim Credit Balances demo (fictional practice, payers and patients) in <demo folder>
 
 ▶ Review credit balances and refund deadlines
   status: executed  decision: allow

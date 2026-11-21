@@ -18,7 +18,7 @@ npx -y fairclaim-underpayments mcp --root ./billing-files
 `npx -y fairclaim-underpayments demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Underpayments demo (fictional practice, payers, contract and patients) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-underpayments-demo-un2q9L
+Fairclaim Underpayments demo (fictional practice, payers, contract and patients) in <demo folder>
 
 ▶ Price every remittance line from the contract
   status: executed  decision: allow

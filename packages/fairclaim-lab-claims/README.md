@@ -18,7 +18,7 @@ npx -y fairclaim-lab-claims mcp --root ./billing-files
 `npx -y fairclaim-lab-claims demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Lab Claims demo (fictional lab and patients) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-lab-claims-demo-nOXf5R
+Fairclaim Lab Claims demo (fictional lab and patients) in <demo folder>
 
 ▶ Check February lab claims
   status: executed  decision: allow

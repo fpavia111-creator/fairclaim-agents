@@ -18,7 +18,7 @@ npx -y fairclaim-revenue-kpis mcp --root ./billing-files
 `npx -y fairclaim-revenue-kpis demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Revenue KPIs demo (fictional practice, patients and example targets) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-revenue-kpis-demo-2c5fcm
+Fairclaim Revenue KPIs demo (fictional practice, patients and example targets) in <demo folder>
 
 ▶ Measure the KPIs as of 2026-02-15
   status: executed  decision: allow

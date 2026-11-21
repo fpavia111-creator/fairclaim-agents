@@ -18,7 +18,7 @@ npx -y fairclaim-dme-claims mcp --root ./billing-files
 `npx -y fairclaim-dme-claims demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim DME Claims demo (fictional supplier and patients) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-dme-claims-demo-SZovAD
+Fairclaim DME Claims demo (fictional supplier and patients) in <demo folder>
 
 ▶ Check February DME claims
   status: executed  decision: allow

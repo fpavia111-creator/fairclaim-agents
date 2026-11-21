@@ -18,7 +18,7 @@ npx -y fairclaim-eligibility-checks mcp --root ./billing-files
 `npx -y fairclaim-eligibility-checks demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Eligibility Checks demo (fictional practice, payers and patients) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-eligibility-checks-demo-prNTD9
+Fairclaim Eligibility Checks demo (fictional practice, payers and patients) in <demo folder>
 
 ▶ Check tomorrow's visits against the 271 responses
   status: executed  decision: allow

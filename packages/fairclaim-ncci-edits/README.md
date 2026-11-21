@@ -18,7 +18,7 @@ npx -y fairclaim-ncci-edits mcp --root ./billing-files
 `npx -y fairclaim-ncci-edits demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim NCCI Edits demo (fictional patients, illustrative NCCI rows) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-ncci-edits-demo-EO36Hb
+Fairclaim NCCI Edits demo (fictional patients, illustrative NCCI rows) in <demo folder>
 
 ▶ Check eleven claims against PTP and MUE
   status: executed  decision: allow

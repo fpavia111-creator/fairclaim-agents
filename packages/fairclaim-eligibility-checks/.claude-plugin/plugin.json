@@ -1,7 +1,7 @@
 {
   "name": "fairclaim-eligibility-checks",
   "version": "0.2.0",
-  "description": "Reads 271 eligibility responses against the appointment list and flags visits with inactive coverage, member not found, plan ending before the visit, another payer primary or no response, with copay and deductible to collect.",
+  "description": "Fairclaim Eligibility Checks: reads 271 eligibility responses against the appointment list and flags visits with inactive coverage, member not found, plan ending before the visit, another payer primary or no response, with copay and deductible to collect.",
   "author": {
     "name": "Kurt Francisco"
   },

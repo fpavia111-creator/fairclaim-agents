@@ -18,7 +18,7 @@ npx -y fairclaim-denial-appeals mcp --root ./billing-files
 `npx -y fairclaim-denial-appeals demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Denial Appeals demo (fictional practice, payers, policies and patients) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-denial-appeals-demo-fQs9KC
+Fairclaim Denial Appeals demo (fictional practice, payers, policies and patients) in <demo folder>
 
 ▶ Find the policy lines for a bundled injection
   status: executed  decision: allow

@@ -18,7 +18,7 @@ npx -y fairclaim-claim-scrubber mcp --root ./billing-files
 `npx -y fairclaim-claim-scrubber demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Claim Scrubber demo (fictional practice, payers and patients) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-claim-scrubber-demo-C4nYwl
+Fairclaim Claim Scrubber demo (fictional practice, payers and patients) in <demo folder>
 
 ▶ Scrub a ten-claim 837 batch
   status: executed  decision: allow

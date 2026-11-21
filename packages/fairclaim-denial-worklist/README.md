@@ -18,7 +18,7 @@ npx -y fairclaim-denial-worklist mcp --root ./billing-files
 `npx -y fairclaim-denial-worklist demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Denial Worklist demo (fictional practice, payers and patients) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-denial-worklist-demo-Z4aiwz
+Fairclaim Denial Worklist demo (fictional practice, payers and patients) in <demo folder>
 
 ▶ Sort the denials in one 835 file
   status: executed  decision: allow
@@ -56,7 +56,7 @@ Fairclaim Denial Worklist demo (fictional practice, payers and patients) in C:\U
   status: blocked  decision: block
   reason: Fairclaim Denial Worklist never resubmits claims; your billing team corrects and sends them.
 
-Patient names above are pseudonyms; the worklist files under C:\Users\fpavi\AppData\Local\Temp\fairclaim-denial-worklist-demo-Z4aiwz/remedy-out keep the real names.
+Patient names above are pseudonyms; the worklist files under <demo folder> keep the real names.
 ```
 
 ## Tools

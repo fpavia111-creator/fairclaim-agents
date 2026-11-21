@@ -18,7 +18,7 @@ npx -y fairclaim-payer-scorecards mcp --root ./billing-files
 `npx -y fairclaim-payer-scorecards demo` runs the agent on the fictional files in [`fixtures/`](fixtures) in a temporary folder. Captured output:
 
 ```text
-Fairclaim Payer Scorecards demo (fictional payers, claims and patients) in C:\Users\fpavi\AppData\Local\Temp\fairclaim-payer-scorecards-demo-6cBKPL
+Fairclaim Payer Scorecards demo (fictional payers, claims and patients) in <demo folder>
 
 ▶ Score payers against targets
   status: executed  decision: allow
