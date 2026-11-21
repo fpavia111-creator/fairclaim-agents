@@ -4,6 +4,7 @@
   "description": "Fairclaim medical billing agents monorepo.",
   "license": "MIT",
   "workspaces": [
+    "vendor/fair-agent-core",
     "packages/fairclaim-core",
     "packages/*"
   ],
