@@ -21,7 +21,8 @@
     "mcp:check": "node scripts/mcp-conformance.mjs",
     "intl": "node scripts/intl-check.mjs",
     "readme": "node scripts/readme-heads.mjs && node scripts/readme-sections.mjs",
-    "readme:check": "node scripts/readme-sections.mjs --check"
+    "readme:check": "node scripts/readme-sections.mjs --check",
+    "core:check": "node scripts/core-check.mjs"
   },
   "engines": {
     "node": ">=20"

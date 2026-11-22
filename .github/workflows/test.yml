@@ -17,6 +17,8 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: '${{ matrix.node }}' }
       - run: npm ci
+      - name: Shared cores match the canonical copies (one npm name, one set of files)
+        run: npm run core:check
       - run: npm test
       - name: Evals (every agent)
         shell: bash
